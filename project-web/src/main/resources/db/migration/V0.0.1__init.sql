@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_perm`
 INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000000, '上帝权限', '*');
 INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000101, '租户管理', '@tenant:*');
 INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000102, '租户查询', '@tenant:query');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000104, '租户新增', '@tenant:add');
+INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000103, '租户新增', '@tenant:add');
 INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000104, '租户修改', '@tenant:update');
 INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000105, '租户删除', '@tenant:delete');
 INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000201, '权限管理', '@perm:*');
@@ -114,7 +114,7 @@ INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000601, 
 INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000602, '文件查询', '@file:query');
 INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000701, '消息管理', '@notify:*');
 INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000702, '消息查询', '@notify:query');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000704, '消息新增', '@notify:add');
+INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000703, '消息新增', '@notify:add');
 INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000704, '消息修改', '@notify:update');
 INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000705, '消息删除', '@notify:delete');
 
