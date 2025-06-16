@@ -1,14 +1,13 @@
 package org.myframework.core.redis;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-
-import javax.annotation.Resource;
 
 @SuppressWarnings("LombokGetterMayBeUsed")
 public abstract class RedisTemplate {
 
-    @Resource
+    @Autowired
     @Getter
     protected StringRedisTemplate stringRedisTemplate;
 }

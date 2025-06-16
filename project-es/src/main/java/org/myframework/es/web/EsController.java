@@ -2,13 +2,12 @@ package org.myframework.es.web;
 
 import lombok.Getter;
 import org.myframework.es.service.EsService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
-
-@SuppressWarnings("LombokGetterMayBeUsed")
+@SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection", "LombokGetterMayBeUsed"})
 public abstract class EsController<S extends EsService<Entity>, Entity> {
 
-    @Resource
+    @Autowired
     @Getter
     protected S service;
 }

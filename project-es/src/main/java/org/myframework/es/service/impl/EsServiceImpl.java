@@ -3,14 +3,13 @@ package org.myframework.es.service.impl;
 import lombok.Getter;
 import org.dromara.easyes.core.kernel.BaseEsMapper;
 import org.myframework.es.service.EsService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
-
-@SuppressWarnings("LombokGetterMayBeUsed")
+@SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection", "LombokGetterMayBeUsed"})
 public abstract class EsServiceImpl<Mapper extends BaseEsMapper<Entity>, Entity>
         implements EsService<Entity> {
 
-    @Resource
+    @Autowired
     @Getter
     protected Mapper mapper;
 }
