@@ -242,8 +242,9 @@ CREATE TABLE IF NOT EXISTS project.`tb_user`
     `email`            varchar(256)                       NULL COMMENT '用户邮箱',
     `configs`          text                               NULL COMMENT '配置信息',
     `extras`           text                               NULL COMMENT '额外信息',
+    `desc`             varchar(512)                       NULL COMMENT '备注',
     `login_time`       datetime                           NULL COMMENT '登录时间',
-    `status`           tinyint  DEFAULT 0                 NOT NULL COMMENT '帐号状态(0-启用, 1-禁用)',
+    `status`           tinyint  DEFAULT 0                 NOT NULL COMMENT '用户状态(0-启用, 1-禁用)',
     `tenant_id`        bigint                             NULL COMMENT '租户主键(默认租户)',
     `create_time`      datetime DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     `update_time`      datetime DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -263,7 +264,7 @@ INSERT INTO project.`tb_user` (`id`, `username`, `password`, `salt`, `tenant_id`
 CREATE TABLE IF NOT EXISTS project.`tb_user_assoc`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `account_id`       bigint                             NOT NULL COMMENT '帐号主键(所属帐号)',
+    `user_id`          bigint                             NOT NULL COMMENT '用户主键(所属用户)',
     `assoc`            varchar(256)                       NOT NULL COMMENT '关联表名',
     `assoc_id`         bigint                             NOT NULL COMMENT '关联主键',
     `effective`        tinyint  DEFAULT 0                 NOT NULL COMMENT '限制时间(0-不限制, 1-限制)',
@@ -282,7 +283,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_user_assoc`
 CREATE TABLE IF NOT EXISTS project.`tb_user_record`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `account_id`       bigint                             NOT NULL COMMENT '帐号主键(所属帐号)',
+    `user_id`          bigint                             NOT NULL COMMENT '用户主键(所属用户)',
     `configs`          text                               NULL COMMENT '配置信息',
     `extras`           text                               NULL COMMENT '额外信息',
     `desc`             varchar(512)                       NULL COMMENT '备注',
