@@ -1,5 +1,6 @@
 package org.huangyalong.modules.system.domain;
 
+import cn.hutool.core.lang.Dict;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
@@ -15,7 +16,6 @@ import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
 
 import java.util.Date;
-import java.util.Map;
 
 @Data
 @ToString(callSuper = true)
@@ -45,12 +45,12 @@ public class User extends Entity<User, Long> {
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
     @Schema(description = "配置信息")
-    private Map<String, Object> configs;
+    private Dict configs;
 
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
     @Schema(description = "额外信息")
-    private Map<String, Object> extras;
+    private Dict extras;
 
     @Schema(description = "备注")
     private String desc;

@@ -1,5 +1,6 @@
 package org.huangyalong.modules.system.domain;
 
+import cn.hutool.core.lang.Dict;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
@@ -13,8 +14,6 @@ import org.huangyalong.modules.system.enums.TenantCategory;
 import org.huangyalong.modules.system.enums.TenantStatus;
 import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
-
-import java.util.Map;
 
 @Data
 @ToString(callSuper = true)
@@ -40,12 +39,12 @@ public class Tenant extends Entity<Tenant, Long> {
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
     @Schema(description = "配置信息")
-    private Map<String, Object> configs;
+    private Dict configs;
 
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
     @Schema(description = "额外信息")
-    private Map<String, Object> extras;
+    private Dict extras;
 
     @Schema(description = "备注")
     private String desc;

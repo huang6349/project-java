@@ -1,5 +1,6 @@
 package org.huangyalong.modules.system.domain;
 
+import cn.hutool.core.lang.Dict;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
@@ -11,8 +12,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.myframework.base.domain.SuperEntity;
-
-import java.util.Map;
 
 @Data
 @ToString(callSuper = true)
@@ -29,12 +28,12 @@ public class TenantRecord extends SuperEntity<TenantRecord, Long> {
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
     @Schema(description = "配置信息")
-    private Map<String, Object> configs;
+    private Dict configs;
 
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
     @Schema(description = "额外信息")
-    private Map<String, Object> extras;
+    private Dict extras;
 
     @Schema(description = "备注")
     private String desc;
