@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_tenant`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name`             varchar(256)                       NOT NULL COMMENT '租户名称',
-    `avatar`           varchar(256)                       NULL COMMENT '租户头像',
+    `code`             varchar(256)                       NOT NULL COMMENT '租户代码',
     `category`         tinyint                            NULL COMMENT '租户类别（枚举字典）',
     `address`          varchar(256)                       NULL COMMENT '租户地址',
     `configs`          text                               NULL COMMENT '配置信息',

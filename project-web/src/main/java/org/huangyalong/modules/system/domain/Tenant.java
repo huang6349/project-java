@@ -26,8 +26,8 @@ public class Tenant extends Entity<Tenant, Long> {
     @Schema(description = "租户名称")
     private String name;
 
-    @Schema(description = "租户头像")
-    private String avatar;
+    @Schema(description = "租户代码")
+    private String code;
 
     @JKDictFormat
     @Schema(description = "租户类别")
