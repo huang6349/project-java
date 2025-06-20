@@ -92,6 +92,11 @@
                 <version>${agents-flex.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.dromara.x-file-storage</groupId>
+                <artifactId>x-file-storage-spring</artifactId>
+                <version>2.2.1</version>
+            </dependency>
+            <dependency>
                 <groupId>com.agentsflex</groupId>
                 <artifactId>agents-flex-llm-qwen</artifactId>
                 <version>${agents-flex.version}</version>
