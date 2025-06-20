@@ -24,7 +24,7 @@ public enum TenantCategory implements EnumDict<String> {
     TYPE5("5", "个人独资企业", 0, NO.getValue(), PRIMARY.getValue()),
     TYPE6("6", "合伙企业", 0, NO.getValue(), PRIMARY.getValue()),
     TYPE7("7", "中外合作经营企业", 0, NO.getValue(), PRIMARY.getValue()),
-    TYPE8("8", "其它", 0, NO.getValue(), PRIMARY.getValue());
+    TYPE8("8", "其它", 1, NO.getValue(), PRIMARY.getValue());
 
     @EnumValue
     @JsonValue
