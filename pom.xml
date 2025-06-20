@@ -37,6 +37,8 @@
         <hutool.version>5.8.38</hutool.version>
         <es.version>7.17.8</es.version>
         <ee.version>2.1.0</ee.version>
+        <x-file-storage.version>2.2.1</x-file-storage.version>
+        <minio.version>8.5.17</minio.version>
         <openapi.version>1.8.0</openapi.version>
         <ttl.version>2.14.4</ttl.version>
         <revision>0.0.1-SNAPSHOT</revision>
@@ -87,14 +89,19 @@
                 <version>${es.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.dromara.x-file-storage</groupId>
+                <artifactId>x-file-storage-spring</artifactId>
+                <version>${x-file-storage.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.agentsflex</groupId>
                 <artifactId>agents-flex-core</artifactId>
                 <version>${agents-flex.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.dromara.x-file-storage</groupId>
-                <artifactId>x-file-storage-spring</artifactId>
-                <version>2.2.1</version>
             </dependency>
             <dependency>
                 <groupId>com.agentsflex</groupId>
