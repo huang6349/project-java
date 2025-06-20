@@ -1,4 +1,4 @@
-package org.myframework.ai.chat;
+package org.myframework.ai;
 
 import com.agentsflex.core.llm.Llm;
 import com.agentsflex.core.llm.response.AiMessageResponse;
@@ -10,7 +10,7 @@ import lombok.val;
 
 @Data
 @Builder
-public class ChatRequest {
+public class AiRequest {
 
     private Prompt prompt;
 
@@ -19,7 +19,8 @@ public class ChatRequest {
     public AiMessageResponse call() {
         val res = llm.chat(prompt);
         if (res.isFunctionCall()) {
-            return llm.chat(ToolPrompt.of(res));
+            val prompt = ToolPrompt.of(res);
+            return llm.chat(prompt);
         } else return res;
     }
 }

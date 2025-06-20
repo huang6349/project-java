@@ -32,11 +32,11 @@
         <project.build.jdk>${java.version}</project.build.jdk>
         <!-- 项目相关 -->
         <mybatis-flex.version>1.10.5</mybatis-flex.version>
+        <agents-flex.version>1.2.2</agents-flex.version>
         <sa-token.version>1.41.0</sa-token.version>
         <hutool.version>5.8.38</hutool.version>
         <es.version>7.17.8</es.version>
         <ee.version>2.1.0</ee.version>
-        <agents-flex.version>1.1.7</agents-flex.version>
         <openapi.version>1.8.0</openapi.version>
         <ttl.version>2.14.4</ttl.version>
         <revision>0.0.1-SNAPSHOT</revision>
@@ -88,12 +88,22 @@
             </dependency>
             <dependency>
                 <groupId>com.agentsflex</groupId>
-                <artifactId>agents-flex-spring-boot-starter</artifactId>
+                <artifactId>agents-flex-core</artifactId>
                 <version>${agents-flex.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.agentsflex</groupId>
-                <artifactId>agents-flex-llm-ollama</artifactId>
+                <artifactId>agents-flex-llm-qwen</artifactId>
+                <version>${agents-flex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.agentsflex</groupId>
+                <artifactId>agents-flex-store-redis</artifactId>
+                <version>${agents-flex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.agentsflex</groupId>
+                <artifactId>agents-flex-document-parser-pdfbox</artifactId>
                 <version>${agents-flex.version}</version>
             </dependency>
             <dependency>

@@ -1,4 +1,4 @@
-package org.myframework.ai.tool;
+package org.myframework.ai;
 
 import cn.hutool.core.util.ClassUtil;
 import com.agentsflex.core.llm.functions.Function;
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class MethodToolProvider implements ToolProvider {
+public class AiFunctions {
 
-    private final List<Function> tools = new ArrayList<>();
+    private final List<Function> functions = new ArrayList<>();
 
-    public MethodToolProvider(Object object) {
+    public AiFunctions(Object object) {
         val clazz = object.getClass();
         // 添加带注释的工具
         for (Method method : ClassUtil.getPublicMethods(clazz)) {
@@ -25,12 +25,12 @@ public class MethodToolProvider implements ToolProvider {
                 function.setClazz(clazz);
                 function.setMethod(method);
                 function.setObject(object);
-                tools.add(function);
+                functions.add(function);
             }
         }
         // 添加自己就是工具的工具
-        if (ClassUtil.isAssignable(ToolProvider.class, clazz)) {
-            tools.addAll(((ToolProvider) object).getTools());
+        if (ClassUtil.isAssignable(AiFunctions.class, clazz)) {
+            functions.addAll(((AiFunctions) object).getFunctions());
         }
     }
 }

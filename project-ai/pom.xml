@@ -16,11 +16,25 @@
         <!-- Ai 相关 -->
         <dependency>
             <groupId>com.agentsflex</groupId>
-            <artifactId>agents-flex-spring-boot-starter</artifactId>
+            <artifactId>agents-flex-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.agentsflex</groupId>
-            <artifactId>agents-flex-llm-ollama</artifactId>
+            <artifactId>agents-flex-llm-qwen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.agentsflex</groupId>
+            <artifactId>agents-flex-store-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.agentsflex</groupId>
+            <artifactId>agents-flex-document-parser-pdfbox</artifactId>
         </dependency>
         <!-- Framework 核心 -->
         <dependency>
