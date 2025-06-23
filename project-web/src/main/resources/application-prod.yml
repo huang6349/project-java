@@ -31,3 +31,11 @@ spring.redis:
       max-active: 10
       max-idle: 200
       max-wait: -1ms
+
+easy-es:
+  global-config:
+    i-kun-mode: false
+    print-dsl: false
+  address: project-elasticsearch:9200
+  username: elastic
+  password: pwd123456

@@ -43,3 +43,10 @@ springdoc:
     enabled: true
   api-docs:
     enabled: true
+
+# 搜索引擎配置
+easy-es:
+  banner: false
+  global-config:
+    i-kun-mode: false
+    print-dsl: true

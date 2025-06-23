@@ -31,3 +31,8 @@ spring.redis:
       max-active: 10
       max-idle: 200
       max-wait: -1ms
+
+easy-es:
+  address: 100.100.100.252:9200
+  username: elastic
+  password: pwd123456
