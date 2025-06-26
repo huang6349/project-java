@@ -19,7 +19,7 @@ import org.myframework.base.domain.SuperEntity;
 @Accessors(chain = true)
 @Table(value = "tb_ai_document_chunk")
 @Schema(name = "分片信息")
-public class AiDocumentChunk extends SuperEntity<AiDocumentChunk, Long> {
+public class AiChunk extends SuperEntity<AiChunk, Long> {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Schema(description = "文档主键")

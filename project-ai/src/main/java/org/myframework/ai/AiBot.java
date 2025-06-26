@@ -1,12 +1,9 @@
-package org.huangyalong.modules.ai.core;
+package org.myframework.ai;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.SneakyThrows;
-import org.myframework.ai.AiChat;
-import org.myframework.ai.AiLoader;
-import org.myframework.ai.AiRepository;
 import org.noear.solon.ai.chat.message.ChatMessage;
 import org.noear.solon.ai.rag.Document;
 
