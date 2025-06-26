@@ -1,4 +1,4 @@
-package org.myframework.ai;
+package org.myframework.ai.core;
 
 import cn.hutool.core.collection.CollUtil;
 import org.noear.solon.ai.chat.tool.FunctionTool;

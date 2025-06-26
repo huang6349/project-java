@@ -1,4 +1,4 @@
-package org.myframework.ai;
+package org.myframework.ai.core;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;

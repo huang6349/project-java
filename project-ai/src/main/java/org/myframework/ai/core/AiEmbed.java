@@ -1,4 +1,4 @@
-package org.myframework.ai;
+package org.myframework.ai.core;
 
 import cn.hutool.extra.spring.SpringUtil;
 import org.myframework.ai.properties.EmbedProperties;
