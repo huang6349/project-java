@@ -1,7 +1,7 @@
 package org.myframework.ai;
 
-import cn.hutool.core.collection.ListUtil;
-import com.agentsflex.core.llm.functions.Function;
+import cn.hutool.core.collection.CollUtil;
+import org.noear.solon.ai.chat.tool.FunctionTool;
 
 import java.util.List;
 
@@ -9,17 +9,17 @@ public class AiPluginsHelper {
 
     private static volatile Boolean initialized = Boolean.FALSE;
 
-    private static volatile List<Function> functions;
+    private static volatile List<FunctionTool> tools;
 
-    public static List<Function> getFunctions() {
+    public static List<FunctionTool> getTools() {
         if (!initialized) {
             synchronized (AiPluginsHelper.class) {
                 if (!initialized) {
-                    functions = ListUtil.empty();
+                    tools = CollUtil.newArrayList();
                     initialized = Boolean.TRUE;
                 }
             }
         }
-        return functions;
+        return tools;
     }
 }

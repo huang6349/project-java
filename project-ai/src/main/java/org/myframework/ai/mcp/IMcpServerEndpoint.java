@@ -1,4 +1,4 @@
-package org.myframework.ai;
+package org.myframework.ai.mcp;
 
 public interface IMcpServerEndpoint {
 }

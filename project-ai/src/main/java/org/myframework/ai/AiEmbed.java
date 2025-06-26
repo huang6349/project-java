@@ -1,20 +1,16 @@
 package org.myframework.ai;
 
-import com.agentsflex.core.llm.Llm;
-import com.agentsflex.llm.qwen.QwenLlm;
-import com.agentsflex.llm.qwen.QwenLlmConfig;
-import lombok.val;
+import cn.hutool.extra.spring.SpringUtil;
 import org.myframework.ai.properties.EmbedProperties;
-
-import static cn.hutool.extra.spring.SpringUtil.getBean;
+import org.noear.solon.ai.embedding.EmbeddingModel;
 
 public class AiEmbed {
 
     private static volatile Boolean initialized = Boolean.FALSE;
 
-    private static volatile Llm llm;
+    private static volatile EmbeddingModel model;
 
-    public static Llm getLlm() {
+    public static EmbeddingModel getModel() {
         if (!initialized) {
             synchronized (AiEmbed.class) {
                 if (!initialized) {
@@ -23,16 +19,15 @@ public class AiEmbed {
                 }
             }
         }
-        return llm;
+        return model;
     }
 
     public static synchronized void refresh() {
-        val properties = getBean(EmbedProperties.class);
-        val config = new QwenLlmConfig();
-        config.setModel(properties.getModel());
-        config.setEndpoint(properties.getEndpoint());
-        config.setApiKey(properties.getApiKey());
-        config.setApiSecret(properties.getApiSecret());
-        llm = new QwenLlm(config);
+        var properties = SpringUtil.getBean(EmbedProperties.class);
+        model = EmbeddingModel.of(properties.getApiUrl())
+                .apiKey(properties.getApiKey())
+                .provider(properties.getProvider())
+                .model(properties.getModel())
+                .build();
     }
 }

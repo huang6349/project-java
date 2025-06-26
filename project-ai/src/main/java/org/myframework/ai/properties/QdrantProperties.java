@@ -9,15 +9,11 @@ import java.io.Serializable;
 
 @Data
 @Configuration
-@ConfigurationProperties("agents-flex.llm")
+@ConfigurationProperties("solon.ai.qdrant")
 @ToString(callSuper = true)
-public class LlmProperties implements Serializable {
+public class QdrantProperties implements Serializable {
 
-    private String model = "qwen-turbo";
+    private String host;
 
-    private String endpoint = "https://dashscope.aliyuncs.com";
-
-    private String apiKey;
-
-    private String apiSecret;
+    private Integer port = 6334;
 }

@@ -9,15 +9,15 @@ import java.io.Serializable;
 
 @Data
 @Configuration
-@ConfigurationProperties("agents-flex.embed")
+@ConfigurationProperties("solon.ai.embed")
 @ToString(callSuper = true)
 public class EmbedProperties implements Serializable {
 
-    private String model = "text-embedding-v1";
-
-    private String endpoint = "https://dashscope.aliyuncs.com";
+    private String apiUrl = "https://dashscope.aliyuncs.com/api/v1/services/embeddings/text-embedding/text-embedding";
 
     private String apiKey;
 
-    private String apiSecret;
+    private String provider = "dashscope";
+
+    private String model = "text-embedding-v3";
 }

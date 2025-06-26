@@ -32,7 +32,6 @@
         <project.build.jdk>${java.version}</project.build.jdk>
         <!-- 项目相关 -->
         <mybatis-flex.version>1.10.5</mybatis-flex.version>
-        <agents-flex.version>1.2.2</agents-flex.version>
         <sa-token.version>1.41.0</sa-token.version>
         <hutool.version>5.8.38</hutool.version>
         <solon.version>3.3.3</solon.version>
@@ -105,26 +104,6 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.agentsflex</groupId>
-                <artifactId>agents-flex-core</artifactId>
-                <version>${agents-flex.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.agentsflex</groupId>
-                <artifactId>agents-flex-llm-qwen</artifactId>
-                <version>${agents-flex.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.agentsflex</groupId>
-                <artifactId>agents-flex-store-redis</artifactId>
-                <version>${agents-flex.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.agentsflex</groupId>
-                <artifactId>agents-flex-document-parser-pdfbox</artifactId>
-                <version>${agents-flex.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huangyalong</groupId>

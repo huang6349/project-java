@@ -31,26 +31,16 @@
             <artifactId>solon-ai-mcp</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.agentsflex</groupId>
-            <artifactId>agents-flex-core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.noear</groupId>
+            <artifactId>solon-ai-repo-qdrant</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.agentsflex</groupId>
-            <artifactId>agents-flex-llm-qwen</artifactId>
+            <groupId>org.noear</groupId>
+            <artifactId>solon-ai-load-word</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.agentsflex</groupId>
-            <artifactId>agents-flex-store-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.agentsflex</groupId>
-            <artifactId>agents-flex-document-parser-pdfbox</artifactId>
+            <groupId>org.noear</groupId>
+            <artifactId>solon-ai-load-pdf</artifactId>
         </dependency>
         <!-- Framework 核心 -->
         <dependency>

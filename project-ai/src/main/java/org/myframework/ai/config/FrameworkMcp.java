@@ -2,7 +2,7 @@ package org.myframework.ai.config;
 
 import cn.hutool.log.StaticLog;
 import lombok.val;
-import org.myframework.ai.IMcpServerEndpoint;
+import org.myframework.ai.mcp.IMcpServerEndpoint;
 import org.noear.solon.Solon;
 import org.noear.solon.ai.chat.tool.MethodToolProvider;
 import org.noear.solon.ai.mcp.server.McpServerEndpointProvider;
