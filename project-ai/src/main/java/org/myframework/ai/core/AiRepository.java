@@ -4,9 +4,10 @@ import cn.hutool.extra.spring.SpringUtil;
 import io.qdrant.client.QdrantClient;
 import org.myframework.ai.properties.QdrantProperties;
 import org.noear.solon.ai.rag.RepositoryStorable;
+import org.noear.solon.ai.rag.repository.QdrantRepository;
 
+import static cn.hutool.extra.spring.SpringUtil.getApplicationName;
 import static io.qdrant.client.QdrantGrpcClient.newBuilder;
-import static org.noear.solon.ai.rag.repository.QdrantRepository.builder;
 
 public class AiRepository {
 
@@ -31,6 +32,8 @@ public class AiRepository {
         var host = properties.getHost();
         var port = properties.getPort();
         var client = new QdrantClient(newBuilder(host, port, Boolean.FALSE).build());
-        repository = builder(AiEmbed.getModel(), client).build();
+        repository = QdrantRepository.builder(AiEmbed.getModel(), client)
+                .collectionName(getApplicationName())
+                .build();
     }
 }

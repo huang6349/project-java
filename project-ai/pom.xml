@@ -40,6 +40,10 @@
         </dependency>
         <dependency>
             <groupId>org.noear</groupId>
+            <artifactId>solon-ai-load-ppt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.noear</groupId>
             <artifactId>solon-ai-load-pdf</artifactId>
         </dependency>
         <!-- Framework 核心 -->

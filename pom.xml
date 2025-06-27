@@ -41,6 +41,9 @@
         <minio.version>8.5.17</minio.version>
         <openapi.version>1.8.0</openapi.version>
         <ttl.version>2.14.4</ttl.version>
+        <fastexcel.version>1.2.0</fastexcel.version>
+        <commons-io.version>2.16.1</commons-io.version>
+        <poi.version>5.4.1</poi.version>
         <revision>0.0.1-SNAPSHOT</revision>
         <!-- 打包跳过测试 -->
         <skipTests>true</skipTests>
@@ -134,6 +137,31 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${ttl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.idev.excel</groupId>
+                <artifactId>fastexcel</artifactId>
+                <version>${fastexcel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-scratchpad</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

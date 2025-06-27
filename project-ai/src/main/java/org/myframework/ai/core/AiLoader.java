@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import org.myframework.core.exception.BusinessException;
 import org.noear.solon.ai.rag.Document;
 import org.noear.solon.ai.rag.loader.PdfLoader;
+import org.noear.solon.ai.rag.loader.PptLoader;
 import org.noear.solon.ai.rag.loader.TextLoader;
 import org.noear.solon.ai.rag.loader.WordLoader;
 import org.noear.solon.ai.rag.splitter.RegexTextSplitter;
@@ -47,6 +48,8 @@ public class AiLoader {
             throw new NullPointerException("source can not be null");
         if (StrUtil.endWithAnyIgnoreCase(source.getName(), ".docx", ".doc"))
             return new WordLoader(source).load();
+        if (StrUtil.endWithAnyIgnoreCase(source.getName(), ".pptx", ".ppt"))
+            return new PptLoader(source).load();
         if (StrUtil.endWithAnyIgnoreCase(source.getName(), ".pdf"))
             return new PdfLoader(source).load();
         if (StrUtil.endWithAnyIgnoreCase(source.getName(), ".txt"))
