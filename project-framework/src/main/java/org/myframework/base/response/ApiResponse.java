@@ -43,6 +43,13 @@ public class ApiResponse<T> implements Serializable {
     @Schema(description = "是否执行默认操作", hidden = true)
     private Boolean defExec;
 
+    public static <T> ApiResponse<T> okDef() {
+        return ApiResponse.<T>builder()
+                .success(Boolean.TRUE)
+                .defExec(Boolean.TRUE)
+                .build();
+    }
+
     public static <T> ApiResponse<T> okDef(T data) {
         return ApiResponse.<T>builder()
                 .success(Boolean.TRUE)
