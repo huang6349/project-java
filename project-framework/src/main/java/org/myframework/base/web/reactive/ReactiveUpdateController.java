@@ -5,6 +5,7 @@ import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.log.StaticLog;
 import io.swagger.v3.oas.annotations.Operation;
 import org.myframework.base.response.ApiResponse;
+import org.myframework.base.validation.Update;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,7 @@ public interface ReactiveUpdateController<Entity, UpdateBO> extends ReactiveBase
 
     @PutMapping
     @Operation(summary = "修改")
-    default Mono<Boolean> update(@RequestBody @Validated UpdateBO updateBO) {
+    default Mono<Boolean> update(@RequestBody @Validated(Update.class) UpdateBO updateBO) {
         var result = handlerUpdate(updateBO);
         if (BooleanUtil.isFalse(result.getDefExec()))
             return result.getData();

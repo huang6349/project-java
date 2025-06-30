@@ -5,6 +5,7 @@ import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.log.StaticLog;
 import io.swagger.v3.oas.annotations.Operation;
 import org.myframework.base.response.ApiResponse;
+import org.myframework.base.validation.Save;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,7 @@ public interface ReactiveSaveController<Entity, SaveBO> extends ReactiveBaseCont
 
     @PostMapping
     @Operation(summary = "新增")
-    default Mono<Boolean> save(@RequestBody @Validated SaveBO saveBO) {
+    default Mono<Boolean> save(@RequestBody @Validated(Save.class) SaveBO saveBO) {
         var result = handlerSave(saveBO);
         if (BooleanUtil.isFalse(result.getDefExec()))
             return result.getData();
