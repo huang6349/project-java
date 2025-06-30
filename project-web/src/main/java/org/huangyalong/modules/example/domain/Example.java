@@ -1,6 +1,7 @@
 package org.huangyalong.modules.example.domain;
 
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.lang.Opt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
@@ -11,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.huangyalong.modules.example.enums.ExampleStatus;
+import org.huangyalong.modules.example.request.ExampleBO;
 import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
 
@@ -44,4 +46,16 @@ public class Example extends Entity<Example, Long> {
     @JKDictFormat
     @Schema(description = "示例状态")
     private ExampleStatus status;
+
+    /****************** with ******************/
+
+    public Example with(ExampleBO exampleBO) {
+        Opt.ofNullable(exampleBO)
+                .map(ExampleBO::getName)
+                .ifPresent(this::setName);
+        Opt.ofNullable(exampleBO)
+                .map(ExampleBO::getDesc)
+                .ifPresent(this::setDesc);
+        return this;
+    }
 }

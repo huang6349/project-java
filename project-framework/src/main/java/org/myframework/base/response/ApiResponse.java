@@ -81,6 +81,13 @@ public class ApiResponse<T> implements Serializable {
                 .build();
     }
 
+    public static <T> ApiResponse<T> ok() {
+        return ApiResponse.<T>builder()
+                .success(Boolean.TRUE)
+                .defExec(Boolean.FALSE)
+                .build();
+    }
+
     public static <T> ApiResponse<T> ok(T data) {
         return ApiResponse.<T>builder()
                 .success(Boolean.TRUE)
