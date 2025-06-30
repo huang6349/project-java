@@ -7,7 +7,13 @@ import org.myframework.base.web.reactive.*;
 import java.io.Serializable;
 
 @SuppressWarnings("unchecked")
-public abstract class ReactorController<S extends ReactorService<Entity>, Id extends Serializable, Entity, Queries, SaveBO, UpdateBO>
+public abstract class ReactorController<
+        S extends ReactorService<Entity>,
+        Id extends Serializable,
+        Entity,
+        Queries,
+        SaveBO,
+        UpdateBO>
         extends ReactiveController<S, Entity>
         implements ReactiveQueryController<Entity, Id, Queries>,
         ReactiveSaveController<Entity, SaveBO>,
