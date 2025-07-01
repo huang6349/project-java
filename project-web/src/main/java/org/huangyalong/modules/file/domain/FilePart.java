@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 import org.dromara.x.file.storage.core.hash.HashInfo;
 import org.myframework.base.domain.Entity;
 
-@Data
+@Data(staticConstructor = "create")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)

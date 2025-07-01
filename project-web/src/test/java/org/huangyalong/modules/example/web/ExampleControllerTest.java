@@ -36,7 +36,7 @@ class ExampleControllerTest extends MyFrameworkTest {
     @Order(1)
     @Test
     void add() {
-        var beforeSize = new Example()
+        var beforeSize = Example.create()
                 .count();
         testClient.post()
                 .uri("/example")
@@ -51,11 +51,11 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var afterSize = new Example()
+        var afterSize = Example.create()
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testExample = new Example()
+        var testExample = Example.create()
                 .orderBy(EXAMPLE.ID, Boolean.FALSE)
                 .one();
         assertThat(testExample)
@@ -87,7 +87,7 @@ class ExampleControllerTest extends MyFrameworkTest {
     @Order(2)
     @Test
     void update() {
-        var beforeSize = new Example()
+        var beforeSize = Example.create()
                 .count();
         testClient.post()
                 .uri("/example")
@@ -102,7 +102,7 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var example = new Example()
+        var example = Example.create()
                 .orderBy(EXAMPLE.ID, Boolean.FALSE)
                 .one();
         assertThat(example)
@@ -122,11 +122,11 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var afterSize = new Example()
+        var afterSize = Example.create()
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testExample = new Example()
+        var testExample = Example.create()
                 .orderBy(EXAMPLE.ID, Boolean.FALSE)
                 .one();
         assertThat(testExample)
@@ -158,7 +158,7 @@ class ExampleControllerTest extends MyFrameworkTest {
     @Order(3)
     @Test
     void queryPage() {
-        var beforeSize = new Example()
+        var beforeSize = Example.create()
                 .count();
         testClient.post()
                 .uri("/example")
@@ -190,7 +190,7 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .value(hasItem(ExampleUtil.DEFAULT_DESC))
                 .jsonPath("$.data.records.[*].status")
                 .value(hasItem(ExampleStatus.TYPE0.getValue()));
-        var afterSize = new Example()
+        var afterSize = Example.create()
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
@@ -199,7 +199,7 @@ class ExampleControllerTest extends MyFrameworkTest {
     @Order(4)
     @Test
     void query() {
-        var beforeSize = new Example()
+        var beforeSize = Example.create()
                 .count();
         testClient.post()
                 .uri("/example")
@@ -231,7 +231,7 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .value(hasItem(ExampleUtil.DEFAULT_DESC))
                 .jsonPath("$.data.[*].status")
                 .value(hasItem(ExampleStatus.TYPE0.getValue()));
-        var afterSize = new Example()
+        var afterSize = Example.create()
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
@@ -240,7 +240,7 @@ class ExampleControllerTest extends MyFrameworkTest {
     @Order(5)
     @Test
     void getById() {
-        var beforeSize = new Example()
+        var beforeSize = Example.create()
                 .count();
         testClient.post()
                 .uri("/example")
@@ -255,7 +255,7 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var example = new Example()
+        var example = Example.create()
                 .orderBy(EXAMPLE.ID, Boolean.FALSE)
                 .one();
         assertThat(example)
@@ -279,7 +279,7 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .value(is(ExampleUtil.DEFAULT_DESC))
                 .jsonPath("$.data.status")
                 .value(is(ExampleStatus.TYPE0.getValue()));
-        var afterSize = new Example()
+        var afterSize = Example.create()
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
@@ -288,7 +288,7 @@ class ExampleControllerTest extends MyFrameworkTest {
     @Order(6)
     @Test
     void delete() {
-        var beforeSize = new Example()
+        var beforeSize = Example.create()
                 .count();
         testClient.post()
                 .uri("/example")
@@ -303,7 +303,7 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var example = new Example()
+        var example = Example.create()
                 .orderBy(EXAMPLE.ID, Boolean.FALSE)
                 .one();
         assertThat(example)
@@ -321,7 +321,7 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var afterSize = new Example()
+        var afterSize = Example.create()
                 .count();
         assertThat(beforeSize)
                 .isEqualTo(afterSize);

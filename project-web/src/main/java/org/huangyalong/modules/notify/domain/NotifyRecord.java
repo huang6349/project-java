@@ -13,7 +13,7 @@ import org.huangyalong.modules.notify.enums.NotifyStatus;
 import org.myframework.es.model.Model;
 import org.myframework.extra.jackson.JKDictFormat;
 
-@Data
+@Data(staticConstructor = "create")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)

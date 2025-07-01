@@ -17,7 +17,7 @@ import org.myframework.extra.jackson.JKDictFormat;
 
 import java.util.Date;
 
-@Data
+@Data(staticConstructor = "create")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)

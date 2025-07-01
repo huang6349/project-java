@@ -14,7 +14,7 @@ import org.huangyalong.modules.system.enums.PermStatus;
 import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
 
-@Data
+@Data(staticConstructor = "create")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)

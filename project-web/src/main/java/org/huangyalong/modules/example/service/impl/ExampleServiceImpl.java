@@ -24,7 +24,7 @@ public class ExampleServiceImpl extends ReactorServiceImpl<ExampleMapper, Exampl
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> add(ExampleBO exampleBO) {
-        var data = new Example()
+        var data = Example.create()
                 .setCode(PURE_DATETIME_MS_FORMAT.format(DateTime.now()))
                 .with(exampleBO);
         return save(data);
