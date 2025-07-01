@@ -1,9 +1,10 @@
 package org.myframework.base.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import org.myframework.base.validation.Update;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @AllArgsConstructor
@@ -13,7 +14,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 public class BaseBO<T> implements Serializable {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @NotNull(message = "主键不能为空", groups = Update.class)
     @Schema(description = "数据主键")
     protected T id;
 }
