@@ -10,6 +10,8 @@ import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import org.myframework.base.request.PageQueries;
 import org.myframework.base.response.ApiResponse;
+import org.myframework.core.satoken.annotation.PreCheckPermission;
+import org.myframework.core.satoken.annotation.PreMode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import reactor.core.publisher.Flux;
@@ -22,6 +24,7 @@ import static org.myframework.base.request.PageQueries.DEFAULT_PAGE_SIZE;
 
 public interface ReactiveQueryController<Entity, Id extends Serializable, Queries> extends ReactiveBaseController<Entity> {
 
+    @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/_query/paging")
     @Operation(summary = "分页查询")
     default Mono<Page<Entity>> queryPage(PageQueries pageQueries,
@@ -42,6 +45,7 @@ public interface ReactiveQueryController<Entity, Id extends Serializable, Querie
                 .page(page);
     }
 
+    @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/_query")
     @Operation(summary = "批量查询")
     default Flux<Entity> query(Queries queries) {
@@ -54,6 +58,7 @@ public interface ReactiveQueryController<Entity, Id extends Serializable, Querie
                 .list();
     }
 
+    @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/{id:.+}")
     @Operation(summary = "单体查询")
     default Mono<Entity> getById(@PathVariable Id id) {

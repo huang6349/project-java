@@ -6,6 +6,8 @@ import cn.hutool.log.StaticLog;
 import io.swagger.v3.oas.annotations.Operation;
 import org.myframework.base.response.ApiResponse;
 import org.myframework.base.validation.Save;
+import org.myframework.core.satoken.annotation.PreCheckPermission;
+import org.myframework.core.satoken.annotation.PreMode;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 public interface ReactiveSaveController<Entity, SaveBO> extends ReactiveBaseController<Entity> {
 
+    @PreCheckPermission(value = {"{}:add", "{}:save"}, mode = PreMode.OR)
     @PostMapping
     @Operation(summary = "新增")
     default Mono<Boolean> save(@RequestBody @Validated(Save.class) SaveBO saveBO) {

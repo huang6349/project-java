@@ -6,6 +6,8 @@ import cn.hutool.log.StaticLog;
 import io.swagger.v3.oas.annotations.Operation;
 import org.myframework.base.response.ApiResponse;
 import org.myframework.base.validation.Update;
+import org.myframework.core.satoken.annotation.PreCheckPermission;
+import org.myframework.core.satoken.annotation.PreMode;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 public interface ReactiveUpdateController<Entity, UpdateBO> extends ReactiveBaseController<Entity> {
 
+    @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)
     @PutMapping
     @Operation(summary = "修改")
     default Mono<Boolean> update(@RequestBody @Validated(Update.class) UpdateBO updateBO) {
