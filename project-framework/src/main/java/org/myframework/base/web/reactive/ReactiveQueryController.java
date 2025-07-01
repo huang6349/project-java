@@ -40,9 +40,9 @@ public interface ReactiveQueryController<Entity, Id extends Serializable, Querie
         var page = new Page<Entity>(pageNumber, pageSize);
         if (BooleanUtil.isFalse(result.getDefExec()))
             return getReactorService()
-                    .page(page, query);
+                    .pageOnce(page, query);
         return getReactorService()
-                .page(page);
+                .pageOnce(page);
     }
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)

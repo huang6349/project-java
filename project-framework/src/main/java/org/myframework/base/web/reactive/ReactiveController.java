@@ -1,9 +1,9 @@
 package org.myframework.base.web.reactive;
 
 import cn.hutool.core.util.TypeUtil;
+import com.mybatis.flex.reactor.core.ReactorService;
 import com.mybatisflex.core.service.IService;
 import lombok.Getter;
-import org.myframework.base.service.ReactorService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection", "LombokGetterMayBeUsed", "unchecked"})

@@ -1,8 +1,8 @@
 package org.huangyalong.modules.example.service;
 
+import com.mybatis.flex.reactor.core.ReactorService;
 import org.huangyalong.modules.example.domain.Example;
 import org.huangyalong.modules.example.request.ExampleBO;
-import org.myframework.base.service.ReactorService;
 import reactor.core.publisher.Mono;
 
 import java.io.Serializable;

@@ -31,6 +31,7 @@
         <project.build.locales>zh_CN</project.build.locales>
         <project.build.jdk>${java.version}</project.build.jdk>
         <!-- 项目相关 -->
+        <mybatis-flex-reactor.version>0.2.2</mybatis-flex-reactor.version>
         <mybatis-flex.version>1.10.5</mybatis-flex.version>
         <sa-token.version>1.41.0</sa-token.version>
         <hutool.version>5.8.38</hutool.version>
@@ -77,6 +78,11 @@
                 <version>${solon.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.juxest</groupId>
+                <artifactId>mybatis-flex-reactor-spring</artifactId>
+                <version>${mybatis-flex-reactor.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.dromara.easy-es</groupId>
