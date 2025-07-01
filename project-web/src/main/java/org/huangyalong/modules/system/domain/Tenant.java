@@ -1,6 +1,6 @@
 package org.huangyalong.modules.system.domain;
 
-import cn.hutool.core.lang.Dict;
+import cn.hutool.core.lang.Opt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
@@ -12,8 +12,13 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.huangyalong.modules.system.enums.TenantCategory;
 import org.huangyalong.modules.system.enums.TenantStatus;
+import org.huangyalong.modules.system.request.TenantBO;
 import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
+
+import java.util.Map;
+
+import static org.myframework.extra.dict.EnumDict.fromValue;
 
 @Data(staticConstructor = "create")
 @ToString(callSuper = true)
@@ -39,12 +44,12 @@ public class Tenant extends Entity<Tenant, Long> {
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
     @Schema(description = "配置信息")
-    private Dict configs;
+    private Map<String, Object> configs;
 
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
     @Schema(description = "额外信息")
-    private Dict extras;
+    private Map<String, Object> extras;
 
     @Schema(description = "备注")
     private String desc;
@@ -52,4 +57,45 @@ public class Tenant extends Entity<Tenant, Long> {
     @JKDictFormat
     @Schema(description = "租户状态")
     private TenantStatus status;
+
+    /****************** view ******************/
+
+    @Column(ignore = true)
+    @Schema(description = "租户简称")
+    private String abbr;
+
+    @Column(ignore = true)
+    @Schema(description = "租户地区")
+    private String area;
+
+    /****************** with ******************/
+
+    public Tenant with(TenantBO tenantBO) {
+        var category = Opt.ofNullable(tenantBO)
+                .map(TenantBO::getCategory)
+                .get();
+        var abbr = Opt.ofNullable(tenantBO)
+                .map(TenantBO::getAbbr)
+                .get();
+        var area = Opt.ofNullable(tenantBO)
+                .map(TenantBO::getArea)
+                .get();
+        Opt.ofNullable(tenantBO)
+                .map(TenantBO::getName)
+                .ifPresent(this::setName);
+        Opt.ofNullable(tenantBO)
+                .map(TenantBO::getAddress)
+                .ifPresent(this::setAddress);
+        Opt.ofNullable(tenantBO)
+                .map(TenantBO::getDesc)
+                .ifPresent(this::setDesc);
+        setCategory(fromValue(category, TenantCategory.class));
+        setExtras(TenantExtras.create()
+                .setExtras(getExtras())
+                .addAbbr(abbr)
+                .addArea(area)
+                .addVersion()
+                .getExtras());
+        return this;
+    }
 }
