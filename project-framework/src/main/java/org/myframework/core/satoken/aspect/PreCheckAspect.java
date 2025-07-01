@@ -74,26 +74,27 @@ public class PreCheckAspect {
         return joinPoint.proceed();
     }
 
-    private void checkMethodAnnotation(String replace,
-                                       Method method) {
+    void checkMethodAnnotation(String replace,
+                               Method method) {
         // 先校验 Method 所属 Class 上的注解
         validateAnnotation(replace, method.getDeclaringClass());
         // 再校验 Method 上的注解
         validateAnnotation(replace, method);
     }
 
-    private void validateAnnotation(String replace,
-                                    AnnotatedElement element) {
+    void validateAnnotation(String replace,
+                            AnnotatedElement element) {
         var checkPermission = element.getAnnotation(PreCheckPermission.class);
         if (checkPermission != null && checkPermission.enabled())
             checkByAnnotation(replace, checkPermission);
         var checkRole = element.getAnnotation(PreCheckRole.class);
-        if (checkRole != null && checkRole.enabled())
+        if (checkRole != null && checkRole.enabled()) {
             checkByAnnotation(checkRole);
+        }
     }
 
-    private void checkByAnnotation(String replace,
-                                   PreCheckPermission annotation) {
+    void checkByAnnotation(String replace,
+                           PreCheckPermission annotation) {
         var value = annotation.value();
         value = handleValue(replace, value);
         try {
@@ -115,15 +116,15 @@ public class PreCheckAspect {
         }
     }
 
-    private void checkByAnnotation(PreCheckRole annotation) {
+    void checkByAnnotation(PreCheckRole annotation) {
         var value = annotation.value();
         if (annotation.mode() == PreMode.AND)
             StpUtil.checkRoleAnd(value);
         else StpUtil.checkRoleOr(value);
     }
 
-    private String[] handleValue(String replace,
-                                 String[] value) {
+    String[] handleValue(String replace,
+                         String[] value) {
         var result = value.clone();
         if (StrUtil.isNotBlank(replace))
             result = Arrays.stream(result)
@@ -133,11 +134,11 @@ public class PreCheckAspect {
         return result;
     }
 
-    private Boolean isIgnoreToken() {
+    Boolean isIgnoreToken() {
         // 获取当前访问的路由。获取不到直接return false
         var attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (ObjectUtil.isNull(attributes))
-            return Boolean.FALSE;
+            return false;
         var request = attributes.getRequest();
         var path = request.getRequestURI();
         // 判断当前访问的路由，是否是saToken放行路由.

@@ -1,6 +1,5 @@
 package org.huangyalong.modules.example.service.impl;
 
-import cn.hutool.core.date.DateTime;
 import cn.hutool.core.lang.Opt;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import lombok.AllArgsConstructor;
@@ -15,8 +14,11 @@ import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
 
-import static cn.hutool.core.date.DatePattern.PURE_DATETIME_MS_FORMAT;
+import static cn.hutool.core.convert.Convert.toLong;
+import static org.myframework.core.constants.Constants.SYSTEM_RESERVED;
+import static org.myframework.core.exception.ErrorCode.ERR_RESERVED;
 import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
+import static org.myframework.core.util.ServiceUtil.randomCode;
 
 @AllArgsConstructor
 @Service
@@ -25,7 +27,7 @@ public class ExampleServiceImpl extends ReactorServiceImpl<ExampleMapper, Exampl
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> add(ExampleBO exampleBO) {
         var data = Example.create()
-                .setCode(PURE_DATETIME_MS_FORMAT.format(DateTime.now()))
+                .setCode(randomCode())
                 .with(exampleBO);
         return save(data);
     }
@@ -44,9 +46,15 @@ public class ExampleServiceImpl extends ReactorServiceImpl<ExampleMapper, Exampl
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> delete(Serializable id) {
+        validateDelete(id);
         var data = getBlockService()
                 .getByIdOpt(id)
                 .orElseThrow(() -> new BusinessException(NOT_FOUND));
         return removeById(data);
+    }
+
+    void validateDelete(Serializable id) {
+        if (SYSTEM_RESERVED <= toLong(id)) return;
+        throw new BusinessException(ERR_RESERVED);
     }
 }

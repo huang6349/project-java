@@ -23,7 +23,10 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(500, "服务器内部错误"),
     BAD_GATEWAY(502, "网关错误"),
     ERR_BUSINESS(10000, "业务异常"),
-    ERR_ARGUMENT(20000, "参数错误");
+    ERR_ARGUMENT(20000, "参数错误"),
+
+    /***************************其它错误******************************/
+    ERR_RESERVED(1001, "保留数据不允许删除");
 
     private final Integer code;
 
