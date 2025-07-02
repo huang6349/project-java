@@ -7,21 +7,21 @@ import cn.hutool.core.lang.Opt;
 import org.myframework.core.satoken.util.ContextUtil;
 
 @SuppressWarnings("unused")
-public abstract class ContextHelper {
+public interface ContextHelper {
 
-    public static String getLoginIdAsString() {
+    static String getLoginIdAsString() {
         return Opt.ofBlankAble(getLoginId())
                 .map(Convert::toStr)
                 .get();
     }
 
-    public static Long getLoginIdAsLong() {
+    static Long getLoginIdAsLong() {
         return Opt.ofBlankAble(getLoginId())
                 .map(Convert::toLong)
                 .get();
     }
 
-    public static Object getLoginId() {
+    static Object getLoginId() {
         if (SpringMVCUtil.isWeb()) {
             return StpUtil.getLoginIdDefaultNull();
         } else return ContextUtil.getLoginId();
