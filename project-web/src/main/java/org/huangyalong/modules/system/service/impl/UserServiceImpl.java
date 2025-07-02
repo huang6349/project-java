@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.If;
 import lombok.AllArgsConstructor;
+import org.huangyalong.core.satoken.helper.UserHelper;
 import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.mapper.UserMapper;
 import org.huangyalong.modules.system.request.UserBO;
@@ -45,7 +46,10 @@ public class UserServiceImpl extends ReactorServiceImpl<UserMapper, User> implem
                 .getByIdOpt(id)
                 .orElseThrow(() -> new BusinessException(NOT_FOUND))
                 .with(userBO);
-        return updateById(data);
+        return updateById(data)
+                .thenReturn(id)
+                .doOnNext(UserHelper::send)
+                .thenReturn(Boolean.TRUE);
     }
 
     @Transactional(rollbackFor = Exception.class)
