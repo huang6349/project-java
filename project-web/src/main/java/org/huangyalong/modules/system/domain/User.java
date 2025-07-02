@@ -1,6 +1,7 @@
 package org.huangyalong.modules.system.domain;
 
-import cn.hutool.core.lang.Dict;
+import cn.hutool.core.lang.Opt;
+import cn.hutool.crypto.digest.BCrypt;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
@@ -11,11 +12,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.huangyalong.modules.system.enums.UserGender;
 import org.huangyalong.modules.system.enums.UserStatus;
+import org.huangyalong.modules.system.request.UserBO;
 import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
 
 import java.util.Date;
+import java.util.Map;
 
 @Data(staticConstructor = "create")
 @ToString(callSuper = true)
@@ -45,12 +49,12 @@ public class User extends Entity<User, Long> {
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
     @Schema(description = "配置信息")
-    private Dict configs;
+    private Map<String, Object> configs;
 
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
     @Schema(description = "额外信息")
-    private Dict extras;
+    private Map<String, Object> extras;
 
     @Schema(description = "备注")
     private String desc;
@@ -66,4 +70,61 @@ public class User extends Entity<User, Long> {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Schema(description = "默认租户")
     private Long tenantId;
+
+    /****************** view ******************/
+
+    @Column(ignore = true)
+    @Schema(description = "用户昵称")
+    private String nickname;
+
+    @Column(ignore = true)
+    @Schema(description = "用户头像")
+    private String avatar;
+
+    @Column(ignore = true)
+    @JKDictFormat
+    @Schema(description = "用户性别")
+    private UserGender gender;
+
+    @Column(ignore = true)
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @Schema(description = "用户生日")
+    private Date birthday;
+
+    @Column(ignore = true)
+    @Schema(description = "用户地址")
+    private String address;
+
+    /****************** with ******************/
+
+    public User with(UserBO userBO) {
+        Opt.ofNullable(userBO)
+                .map(UserBO::getUsername)
+                .ifPresent(this::setUsername);
+        setSalt(Opt.ofNullable(getSalt())
+                .orElse(BCrypt.gensalt()));
+        Opt.ofNullable(userBO)
+                .map(UserBO::getPassword1)
+                .map(password -> BCrypt.hashpw(password, getSalt()))
+                .ifPresent(this::setPassword);
+        Opt.ofNullable(userBO)
+                .map(UserBO::getMobile)
+                .ifPresent(this::setMobile);
+        Opt.ofNullable(userBO)
+                .map(UserBO::getEmail)
+                .ifPresent(this::setEmail);
+        setExtras(UserExtras.create()
+                .setExtras(getExtras())
+                .addNickname(userBO.getNickname())
+                .addAvatar(userBO.getAvatar())
+                .addGender(userBO.getGender())
+                .addBirthday(userBO.getBirthday())
+                .addAddress(userBO.getAddress())
+                .addVersion()
+                .getExtras());
+        Opt.ofNullable(userBO)
+                .map(UserBO::getDesc)
+                .ifPresent(this::setDesc);
+        return this;
+    }
 }
