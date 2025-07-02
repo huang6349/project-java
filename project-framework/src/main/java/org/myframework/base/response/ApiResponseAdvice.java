@@ -78,14 +78,12 @@ public abstract class ApiResponseAdvice implements ResponseBodyAdvice<Object> {
                                   @NotNull ServerHttpRequest request,
                                   @NotNull ServerHttpResponse response) {
 
-        if (body instanceof Mono)
-            return ((Mono<?>) body)
-                    .map(ApiResponse::ok)
+        if (body instanceof Mono<?> mono)
+            return mono.map(ApiResponse::ok)
                     .switchIfEmpty(fromSupplier(ApiResponse::ok));
 
-        if (body instanceof Flux)
-            return ((Flux<?>) body)
-                    .collectList()
+        if (body instanceof Flux<?> flux)
+            return flux.collectList()
                     .map(ApiResponse::ok)
                     .switchIfEmpty(fromSupplier(ApiResponse::ok));
 

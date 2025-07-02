@@ -184,11 +184,11 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.records.[*].name")
+                .jsonPath("$.data.list.[*].name")
                 .value(hasItem(ExampleUtil.DEFAULT_NAME))
-                .jsonPath("$.data.records.[*].desc")
+                .jsonPath("$.data.list.[*].desc")
                 .value(hasItem(ExampleUtil.DEFAULT_DESC))
-                .jsonPath("$.data.records.[*].status")
+                .jsonPath("$.data.list.[*].status")
                 .value(hasItem(ExampleStatus.TYPE0.getValue()));
         var afterSize = Example.create()
                 .count();

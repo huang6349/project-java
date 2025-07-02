@@ -9,6 +9,7 @@ import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import org.myframework.base.request.PageQueries;
+import org.myframework.base.response.PageVO;
 import org.myframework.base.response.ApiResponse;
 import org.myframework.core.satoken.annotation.PreCheckPermission;
 import org.myframework.core.satoken.annotation.PreMode;
@@ -27,8 +28,8 @@ public interface ReactiveQueryController<Entity, Id extends Serializable, Querie
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/_query/paging")
     @Operation(summary = "分页查询")
-    default Mono<Page<Entity>> queryPage(PageQueries pageQueries,
-                                         Queries queries) {
+    default Mono<PageVO<Entity>> queryPage(PageQueries pageQueries,
+                                           Queries queries) {
         var result = handlerQuery(queries);
         var query = result.getData();
         var pageNumber = Opt.ofNullable(pageQueries)
@@ -40,9 +41,11 @@ public interface ReactiveQueryController<Entity, Id extends Serializable, Querie
         var page = new Page<Entity>(pageNumber, pageSize);
         if (BooleanUtil.isFalse(result.getDefExec()))
             return getReactorService()
-                    .pageOnce(page, query);
+                    .pageOnce(page, query)
+                    .map(PageVO::of);
         return getReactorService()
-                .pageOnce(page);
+                .pageOnce(page)
+                .map(PageVO::of);
     }
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
