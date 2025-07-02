@@ -14,7 +14,7 @@ public class TenantFactoryImpl implements TenantFactory {
 
     @Override
     public Object[] getTenantIds() {
-        return Opt.ofBlankAble(getTenant())
+        return Opt.ofNullable(getTenant())
                 .map(Convert::toLongArray)
                 .orElse(new Long[]{0L});
     }

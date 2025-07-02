@@ -1,7 +1,6 @@
 package org.huangyalong.core.satoken.helper;
 
 import cn.hutool.core.lang.Opt;
-import lombok.val;
 import org.myframework.core.redis.RedisHelper;
 import org.myframework.core.satoken.helper.ContextHelper;
 
@@ -12,27 +11,27 @@ import static org.myframework.core.satoken.helper.ContextHelper.getLoginId;
 public interface UserHelper extends ContextHelper {
 
     static String getNickname(Object message) {
-        val key = format("account_nickname_{}", message);
+        var key = format("user_nickname_{}", message);
         if (!RedisHelper.hasKey(key))
             NicknameHelper.load(message);
         return RedisHelper.get(key);
     }
 
     static String getNickname() {
-        return Opt.ofBlankAble(getLoginId())
+        return Opt.ofNullable(getLoginId())
                 .map(UserHelper::getNickname)
                 .get();
     }
 
     static String getTenant(Object message) {
-        val key = format("account_tenant_{}", message);
+        var key = format("user_tenant_{}", message);
         if (!RedisHelper.hasKey(key))
             TenantHelper.load(message);
         return RedisHelper.get(key);
     }
 
     static String getTenant() {
-        return Opt.ofBlankAble(getLoginId())
+        return Opt.ofNullable(getLoginId())
                 .map(UserHelper::getTenant)
                 .get();
     }

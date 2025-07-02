@@ -24,10 +24,10 @@ public class PageVO<T> implements Serializable {
     private Long total;
 
     public static <T> PageVO<T> of(Page<T> page) {
-        var totalRow = Opt.of(page)
+        var totalRow = Opt.ofNullable(page)
                 .map(Page::getTotalRow)
                 .get();
-        var records = Opt.of(page)
+        var records = Opt.ofNullable(page)
                 .map(Page::getRecords)
                 .get();
         return new PageVO<T>()
