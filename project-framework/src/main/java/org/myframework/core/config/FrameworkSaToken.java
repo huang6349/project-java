@@ -37,7 +37,7 @@ public class FrameworkSaToken implements WebMvcConfigurer {
                 .allowedOriginPatterns("*")
                 .allowedHeaders("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
-                .allowCredentials(true)
+                .allowCredentials(Boolean.TRUE)
                 .maxAge(3600L);
     }
 

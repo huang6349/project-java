@@ -67,7 +67,7 @@ public class PreCheckAspect {
 
         // 判断路由是否放行路由
         if (isIgnoreToken())
-            enabled = false;
+            enabled = Boolean.FALSE;
         // 鉴权
         if (enabled)
             checkMethodAnnotation(replace, method);
@@ -138,7 +138,7 @@ public class PreCheckAspect {
         // 获取当前访问的路由。获取不到直接return false
         var attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (ObjectUtil.isNull(attributes))
-            return false;
+            return Boolean.FALSE;
         var request = attributes.getRequest();
         var path = request.getRequestURI();
         // 判断当前访问的路由，是否是saToken放行路由.
