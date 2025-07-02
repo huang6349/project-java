@@ -36,7 +36,7 @@ public interface UserHelper extends ContextHelper {
                 .get();
     }
 
-    static void send(Object message) {
+    static void load(Object message) {
         NicknameHelper.load(message);
         TenantHelper.load(message);
     }

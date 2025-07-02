@@ -15,6 +15,6 @@ public class StpListener extends SaTokenListenerForSimple {
                         Object loginId,
                         String tokenValue,
                         SaLoginParameter loginParameter) {
-        UserHelper.send(loginId);
+        UserHelper.load(loginId);
     }
 }

@@ -48,7 +48,7 @@ public class UserServiceImpl extends ReactorServiceImpl<UserMapper, User> implem
                 .with(userBO);
         return updateById(data)
                 .thenReturn(id)
-                .doOnNext(UserHelper::send)
+                .doOnNext(UserHelper::load)
                 .thenReturn(Boolean.TRUE);
     }
 
