@@ -1,7 +1,6 @@
 package org.myframework.ai.config;
 
 import cn.hutool.log.StaticLog;
-import lombok.val;
 import org.myframework.ai.mcp.IMcpServerEndpoint;
 import org.noear.solon.Solon;
 import org.noear.solon.ai.chat.tool.MethodToolProvider;
@@ -27,9 +26,9 @@ public class FrameworkMcp {
         StaticLog.trace("启动人工智能");
         Solon.start(FrameworkMcp.class, new String[]{"--cfg=mcpserver.yml"});
         serverEndpoints.forEach(serverEndpoint -> {
-            val anno = findAnnotation(serverEndpoint.getClass(), McpServerEndpoint.class);
+            var anno = findAnnotation(serverEndpoint.getClass(), McpServerEndpoint.class);
             if (anno != null) {
-                val serverEndpointProvider = McpServerEndpointProvider.builder()
+                var serverEndpointProvider = McpServerEndpointProvider.builder()
                         .from(serverEndpoint.getClass(), anno)
                         .build();
                 serverEndpointProvider.addTool(new MethodToolProvider(serverEndpoint));
@@ -43,7 +42,7 @@ public class FrameworkMcp {
 
     @Bean
     FilterRegistrationBean<SolonServletFilter> mcpServerFilter() {
-        val filter = new FilterRegistrationBean<SolonServletFilter>();
+        var filter = new FilterRegistrationBean<SolonServletFilter>();
         filter.setName("SolonFilter");
         filter.addUrlPatterns("/mcp/*");
         filter.setFilter(new SolonServletFilter());
@@ -54,7 +53,7 @@ public class FrameworkMcp {
     void destroy() {
         StaticLog.trace("停止人工智能");
         if (Solon.app() != null) {
-            val delay = Solon.cfg().stopDelay();
+            var delay = Solon.cfg().stopDelay();
             Solon.stopBlock(Boolean.FALSE, delay);
         }
     }

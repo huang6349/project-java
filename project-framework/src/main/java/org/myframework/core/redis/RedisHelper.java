@@ -1,7 +1,6 @@
 package org.myframework.core.redis;
 
 import cn.hutool.log.StaticLog;
-import lombok.val;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -111,7 +110,7 @@ public class RedisHelper extends RedisTemplate {
 
     public static void send(Class<? extends MessageListener> listener,
                             Object message) {
-        val channelName = getChannelName(listener);
+        var channelName = getChannelName(listener);
         send(channelName, message);
     }
 

@@ -5,7 +5,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.log.StaticLog;
-import lombok.val;
 import org.myframework.core.satoken.util.ContextUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +32,7 @@ public class SaTokenInterceptor extends SaInterceptor {
     public SaTokenInterceptor() {
         super(handler -> {
             // 设置 ThreadLocal 的值
-            val loginId = StpUtil.getLoginIdDefaultNull();
+            var loginId = StpUtil.getLoginIdDefaultNull();
             Opt.ofBlankAble(loginId)
                     .map(Convert::toLong)
                     .ifPresent(ContextUtil::setLoginId);

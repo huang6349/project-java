@@ -2,7 +2,6 @@ package org.huangyalong.modules.system.web;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
-import lombok.val;
 import org.huangyalong.core.IntegrationTest;
 import org.huangyalong.modules.system.domain.Tenant;
 import org.huangyalong.modules.system.domain.TenantExtras;
@@ -90,8 +89,8 @@ class TenantControllerTest extends MyFrameworkTest {
                 .isNotNull();
         assertThat(testTenant.getIsDeleted())
                 .isEqualTo(IsDeleted.TYPE0);
-        val extras = testTenant.getExtras();
-        val testExtras = JSONUtil.parseObj(extras);
+        var extras = testTenant.getExtras();
+        var testExtras = JSONUtil.parseObj(extras);
         assertThat(testExtras.getRaw())
                 .isNotNull();
         assertThat(testExtras.getRaw())
@@ -175,8 +174,8 @@ class TenantControllerTest extends MyFrameworkTest {
                 .isNotNull();
         assertThat(testTenant.getIsDeleted())
                 .isEqualTo(IsDeleted.TYPE0);
-        val extras = testTenant.getExtras();
-        val testExtras = JSONUtil.parseObj(extras);
+        var extras = testTenant.getExtras();
+        var testExtras = JSONUtil.parseObj(extras);
         assertThat(testExtras.getRaw())
                 .isNotNull();
         assertThat(testExtras.getRaw())

@@ -3,7 +3,6 @@ package org.myframework.base.domain;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import lombok.val;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -18,7 +17,7 @@ public abstract class BaseConfigs<T extends BaseConfigs<T>> implements Serializa
     public Map<String, Object> getConfigs() {
         if (MapUtil.isEmpty(object))
             object = JSONUtil.parseObj(configs);
-        val raw = object.getRaw();
+        var raw = object.getRaw();
         return MapUtil.removeNullValue(raw);
     }
 
@@ -35,7 +34,7 @@ public abstract class BaseConfigs<T extends BaseConfigs<T>> implements Serializa
     }
 
     public T self() {
-        val $lombok$self = (T) this;
+        var $lombok$self = (T) this;
         return $lombok$self;
     }
 }

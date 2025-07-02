@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonStreamContext;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import lombok.val;
 import org.myframework.extra.dict.EnumDict;
 
 import java.io.IOException;
@@ -27,7 +26,7 @@ public class JKDictFormatSerializer extends StdSerializer<Object> {
         if (!(value instanceof EnumDict<?> enumDict)) {
             provider.defaultSerializeValue(value, gen);
         } else {
-            val currentName = Opt.ofNullable(gen)
+            var currentName = Opt.ofNullable(gen)
                     .map(JsonGenerator::getOutputContext)
                     .map(JsonStreamContext::getCurrentName)
                     .get();

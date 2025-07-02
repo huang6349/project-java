@@ -1,7 +1,6 @@
 package org.myframework.core.config;
 
 import cn.hutool.core.collection.CollUtil;
-import lombok.val;
 import org.myframework.core.redis.RedisHelper;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
@@ -21,12 +20,12 @@ public class FrameworkRedis {
     @Bean("redisMessageListenerContainer")
     RedisMessageListenerContainer container(ObjectProvider<MessageListener> listeners,
                                             RedisConnectionFactory factory) {
-        val container = new RedisMessageListenerContainer();
+        var container = new RedisMessageListenerContainer();
         container.setConnectionFactory(factory);
         if (CollUtil.isNotEmpty(listeners)) {
-            for (val listener : listeners) {
-                val channelName = getChannelName(listener.getClass());
-                val topic = new ChannelTopic(channelName);
+            for (var listener : listeners) {
+                var channelName = getChannelName(listener.getClass());
+                var topic = new ChannelTopic(channelName);
                 container.addMessageListener(listener, topic);
             }
         }
