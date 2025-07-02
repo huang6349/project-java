@@ -7,10 +7,12 @@ import org.huangyalong.modules.example.request.ExampleQueries;
 import org.huangyalong.modules.example.service.ExampleService;
 import org.myframework.base.response.ApiResponse;
 import org.myframework.base.web.ReactorController;
+import org.myframework.core.satoken.annotation.PreAuth;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+@PreAuth(replace = "@example")
 @RestController
 @RequestMapping("/example")
 @Tag(name = "示例管理")

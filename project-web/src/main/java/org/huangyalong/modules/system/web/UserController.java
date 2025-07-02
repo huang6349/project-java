@@ -8,10 +8,12 @@ import org.huangyalong.modules.system.request.UserQueries;
 import org.huangyalong.modules.system.service.UserService;
 import org.myframework.base.response.ApiResponse;
 import org.myframework.base.web.ReactorController;
+import org.myframework.core.satoken.annotation.PreAuth;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+@PreAuth(replace = "@user")
 @RestController
 @RequestMapping("/user")
 @Tag(name = "用户管理")

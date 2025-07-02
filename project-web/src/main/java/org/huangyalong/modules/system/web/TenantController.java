@@ -8,10 +8,12 @@ import org.huangyalong.modules.system.request.TenantQueries;
 import org.huangyalong.modules.system.service.TenantService;
 import org.myframework.base.response.ApiResponse;
 import org.myframework.base.web.ReactorController;
+import org.myframework.core.satoken.annotation.PreAuth;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+@PreAuth(replace = "@tenant")
 @RestController
 @RequestMapping("/tenant")
 @Tag(name = "租户管理")
