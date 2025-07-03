@@ -3,8 +3,8 @@ package org.myframework.extra.dict;
 import java.lang.annotation.*;
 
 @Documented
-@Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Dict {
 
     String category() default "";
