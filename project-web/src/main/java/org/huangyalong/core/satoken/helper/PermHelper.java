@@ -7,6 +7,7 @@ import org.huangyalong.modules.system.service.UserPermService;
 import org.myframework.core.redis.RedisHelper;
 
 import static cn.hutool.core.text.CharSequenceUtil.format;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 public interface PermHelper {
 
@@ -21,6 +22,7 @@ public interface PermHelper {
                     .toList();
             if (ObjectUtil.isNotEmpty(perms)) {
                 RedisHelper.lLeftPushAll(key, perms);
+                RedisHelper.expire(key, 30, MINUTES);
             }
         }
     }

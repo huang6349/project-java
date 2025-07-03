@@ -8,6 +8,7 @@ import org.huangyalong.modules.system.service.UserService;
 import org.myframework.core.redis.RedisHelper;
 
 import static cn.hutool.core.text.CharSequenceUtil.format;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 public interface TenantHelper {
 
@@ -22,6 +23,7 @@ public interface TenantHelper {
                     .orElse(null);
             if (ObjectUtil.isNotNull(tenant)) {
                 RedisHelper.set(key, tenant);
+                RedisHelper.expire(key, 30, MINUTES);
             }
         }
     }

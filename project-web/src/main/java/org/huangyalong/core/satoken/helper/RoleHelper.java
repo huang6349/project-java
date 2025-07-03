@@ -7,6 +7,7 @@ import org.huangyalong.modules.system.service.UserRoleService;
 import org.myframework.core.redis.RedisHelper;
 
 import static cn.hutool.core.text.CharSequenceUtil.format;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 public interface RoleHelper {
 
@@ -21,6 +22,7 @@ public interface RoleHelper {
                     .toList();
             if (ObjectUtil.isNotEmpty(roles)) {
                 RedisHelper.lLeftPushAll(key, roles);
+                RedisHelper.expire(key, 30, MINUTES);
             }
         }
     }
