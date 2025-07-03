@@ -13,13 +13,12 @@ public interface TenantHelper {
         if (ObjectUtil.isNotEmpty(message)) {
             var key = format("user_tenant_{}", message);
             RedisHelper.delete(key);
-            var optional = User.create()
+            var tenant = User.create()
                     .select(USER.TENANT_ID)
                     .where(USER.ID.eq(message))
-                    .oneAsOpt(String.class);
-            if (optional.isPresent()) {
-                var tenantId = optional.get();
-                RedisHelper.set(key, tenantId);
+                    .oneAs(String.class);
+            if (ObjectUtil.isNotEmpty(tenant)) {
+                RedisHelper.set(key, tenant);
             }
         }
     }

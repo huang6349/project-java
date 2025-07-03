@@ -12,10 +12,12 @@ import static org.huangyalong.core.satoken.helper.UserHelper.getTenant;
 @Service
 public class TenantFactoryImpl implements TenantFactory {
 
+    private final static Long[] EMPTY = new Long[]{0L};
+
     @Override
     public Object[] getTenantIds() {
         return Opt.ofNullable(getTenant())
                 .map(Convert::toLongArray)
-                .orElse(new Long[]{0L});
+                .orElse(EMPTY);
     }
 }

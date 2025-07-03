@@ -2,12 +2,9 @@ package org.huangyalong.core.satoken.stp;
 
 import cn.dev33.satoken.stp.StpInterface;
 import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.lang.Opt;
 import lombok.AllArgsConstructor;
-import org.huangyalong.modules.system.domain.Perm;
-import org.huangyalong.modules.system.domain.Role;
-import org.huangyalong.modules.system.service.UserPermService;
-import org.huangyalong.modules.system.service.UserRoleService;
+import org.huangyalong.core.satoken.helper.UserHelper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,29 +13,21 @@ import java.util.List;
 @Service
 public class StpInterfaceImpl implements StpInterface {
 
-    private final UserPermService permService;
-
-    private final UserRoleService roleService;
+    private final static List<String> EMPTY = ListUtil.empty();
 
     @Override
     public List<String> getPermissionList(Object loginId,
                                           String loginType) {
-        if (ObjectUtil.isNull(loginId))
-            return ListUtil.empty();
-        return permService.getBlockByUserId(loginId)
-                .stream()
-                .map(Perm::getCode)
-                .toList();
+        return Opt.ofBlankAble(loginId)
+                .map(UserHelper::getPerms)
+                .orElse(EMPTY);
     }
 
     @Override
     public List<String> getRoleList(Object loginId,
                                     String loginType) {
-        if (ObjectUtil.isNull(loginId))
-            return ListUtil.empty();
-        return roleService.getBlockByUserId(loginId)
-                .stream()
-                .map(Role::getCode)
-                .toList();
+        return Opt.ofBlankAble(loginId)
+                .map(UserHelper::getRoles)
+                .orElse(EMPTY);
     }
 }
