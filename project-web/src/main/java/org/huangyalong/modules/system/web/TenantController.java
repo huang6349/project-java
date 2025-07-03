@@ -34,13 +34,6 @@ public class TenantController extends ReactorController<
     }
 
     @Override
-    public ApiResponse<QueryWrapper> handlerQuery(Long id) {
-        var data = getReactorService().
-                getQueryWrapper(id);
-        return ApiResponse.ok(data);
-    }
-
-    @Override
     public ApiResponse<Mono<Boolean>> handlerSave(TenantBO tenantBO) {
         var data = getReactorService()
                 .add(tenantBO);

@@ -58,6 +58,12 @@ public interface TenantService extends ReactorService<Tenant> {
                 .from(TENANT);
     }
 
+    @Override
+    default Mono<Tenant> getById(Serializable id) {
+        var query = getQueryWrapper(id);
+        return getOne(query);
+    }
+
     Mono<Boolean> add(TenantBO tenantBO);
 
     Mono<Boolean> update(TenantBO tenantBO);

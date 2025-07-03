@@ -34,13 +34,6 @@ public class UserController extends ReactorController<
     }
 
     @Override
-    public ApiResponse<QueryWrapper> handlerQuery(Long id) {
-        var data = getReactorService()
-                .getQueryWrapper(id);
-        return ApiResponse.ok(data);
-    }
-
-    @Override
     public ApiResponse<Mono<Boolean>> handlerSave(UserBO userBO) {
         var data = getReactorService()
                 .add(userBO);

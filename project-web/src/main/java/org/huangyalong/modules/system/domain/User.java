@@ -127,4 +127,11 @@ public class User extends Entity<User, Long> {
                 .ifPresent(this::setDesc);
         return this;
     }
+
+    /****************** get *******************/
+
+    public String getNickname() {
+        return Opt.ofNullable(nickname)
+                .orElse(username);
+    }
 }
