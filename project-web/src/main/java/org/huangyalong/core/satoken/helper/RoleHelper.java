@@ -22,7 +22,7 @@ public final class RoleHelper {
                     .toList();
             if (ObjectUtil.isNotEmpty(roles)) {
                 RedisHelper.lLeftPushAll(key, roles);
-                RedisHelper.expire(key, 30, MINUTES);
+                RedisHelper.expire(key, 1, MINUTES);
             }
         }
     }

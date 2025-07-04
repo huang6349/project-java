@@ -22,7 +22,7 @@ public final class PermHelper {
                     .toList();
             if (ObjectUtil.isNotEmpty(perms)) {
                 RedisHelper.lLeftPushAll(key, perms);
-                RedisHelper.expire(key, 30, MINUTES);
+                RedisHelper.expire(key, 1, MINUTES);
             }
         }
     }
