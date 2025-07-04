@@ -64,11 +64,11 @@ public class RoleServiceImpl extends ReactorServiceImpl<RoleMapper, Role> implem
     void validateNameUnique(RoleBO roleBO) {
         var name = Opt.ofNullable(roleBO)
                 .map(RoleBO::getName)
-                .orElse(null);
+                .get();
         var id = Opt.ofNullable(roleBO)
                 .map(RoleBO::getId)
-                .orElse(null);
-        var exists = super.queryChain()
+                .get();
+        var exists = queryChain()
                 .where(ROLE.NAME.eq(name))
                 .and(ROLE.NAME.isNotNull())
                 .and(ROLE.ID.ne(id, If::notNull))
@@ -80,11 +80,11 @@ public class RoleServiceImpl extends ReactorServiceImpl<RoleMapper, Role> implem
     void validateCodeUnique(RoleBO roleBO) {
         var code = Opt.ofNullable(roleBO)
                 .map(RoleBO::getCode)
-                .orElse(null);
+                .get();
         var id = Opt.ofNullable(roleBO)
                 .map(RoleBO::getId)
-                .orElse(null);
-        var exists = super.queryChain()
+                .get();
+        var exists = queryChain()
                 .where(ROLE.CODE.eq(code))
                 .and(ROLE.CODE.isNotNull())
                 .and(ROLE.ID.ne(id, If::notNull))

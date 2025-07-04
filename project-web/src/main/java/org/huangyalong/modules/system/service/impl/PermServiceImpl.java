@@ -64,11 +64,11 @@ public class PermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> implem
     void validateNameUnique(PermBO permBO) {
         var name = Opt.ofNullable(permBO)
                 .map(PermBO::getName)
-                .orElse(null);
+                .get();
         var id = Opt.ofNullable(permBO)
                 .map(PermBO::getId)
-                .orElse(null);
-        var exists = super.queryChain()
+                .get();
+        var exists = queryChain()
                 .where(PERM.NAME.eq(name))
                 .and(PERM.NAME.isNotNull())
                 .and(PERM.ID.ne(id, If::notNull))
@@ -80,11 +80,11 @@ public class PermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> implem
     void validateCodeUnique(PermBO permBO) {
         var code = Opt.ofNullable(permBO)
                 .map(PermBO::getCode)
-                .orElse(null);
+                .get();
         var id = Opt.ofNullable(permBO)
                 .map(PermBO::getId)
-                .orElse(null);
-        var exists = super.queryChain()
+                .get();
+        var exists = queryChain()
                 .where(PERM.CODE.eq(code))
                 .and(PERM.CODE.isNotNull())
                 .and(PERM.ID.ne(id, If::notNull))

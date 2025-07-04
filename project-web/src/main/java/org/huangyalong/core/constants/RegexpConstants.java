@@ -8,5 +8,5 @@ public interface RegexpConstants {
 
     String MOBILE = "^(?:(?:\\+|00)86)?1\\d{10}$";
 
-    String CODE = "^[A-Za-z0-9]+$";
+    String CODE = "^[A-Za-z0-9@:._-]+$";
 }
