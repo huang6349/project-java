@@ -1,6 +1,7 @@
 package org.huangyalong.modules.system.domain;
 
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.lang.Opt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
@@ -11,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.huangyalong.modules.system.enums.RoleStatus;
+import org.huangyalong.modules.system.request.RoleBO;
 import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
 
@@ -44,4 +46,19 @@ public class Role extends Entity<Role, Long> {
     @JKDictFormat
     @Schema(description = "角色状态")
     private RoleStatus status;
+
+    /****************** with ******************/
+
+    public Role with(RoleBO roleBO) {
+        Opt.ofNullable(roleBO)
+                .map(RoleBO::getName)
+                .ifPresent(this::setName);
+        Opt.ofNullable(roleBO)
+                .map(RoleBO::getCode)
+                .ifPresent(this::setCode);
+        Opt.ofNullable(roleBO)
+                .map(RoleBO::getDesc)
+                .ifPresent(this::setDesc);
+        return this;
+    }
 }
