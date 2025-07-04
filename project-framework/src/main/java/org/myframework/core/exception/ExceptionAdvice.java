@@ -8,6 +8,7 @@ import cn.hutool.core.lang.Opt;
 import org.myframework.base.response.ApiResponse;
 import org.myframework.base.response.ShowType;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,7 +20,7 @@ public abstract class ExceptionAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.OK)
-    ApiResponse<?> handleException(MethodArgumentNotValidException ex) {
+    protected ApiResponse<?> handleException(MethodArgumentNotValidException ex) {
         return ApiResponse.fail(
                 Opt.ofNullable(ex)
                         .map(MethodArgumentNotValidException::getBindingResult)
@@ -31,9 +32,23 @@ public abstract class ExceptionAdvice {
         );
     }
 
+    @ExceptionHandler(BindException.class)
+    @ResponseStatus(HttpStatus.OK)
+    protected ApiResponse<?> handleException(BindException ex) {
+        return ApiResponse.fail(
+                Opt.ofNullable(ex)
+                        .map(BindException::getBindingResult)
+                        .map(BindingResult::getFieldError)
+                        .map(FieldError::getDefaultMessage)
+                        .get(),
+                ErrorCode.ERR_ARGUMENT.getCode(),
+                ex.getClass().getName()
+        );
+    }
+
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.OK)
-    ApiResponse<?> handleException(NoHandlerFoundException ex) {
+    protected ApiResponse<?> handleException(NoHandlerFoundException ex) {
         return ApiResponse.fail(
                 "请检查请求路径或者类别是否正确",
                 ErrorCode.NOT_FOUND.getCode(),
@@ -43,7 +58,7 @@ public abstract class ExceptionAdvice {
 
     @ExceptionHandler(NotLoginException.class)
     @ResponseStatus(HttpStatus.OK)
-    ApiResponse<?> handleException(NotLoginException ex) {
+    protected ApiResponse<?> handleException(NotLoginException ex) {
         return ApiResponse.fail(
                 switch (ex.getType()) {
                     case NotLoginException.NOT_TOKEN -> NotLoginException.NOT_TOKEN_MESSAGE;
@@ -61,7 +76,7 @@ public abstract class ExceptionAdvice {
 
     @ExceptionHandler(NotPermissionException.class)
     @ResponseStatus(HttpStatus.OK)
-    ApiResponse<?> handleException(NotPermissionException ex) {
+    protected ApiResponse<?> handleException(NotPermissionException ex) {
         return ApiResponse.fail(
                 ErrorCode.FORBIDDEN.getMessage(),
                 ErrorCode.FORBIDDEN.getCode(),
@@ -71,7 +86,7 @@ public abstract class ExceptionAdvice {
 
     @ExceptionHandler(NotRoleException.class)
     @ResponseStatus(HttpStatus.OK)
-    ApiResponse<?> handleException(NotRoleException ex) {
+    protected ApiResponse<?> handleException(NotRoleException ex) {
         return ApiResponse.fail(
                 ErrorCode.FORBIDDEN.getMessage(),
                 ErrorCode.FORBIDDEN.getCode(),
@@ -81,7 +96,7 @@ public abstract class ExceptionAdvice {
 
     @ExceptionHandler(SaTokenException.class)
     @ResponseStatus(HttpStatus.OK)
-    ApiResponse<?> handleException(SaTokenException ex) {
+    protected ApiResponse<?> handleException(SaTokenException ex) {
         if (ex instanceof NotLoginException)
             return handleException(ex);
         if (ex instanceof NotPermissionException)
@@ -97,7 +112,7 @@ public abstract class ExceptionAdvice {
 
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.OK)
-    ApiResponse<?> handleException(BusinessException ex) {
+    protected ApiResponse<?> handleException(BusinessException ex) {
         return ApiResponse.fail(
                 ex.getMessage(),
                 ex.getErrorCode(),
@@ -110,7 +125,7 @@ public abstract class ExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
-    ApiResponse<?> handleException(Exception ex) {
+    protected ApiResponse<?> handleException(Exception ex) {
         return ApiResponse.fail(
                 ErrorCode.ERR_BUSINESS.getMessage(),
                 ErrorCode.ERR_BUSINESS.getCode(),
