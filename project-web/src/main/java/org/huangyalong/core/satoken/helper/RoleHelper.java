@@ -9,7 +9,7 @@ import org.myframework.core.redis.RedisHelper;
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
-public interface RoleHelper {
+public final class RoleHelper {
 
     static void load(Object message) {
         if (ObjectUtil.isNotEmpty(message)) {

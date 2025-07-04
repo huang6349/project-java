@@ -9,9 +9,9 @@ import org.myframework.core.redis.RedisHelper;
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
-public interface NicknameHelper {
+public final class NicknameHelper {
 
-    static void load(Object message) {
+    public static void load(Object message) {
         if (ObjectUtil.isNotEmpty(message)) {
             var key = format("user_nickname_{}", message);
             RedisHelper.delete(key);
