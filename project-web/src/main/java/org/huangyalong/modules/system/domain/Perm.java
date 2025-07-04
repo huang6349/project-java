@@ -1,6 +1,7 @@
 package org.huangyalong.modules.system.domain;
 
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.lang.Opt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
@@ -11,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.huangyalong.modules.system.enums.PermStatus;
+import org.huangyalong.modules.system.request.PermBO;
 import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
 
@@ -44,4 +46,20 @@ public class Perm extends Entity<Perm, Long> {
     @JKDictFormat
     @Schema(description = "权限状态")
     private PermStatus status;
+
+    /****************** with ******************/
+
+    @SuppressWarnings("DuplicatedCode")
+    public Perm with(PermBO permBO) {
+        Opt.ofNullable(permBO)
+                .map(PermBO::getName)
+                .ifPresent(this::setName);
+        Opt.ofNullable(permBO)
+                .map(PermBO::getCode)
+                .ifPresent(this::setCode);
+        Opt.ofNullable(permBO)
+                .map(PermBO::getDesc)
+                .ifPresent(this::setDesc);
+        return this;
+    }
 }

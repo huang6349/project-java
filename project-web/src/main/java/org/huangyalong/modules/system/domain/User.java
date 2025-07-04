@@ -97,6 +97,7 @@ public class User extends Entity<User, Long> {
 
     /****************** with ******************/
 
+    @SuppressWarnings("DuplicatedCode")
     public User with(UserBO userBO) {
         Opt.ofNullable(userBO)
                 .map(UserBO::getUsername)

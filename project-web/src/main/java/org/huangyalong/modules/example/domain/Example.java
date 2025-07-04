@@ -49,6 +49,7 @@ public class Example extends Entity<Example, Long> {
 
     /****************** with ******************/
 
+    @SuppressWarnings("DuplicatedCode")
     public Example with(ExampleBO exampleBO) {
         Opt.ofNullable(exampleBO)
                 .map(ExampleBO::getName)
