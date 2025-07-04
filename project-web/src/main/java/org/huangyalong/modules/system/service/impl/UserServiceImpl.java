@@ -72,10 +72,10 @@ public class UserServiceImpl extends ReactorServiceImpl<UserMapper, User> implem
     void validatePasswordEqual(UserBO userBO) {
         var password1 = Opt.ofNullable(userBO)
                 .map(UserBO::getPassword1)
-                .orElse(null);
+                .get();
         var password2 = Opt.ofNullable(userBO)
                 .map(UserBO::getPassword2)
-                .orElse(null);
+                .get();
         var equal = ObjectUtil.equal(password1, password2);
         if (BooleanUtil.isTrue(equal)) return;
         throw new BusinessException("两次密码不一致");
@@ -84,10 +84,10 @@ public class UserServiceImpl extends ReactorServiceImpl<UserMapper, User> implem
     void validateUsernameUnique(UserBO userBO) {
         var username = Opt.ofNullable(userBO)
                 .map(UserBO::getUsername)
-                .orElse(null);
+                .get();
         var id = Opt.ofNullable(userBO)
                 .map(UserBO::getId)
-                .orElse(null);
+                .get();
         if (ObjectUtil.isNotNull(id)) return;
         var exists = queryChain()
                 .where(USER.USERNAME.eq(username))
@@ -100,10 +100,10 @@ public class UserServiceImpl extends ReactorServiceImpl<UserMapper, User> implem
     void validateUsernameUpdate(UserBO userBO) {
         var username = Opt.ofNullable(userBO)
                 .map(UserBO::getUsername)
-                .orElse(null);
+                .get();
         var id = Opt.ofNullable(userBO)
                 .map(UserBO::getId)
-                .orElse(null);
+                .get();
         if (ObjectUtil.isNull(id)) return;
         var exists = queryChain()
                 .where(USER.USERNAME.ne(username))
@@ -117,10 +117,10 @@ public class UserServiceImpl extends ReactorServiceImpl<UserMapper, User> implem
     void validateMobileUnique(UserBO userBO) {
         var mobile = Opt.ofNullable(userBO)
                 .map(UserBO::getMobile)
-                .orElse(null);
+                .get();
         var id = Opt.ofNullable(userBO)
                 .map(UserBO::getId)
-                .orElse(null);
+                .get();
         var exists = queryChain()
                 .where(USER.MOBILE.eq(mobile))
                 .and(USER.MOBILE.isNotNull())
@@ -133,10 +133,10 @@ public class UserServiceImpl extends ReactorServiceImpl<UserMapper, User> implem
     void validateEmailUnique(UserBO userBO) {
         var email = Opt.ofNullable(userBO)
                 .map(UserBO::getEmail)
-                .orElse(null);
+                .get();
         var id = Opt.ofNullable(userBO)
                 .map(UserBO::getId)
-                .orElse(null);
+                .get();
         var exists = queryChain()
                 .where(USER.EMAIL.eq(email))
                 .and(USER.EMAIL.isNotNull())
