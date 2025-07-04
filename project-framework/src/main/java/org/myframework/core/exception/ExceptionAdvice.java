@@ -1,4 +1,4 @@
-package org.myframework.core.config;
+package org.myframework.core.exception;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
@@ -7,21 +7,15 @@ import cn.dev33.satoken.exception.SaTokenException;
 import cn.hutool.core.lang.Opt;
 import org.myframework.base.response.ApiResponse;
 import org.myframework.base.response.ShowType;
-import org.myframework.core.exception.BusinessException;
-import org.myframework.core.exception.ErrorCode;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-@Configuration
-@RestControllerAdvice
-public class FrameworkException {
+public abstract class ExceptionAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.OK)

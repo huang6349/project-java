@@ -25,7 +25,7 @@ import static cn.hutool.json.JSONUtil.toJsonStr;
 import static reactor.core.publisher.Mono.fromSupplier;
 
 @SuppressWarnings({"deprecation", "ReactiveStreamsUnusedPublisher"})
-public abstract class ApiResponseAdvice implements ResponseBodyAdvice<Object> {
+public abstract class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     protected final Set<String> excludes = newHashSet("org.springdoc");
 
