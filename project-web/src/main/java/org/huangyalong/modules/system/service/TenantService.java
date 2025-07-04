@@ -50,9 +50,7 @@ public interface TenantService extends ReactorService<Tenant> {
                         TENANT.DESC,
                         TENANT.STATUS,
                         TENANT.CREATE_TIME,
-                        TENANT.UPDATE_TIME,
-                        TENANT.VERSION,
-                        TENANT.IS_DELETED)
+                        TENANT.UPDATE_TIME)
                 .select(ue(TENANT.EXTRAS, NAME_ABBR).as(Tenant::getAbbr),
                         ue(TENANT.EXTRAS, NAME_AREA).as(Tenant::getArea))
                 .from(TENANT);

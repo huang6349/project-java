@@ -34,9 +34,7 @@ public interface RoleService extends ReactorService<Role> {
                         ROLE.DESC,
                         ROLE.STATUS,
                         ROLE.CREATE_TIME,
-                        ROLE.UPDATE_TIME,
-                        ROLE.VERSION,
-                        ROLE.IS_DELETED)
+                        ROLE.UPDATE_TIME)
                 .from(ROLE);
     }
 

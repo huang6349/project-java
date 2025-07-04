@@ -51,9 +51,7 @@ public interface UserService extends ReactorService<User> {
                         USER.STATUS,
                         USER.TENANT_ID,
                         USER.CREATE_TIME,
-                        USER.UPDATE_TIME,
-                        USER.VERSION,
-                        USER.IS_DELETED)
+                        USER.UPDATE_TIME)
                 .select(ue(USER.EXTRAS, NAME_NICKNAME).as(User::getNickname),
                         ue(USER.EXTRAS, NAME_AVATAR).as(User::getAvatar),
                         ue(USER.EXTRAS, NAME_GENDER).as(User::getGender),

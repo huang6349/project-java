@@ -34,9 +34,7 @@ public interface PermService extends ReactorService<Perm> {
                         PERM.DESC,
                         PERM.STATUS,
                         PERM.CREATE_TIME,
-                        PERM.UPDATE_TIME,
-                        PERM.VERSION,
-                        PERM.IS_DELETED)
+                        PERM.UPDATE_TIME)
                 .from(PERM);
     }
 
