@@ -20,7 +20,7 @@ public interface UserUtil {
     String DEFAULT_ADDRESS = RandomUtil.randomString(12);
     String DEFAULT_DESC = RandomUtil.randomString(12);
 
-    String UPDATED_PASSWORD = "b12345";
+    String UPDATED_PASSWORD = "b123456";
     String UPDATED_NICKNAME = RandomUtil.randomString(12);
     String UPDATED_MOBILE = "15123456789";
     String UPDATED_EMAIL = "15123456789@qq.com";
