@@ -13,7 +13,7 @@ public abstract class MyFrameworkTest {
 
     @BeforeEach
     @Order(Integer.MIN_VALUE)
-    void initTest() {
+    void beforeTest() {
         StpUtil.login(DEFAULT_LOGIN);
         StaticLog.trace("InitTest 初始化完成，测试用户已注入");
     }
