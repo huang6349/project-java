@@ -10,7 +10,6 @@ import org.huangyalong.modules.system.enums.UserGender;
 import org.huangyalong.modules.system.enums.UserStatus;
 import org.huangyalong.modules.system.request.UserPasswordUtil;
 import org.huangyalong.modules.system.request.UserUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.myframework.test.MyFrameworkTest;
@@ -29,12 +28,6 @@ class UserPasswordControllerTest extends MyFrameworkTest {
 
     @Autowired
     WebTestClient testClient;
-
-    @BeforeEach
-    void initTest() {
-        var id = 10000000000000000L;
-        StpUtil.login(id);
-    }
 
     @Order(1)
     @Test
@@ -75,8 +68,7 @@ class UserPasswordControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var id = 10000000000000000L;
-        StpUtil.login(id);
+        StpUtil.login(DEFAULT_LOGIN);
         var afterSize = User.create()
                 .count();
         assertThat(beforeSize + 1)

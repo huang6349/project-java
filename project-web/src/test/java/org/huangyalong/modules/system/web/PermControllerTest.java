@@ -5,7 +5,6 @@ import org.huangyalong.core.IntegrationTest;
 import org.huangyalong.modules.system.domain.Perm;
 import org.huangyalong.modules.system.enums.PermStatus;
 import org.huangyalong.modules.system.request.PermUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.myframework.core.enums.IsDeleted;
@@ -26,12 +25,6 @@ class PermControllerTest extends MyFrameworkTest {
 
     @Autowired
     WebTestClient testClient;
-
-    @BeforeEach
-    void initTest() {
-        var id = 10000000000000000L;
-        StpUtil.login(id);
-    }
 
     @Order(1)
     @Test

@@ -9,7 +9,6 @@ import org.huangyalong.modules.system.domain.UserExtras;
 import org.huangyalong.modules.system.enums.UserGender;
 import org.huangyalong.modules.system.enums.UserStatus;
 import org.huangyalong.modules.system.request.UserUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.myframework.test.MyFrameworkTest;
@@ -29,12 +28,6 @@ class UserControllerTest extends MyFrameworkTest {
 
     @Autowired
     WebTestClient testClient;
-
-    @BeforeEach
-    void initTest() {
-        var id = 10000000000000000L;
-        StpUtil.login(id);
-    }
 
     @Order(1)
     @Test

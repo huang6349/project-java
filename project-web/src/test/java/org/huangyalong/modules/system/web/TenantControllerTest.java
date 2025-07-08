@@ -8,7 +8,6 @@ import org.huangyalong.modules.system.domain.TenantExtras;
 import org.huangyalong.modules.system.enums.TenantCategory;
 import org.huangyalong.modules.system.enums.TenantStatus;
 import org.huangyalong.modules.system.request.TenantUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.myframework.core.enums.IsDeleted;
@@ -29,12 +28,6 @@ class TenantControllerTest extends MyFrameworkTest {
 
     @Autowired
     WebTestClient testClient;
-
-    @BeforeEach
-    void initTest() {
-        var id = 10000000000000000L;
-        StpUtil.login(id);
-    }
 
     @Order(1)
     @Test
