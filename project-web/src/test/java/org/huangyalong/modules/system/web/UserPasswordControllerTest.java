@@ -8,7 +8,7 @@ import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.domain.UserExtras;
 import org.huangyalong.modules.system.enums.UserGender;
 import org.huangyalong.modules.system.enums.UserStatus;
-import org.huangyalong.modules.system.request.UserPasswordUtil;
+import org.huangyalong.modules.system.request.PasswordUtil;
 import org.huangyalong.modules.system.request.UserUtil;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -59,7 +59,7 @@ class UserPasswordControllerTest extends MyFrameworkTest {
                 .uri("/user/password")
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(UserPasswordUtil.createBO())
+                .bodyValue(PasswordUtil.createBO())
                 .exchange()
                 .expectStatus()
                 .isOk()

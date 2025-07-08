@@ -14,7 +14,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 @Data
 @ToString
 @Schema(name = "修改密码-BO")
-public class UserPasswordBO implements Serializable {
+public class PasswordBO implements Serializable {
 
     @Schema(description = "旧的密码")
     private String oldPassword;

@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import org.huangyalong.core.satoken.helper.UserHelper;
 import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.mapper.UserMapper;
-import org.huangyalong.modules.system.request.UserPasswordBO;
+import org.huangyalong.modules.system.request.PasswordBO;
 import org.huangyalong.modules.system.service.UserPasswordService;
 import org.myframework.core.exception.BusinessException;
 import org.springframework.stereotype.Service;
@@ -22,15 +22,15 @@ import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
 public class UserPasswordServiceImpl extends ReactorServiceImpl<UserMapper, User> implements UserPasswordService {
 
     @Transactional(rollbackFor = Exception.class)
-    public Mono<Boolean> update(UserPasswordBO userPasswordBO) {
-        var oldPassword = Opt.ofNullable(userPasswordBO)
-                .map(UserPasswordBO::getOldPassword)
+    public Mono<Boolean> update(PasswordBO passwordBO) {
+        var oldPassword = Opt.ofNullable(passwordBO)
+                .map(PasswordBO::getOldPassword)
                 .get();
-        var newPassword = Opt.ofNullable(userPasswordBO)
-                .map(UserPasswordBO::getNewPassword)
+        var newPassword = Opt.ofNullable(passwordBO)
+                .map(PasswordBO::getNewPassword)
                 .get();
-        var confirm = Opt.ofNullable(userPasswordBO)
-                .map(UserPasswordBO::getConfirm)
+        var confirm = Opt.ofNullable(passwordBO)
+                .map(PasswordBO::getConfirm)
                 .get();
         if (ObjectUtil.notEqual(newPassword, confirm))
             throw new BusinessException("两次密码不一致");
