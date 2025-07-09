@@ -101,10 +101,7 @@ public interface EsService<Entity> {
     default Mono<EsPageInfo<Entity>> page(Integer pageNumber,
                                           Integer pageSize) {
         StaticLog.trace("根据查询条件分页查询数据");
-        return page(pageNumber,
-                pageSize,
-                query()
-        );
+        return page(pageNumber, pageSize, query());
     }
 
     // ===== 查询包装器操作 =====
