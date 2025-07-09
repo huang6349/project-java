@@ -28,28 +28,28 @@ public class UserController extends ReactorController<
 
     @Override
     public ApiResponse<QueryWrapper> handlerQuery(UserQueries queries) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .getQueryWrapper(queries);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerSave(UserBO userBO) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .add(userBO);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerUpdate(UserBO userBO) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .update(userBO);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerDelete(Long id) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .delete(id);
         return ApiResponse.ok(data);
     }

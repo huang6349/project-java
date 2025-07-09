@@ -27,21 +27,21 @@ public class ExampleController extends ReactorController<
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerSave(ExampleBO exampleBO) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .add(exampleBO);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerUpdate(ExampleBO exampleBO) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .update(exampleBO);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerDelete(Long id) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .delete(id);
         return ApiResponse.ok(data);
     }

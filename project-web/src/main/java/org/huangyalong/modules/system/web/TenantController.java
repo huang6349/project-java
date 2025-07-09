@@ -28,28 +28,28 @@ public class TenantController extends ReactorController<
 
     @Override
     public ApiResponse<QueryWrapper> handlerQuery(TenantQueries queries) {
-        var data = getReactorService().
+        var data = getBaseService().
                 getQueryWrapper(queries);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerSave(TenantBO tenantBO) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .add(tenantBO);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerUpdate(TenantBO tenantBO) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .update(tenantBO);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerDelete(Long id) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .delete(id);
         return ApiResponse.ok(data);
     }

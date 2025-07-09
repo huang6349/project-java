@@ -28,28 +28,28 @@ public class RoleController extends ReactorController<
 
     @Override
     public ApiResponse<QueryWrapper> handlerQuery(RoleQueries queries) {
-        var data = getReactorService().
+        var data = getBaseService().
                 getQueryWrapper(queries);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerSave(RoleBO roleBO) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .add(roleBO);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerUpdate(RoleBO roleBO) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .update(roleBO);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerDelete(Long id) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .delete(id);
         return ApiResponse.ok(data);
     }

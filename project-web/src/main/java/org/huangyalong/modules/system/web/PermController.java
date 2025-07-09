@@ -28,28 +28,28 @@ public class PermController extends ReactorController<
 
     @Override
     public ApiResponse<QueryWrapper> handlerQuery(PermQueries queries) {
-        var data = getReactorService().
+        var data = getBaseService().
                 getQueryWrapper(queries);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerSave(PermBO permBO) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .add(permBO);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerUpdate(PermBO permBO) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .update(permBO);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerDelete(Long id) {
-        var data = getReactorService()
+        var data = getBaseService()
                 .delete(id);
         return ApiResponse.ok(data);
     }
