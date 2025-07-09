@@ -14,11 +14,11 @@ public abstract class ReactorController<
         Queries,
         SaveBO,
         UpdateBO>
-        extends ReactiveController<S, Entity>
-        implements ReactiveQueryController<Entity, Id, Queries>,
-        ReactiveSaveController<Entity, SaveBO>,
-        ReactiveUpdateController<Entity, UpdateBO>,
-        ReactiveDeleteController<Entity, Id> {
+        extends SuperSimpleController<S, Entity>
+        implements QueryController<Entity, Id, Queries>,
+        SaveController<Entity, SaveBO>,
+        UpdateController<Entity, UpdateBO>,
+        DeleteController<Entity, Id> {
 
     @Override
     public Class<Entity> getEntityClass() {

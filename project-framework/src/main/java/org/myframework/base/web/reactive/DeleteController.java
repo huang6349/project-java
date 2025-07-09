@@ -4,6 +4,7 @@ import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.log.StaticLog;
 import io.swagger.v3.oas.annotations.Operation;
 import org.myframework.base.response.ApiResponse;
+import org.myframework.base.web.BaseController;
 import org.myframework.core.satoken.annotation.PreCheckPermission;
 import org.myframework.core.satoken.annotation.PreMode;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
 
-public interface ReactiveDeleteController<Entity, Id extends Serializable> extends ReactiveBaseController<Entity> {
+public interface DeleteController<Entity, Id extends Serializable> extends BaseController<Entity> {
 
     @PreCheckPermission(value = {"{}:delete", "{}:remove"}, mode = PreMode.OR)
     @DeleteMapping("/{id:.+}")
@@ -21,7 +22,7 @@ public interface ReactiveDeleteController<Entity, Id extends Serializable> exten
         var result = handlerDelete(id);
         if (BooleanUtil.isFalse(result.getDefExec()))
             return result.getData();
-        return getReactorService()
+        return getBaseService()
                 .removeById(id);
     }
 

@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.myframework.base.request.PageQueries;
 import org.myframework.base.response.PageVO;
 import org.myframework.base.response.ApiResponse;
+import org.myframework.base.web.BaseController;
 import org.myframework.core.satoken.annotation.PreCheckPermission;
 import org.myframework.core.satoken.annotation.PreMode;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,7 @@ import java.io.Serializable;
 import static org.myframework.base.request.PageQueries.DEFAULT_PAGE_NUMBER;
 import static org.myframework.base.request.PageQueries.DEFAULT_PAGE_SIZE;
 
-public interface ReactiveQueryController<Entity, Id extends Serializable, Queries> extends ReactiveBaseController<Entity> {
+public interface QueryController<Entity, Id extends Serializable, Queries> extends BaseController<Entity> {
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/_query/paging")
@@ -40,10 +41,10 @@ public interface ReactiveQueryController<Entity, Id extends Serializable, Querie
                 .orElse(DEFAULT_PAGE_SIZE);
         var page = new Page<Entity>(pageNumber, pageSize);
         if (BooleanUtil.isFalse(result.getDefExec()))
-            return getReactorService()
+            return getBaseService()
                     .pageOnce(page, query)
                     .map(PageVO::of);
-        return getReactorService()
+        return getBaseService()
                 .pageOnce(page)
                 .map(PageVO::of);
     }
@@ -55,9 +56,9 @@ public interface ReactiveQueryController<Entity, Id extends Serializable, Querie
         var result = handlerQuery(queries);
         var query = result.getData();
         if (BooleanUtil.isFalse(result.getDefExec()))
-            return getReactorService()
+            return getBaseService()
                     .list(query);
-        return getReactorService()
+        return getBaseService()
                 .list();
     }
 
@@ -68,9 +69,9 @@ public interface ReactiveQueryController<Entity, Id extends Serializable, Querie
         var result = handlerQuery(id);
         var query = result.getData();
         if (BooleanUtil.isFalse(result.getDefExec()))
-            return getReactorService()
+            return getBaseService()
                     .getOne(query);
-        return getReactorService()
+        return getBaseService()
                 .getById(id);
     }
 

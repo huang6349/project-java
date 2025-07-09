@@ -6,6 +6,7 @@ import cn.hutool.log.StaticLog;
 import io.swagger.v3.oas.annotations.Operation;
 import org.myframework.base.response.ApiResponse;
 import org.myframework.base.validation.Save;
+import org.myframework.base.web.BaseController;
 import org.myframework.core.satoken.annotation.PreCheckPermission;
 import org.myframework.core.satoken.annotation.PreMode;
 import org.springframework.validation.annotation.Validated;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import reactor.core.publisher.Mono;
 
-public interface ReactiveSaveController<Entity, SaveBO> extends ReactiveBaseController<Entity> {
+public interface SaveController<Entity, SaveBO> extends BaseController<Entity> {
 
     @PreCheckPermission(value = {"{}:add", "{}:save"}, mode = PreMode.OR)
     @PostMapping
@@ -24,7 +25,7 @@ public interface ReactiveSaveController<Entity, SaveBO> extends ReactiveBaseCont
             return result.getData();
         // SaveBO -> Entity
         var entity = BeanUtil.toBean(saveBO, getEntityClass());
-        return getReactorService()
+        return getBaseService()
                 .save(entity);
     }
 

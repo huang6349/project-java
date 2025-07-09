@@ -1,11 +1,11 @@
 package org.myframework.base.web;
 
-import com.mybatisflex.core.service.IService;
+import com.mybatis.flex.reactor.core.ReactorService;
 
 @SuppressWarnings("unused")
 public interface BaseController<Entity> {
 
-    IService<Entity> getBaseService();
+    ReactorService<Entity> getBaseService();
 
     Class<Entity> getEntityClass();
 }

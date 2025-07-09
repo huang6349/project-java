@@ -1,23 +1,16 @@
-package org.myframework.base.web.reactive;
+package org.myframework.base.web;
 
 import cn.hutool.core.util.TypeUtil;
 import com.mybatis.flex.reactor.core.ReactorService;
-import com.mybatisflex.core.service.IService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection", "LombokGetterMayBeUsed", "unchecked"})
-public abstract class ReactiveController<S extends ReactorService<Entity>, Entity> implements ReactiveBaseController<Entity> {
+public abstract class SuperSimpleController<S extends ReactorService<Entity>, Entity> implements BaseController<Entity> {
 
     @Autowired
     @Getter
-    protected S reactorService;
-
-    @Override
-    public IService<Entity> getBaseService() {
-        return getReactorService()
-                .getBlockService();
-    }
+    protected S baseService;
 
     @Override
     public Class<Entity> getEntityClass() {
