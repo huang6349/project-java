@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 
 @AutoConfigureMockMvc
@@ -34,10 +33,10 @@ class DictControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.[*].label")
-                .value(hasItem("批量上传"))
-                .jsonPath("$.data.[*].value")
-                .value(hasItem("1"));
+                .jsonPath("$.data.[0].label")
+                .value(is("人工录入"))
+                .jsonPath("$.data.[0].value")
+                .value(is("0"));
     }
 
     @Order(2)

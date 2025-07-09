@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.huangyalong.modules.example.domain.table.ExampleTableDef.EXAMPLE;
 
@@ -177,12 +176,12 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.list.[*].name")
-                .value(hasItem(ExampleUtil.DEFAULT_NAME))
-                .jsonPath("$.data.list.[*].desc")
-                .value(hasItem(ExampleUtil.DEFAULT_DESC))
-                .jsonPath("$.data.list.[*].status")
-                .value(hasItem(ExampleStatus.TYPE0.getValue()));
+                .jsonPath("$.data.list.[0].name")
+                .value(is(ExampleUtil.DEFAULT_NAME))
+                .jsonPath("$.data.list.[0].desc")
+                .value(is(ExampleUtil.DEFAULT_DESC))
+                .jsonPath("$.data.list.[0].status")
+                .value(is(ExampleStatus.TYPE0.getValue()));
         var afterSize = Example.create()
                 .count();
         assertThat(beforeSize + 1)
@@ -218,12 +217,12 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.[*].name")
-                .value(hasItem(ExampleUtil.DEFAULT_NAME))
-                .jsonPath("$.data.[*].desc")
-                .value(hasItem(ExampleUtil.DEFAULT_DESC))
-                .jsonPath("$.data.[*].status")
-                .value(hasItem(ExampleStatus.TYPE0.getValue()));
+                .jsonPath("$.data.[0].name")
+                .value(is(ExampleUtil.DEFAULT_NAME))
+                .jsonPath("$.data.[0].desc")
+                .value(is(ExampleUtil.DEFAULT_DESC))
+                .jsonPath("$.data.[0].status")
+                .value(is(ExampleStatus.TYPE0.getValue()));
         var afterSize = Example.create()
                 .count();
         assertThat(beforeSize + 1)

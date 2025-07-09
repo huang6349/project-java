@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.huangyalong.modules.system.domain.table.PermTableDef.PERM;
 
@@ -179,14 +178,14 @@ class PermControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.list.[*].name")
-                .value(hasItem(PermUtil.DEFAULT_NAME))
-                .jsonPath("$.data.list.[*].code")
-                .value(hasItem(PermUtil.DEFAULT_CODE))
-                .jsonPath("$.data.list.[*].desc")
-                .value(hasItem(PermUtil.DEFAULT_DESC))
-                .jsonPath("$.data.list.[*].status")
-                .value(hasItem(PermStatus.TYPE0.getValue()));
+                .jsonPath("$.data.list.[0].name")
+                .value(is(PermUtil.DEFAULT_NAME))
+                .jsonPath("$.data.list.[0].code")
+                .value(is(PermUtil.DEFAULT_CODE))
+                .jsonPath("$.data.list.[0].desc")
+                .value(is(PermUtil.DEFAULT_DESC))
+                .jsonPath("$.data.list.[0].status")
+                .value(is(PermStatus.TYPE0.getValue()));
         var afterSize = Perm.create()
                 .count();
         assertThat(beforeSize + 1)
@@ -222,14 +221,14 @@ class PermControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.[*].name")
-                .value(hasItem(PermUtil.DEFAULT_NAME))
-                .jsonPath("$.data.[*].code")
-                .value(hasItem(PermUtil.DEFAULT_CODE))
-                .jsonPath("$.data.[*].desc")
-                .value(hasItem(PermUtil.DEFAULT_DESC))
-                .jsonPath("$.data.[*].status")
-                .value(hasItem(PermStatus.TYPE0.getValue()));
+                .jsonPath("$.data.[0].name")
+                .value(is(PermUtil.DEFAULT_NAME))
+                .jsonPath("$.data.[0].code")
+                .value(is(PermUtil.DEFAULT_CODE))
+                .jsonPath("$.data.[0].desc")
+                .value(is(PermUtil.DEFAULT_DESC))
+                .jsonPath("$.data.[0].status")
+                .value(is(PermStatus.TYPE0.getValue()));
         var afterSize = Perm.create()
                 .count();
         assertThat(beforeSize + 1)

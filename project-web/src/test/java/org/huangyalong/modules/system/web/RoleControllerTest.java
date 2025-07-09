@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
 
@@ -179,14 +178,14 @@ class RoleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.list.[*].name")
-                .value(hasItem(RoleUtil.DEFAULT_NAME))
-                .jsonPath("$.data.list.[*].code")
-                .value(hasItem(RoleUtil.DEFAULT_CODE))
-                .jsonPath("$.data.list.[*].desc")
-                .value(hasItem(RoleUtil.DEFAULT_DESC))
-                .jsonPath("$.data.list.[*].status")
-                .value(hasItem(RoleStatus.TYPE0.getValue()));
+                .jsonPath("$.data.list.[0].name")
+                .value(is(RoleUtil.DEFAULT_NAME))
+                .jsonPath("$.data.list.[0].code")
+                .value(is(RoleUtil.DEFAULT_CODE))
+                .jsonPath("$.data.list.[0].desc")
+                .value(is(RoleUtil.DEFAULT_DESC))
+                .jsonPath("$.data.list.[0].status")
+                .value(is(RoleStatus.TYPE0.getValue()));
         var afterSize = Role.create()
                 .count();
         assertThat(beforeSize + 1)
@@ -222,14 +221,14 @@ class RoleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.[*].name")
-                .value(hasItem(RoleUtil.DEFAULT_NAME))
-                .jsonPath("$.data.[*].code")
-                .value(hasItem(RoleUtil.DEFAULT_CODE))
-                .jsonPath("$.data.[*].desc")
-                .value(hasItem(RoleUtil.DEFAULT_DESC))
-                .jsonPath("$.data.[*].status")
-                .value(hasItem(RoleStatus.TYPE0.getValue()));
+                .jsonPath("$.data.[0].name")
+                .value(is(RoleUtil.DEFAULT_NAME))
+                .jsonPath("$.data.[0].code")
+                .value(is(RoleUtil.DEFAULT_CODE))
+                .jsonPath("$.data.[0].desc")
+                .value(is(RoleUtil.DEFAULT_DESC))
+                .jsonPath("$.data.[0].status")
+                .value(is(RoleStatus.TYPE0.getValue()));
         var afterSize = Role.create()
                 .count();
         assertThat(beforeSize + 1)

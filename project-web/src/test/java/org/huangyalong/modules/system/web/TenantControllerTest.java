@@ -18,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.huangyalong.modules.system.domain.table.TenantTableDef.TENANT;
 
@@ -208,20 +207,20 @@ class TenantControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.list.[*].name")
-                .value(hasItem(TenantUtil.DEFAULT_NAME))
-                .jsonPath("$.data.list.[*].category")
-                .value(hasItem(TenantUtil.DEFAULT_CATEGORY))
-                .jsonPath("$.data.list.[*].address")
-                .value(hasItem(TenantUtil.DEFAULT_ADDRESS))
-                .jsonPath("$.data.list.[*].abbr")
-                .value(hasItem(TenantUtil.DEFAULT_ABBR))
-                .jsonPath("$.data.list.[*].area")
-                .value(hasItem(TenantUtil.DEFAULT_AREA))
-                .jsonPath("$.data.list.[*].desc")
-                .value(hasItem(TenantUtil.DEFAULT_DESC))
-                .jsonPath("$.data.list.[*].status")
-                .value(hasItem(TenantStatus.TYPE0.getValue()));
+                .jsonPath("$.data.list.[0].name")
+                .value(is(TenantUtil.DEFAULT_NAME))
+                .jsonPath("$.data.list.[0].category")
+                .value(is(TenantUtil.DEFAULT_CATEGORY))
+                .jsonPath("$.data.list.[0].address")
+                .value(is(TenantUtil.DEFAULT_ADDRESS))
+                .jsonPath("$.data.list.[0].abbr")
+                .value(is(TenantUtil.DEFAULT_ABBR))
+                .jsonPath("$.data.list.[0].area")
+                .value(is(TenantUtil.DEFAULT_AREA))
+                .jsonPath("$.data.list.[0].desc")
+                .value(is(TenantUtil.DEFAULT_DESC))
+                .jsonPath("$.data.list.[0].status")
+                .value(is(TenantStatus.TYPE0.getValue()));
         var afterSize = Tenant.create()
                 .count();
         assertThat(beforeSize + 1)
@@ -257,20 +256,20 @@ class TenantControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.[*].name")
-                .value(hasItem(TenantUtil.DEFAULT_NAME))
-                .jsonPath("$.data.[*].category")
-                .value(hasItem(TenantUtil.DEFAULT_CATEGORY))
-                .jsonPath("$.data.[*].address")
-                .value(hasItem(TenantUtil.DEFAULT_ADDRESS))
-                .jsonPath("$.data.[*].abbr")
-                .value(hasItem(TenantUtil.DEFAULT_ABBR))
-                .jsonPath("$.data.[*].area")
-                .value(hasItem(TenantUtil.DEFAULT_AREA))
-                .jsonPath("$.data.[*].desc")
-                .value(hasItem(TenantUtil.DEFAULT_DESC))
-                .jsonPath("$.data.[*].status")
-                .value(hasItem(TenantStatus.TYPE0.getValue()));
+                .jsonPath("$.data.[0].name")
+                .value(is(TenantUtil.DEFAULT_NAME))
+                .jsonPath("$.data.[0].category")
+                .value(is(TenantUtil.DEFAULT_CATEGORY))
+                .jsonPath("$.data.[0].address")
+                .value(is(TenantUtil.DEFAULT_ADDRESS))
+                .jsonPath("$.data.[0].abbr")
+                .value(is(TenantUtil.DEFAULT_ABBR))
+                .jsonPath("$.data.[0].area")
+                .value(is(TenantUtil.DEFAULT_AREA))
+                .jsonPath("$.data.[0].desc")
+                .value(is(TenantUtil.DEFAULT_DESC))
+                .jsonPath("$.data.[0].status")
+                .value(is(TenantStatus.TYPE0.getValue()));
         var afterSize = Tenant.create()
                 .count();
         assertThat(beforeSize + 1)
