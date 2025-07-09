@@ -61,6 +61,11 @@ public interface EsService<Entity> {
         });
     }
 
+    default Flux<Entity> list() {
+        StaticLog.trace("根据查询条件查询数据集合");
+        return list(query());
+    }
+
     default Mono<Long> count(Wrapper<Entity> query) {
         StaticLog.trace("根据查询条件查询数据数量");
         return Mono.fromSupplier(() -> {
@@ -71,10 +76,7 @@ public interface EsService<Entity> {
 
     default Mono<Long> count() {
         StaticLog.trace("查询所有数据数量");
-        return Mono.fromSupplier(() -> {
-            return getMapper()
-                    .selectCount(query());
-        });
+        return count(query());
     }
 
     // ===== 分页查询操作 =====
@@ -94,6 +96,15 @@ public interface EsService<Entity> {
             return getMapper()
                     .pageQuery(query, number, size);
         });
+    }
+
+    default Mono<EsPageInfo<Entity>> page(Integer pageNumber,
+                                          Integer pageSize) {
+        StaticLog.trace("根据查询条件分页查询数据");
+        return page(pageNumber,
+                pageSize,
+                query()
+        );
     }
 
     // ===== 查询包装器操作 =====

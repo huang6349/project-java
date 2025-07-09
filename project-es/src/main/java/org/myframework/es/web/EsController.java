@@ -1,13 +1,24 @@
 package org.myframework.es.web;
 
-import lombok.Getter;
+import cn.hutool.core.util.TypeUtil;
 import org.myframework.es.service.EsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.myframework.es.web.curd.QueryController;
 
-@SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection", "LombokGetterMayBeUsed"})
-public abstract class EsController<S extends EsService<Entity>, Entity> {
+import java.io.Serializable;
 
-    @Autowired
-    @Getter
-    protected S service;
+@SuppressWarnings("unchecked")
+public abstract class EsController<
+        S extends EsService<Entity>,
+        Id extends Serializable,
+        Entity,
+        Queries>
+        extends SuperSimpleController<S, Entity>
+        implements QueryController<Entity, Id, Queries> {
+
+    @Override
+    public Class<Entity> getEntityClass() {
+        var superType = getClass().getGenericSuperclass();
+        var type = TypeUtil.getTypeArgument(superType, 2);
+        return (Class<Entity>) TypeUtil.getClass(type);
+    }
 }
