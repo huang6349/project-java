@@ -1,4 +1,4 @@
-package org.myframework.base.web.reactive;
+package org.myframework.base.web.curd;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Opt;

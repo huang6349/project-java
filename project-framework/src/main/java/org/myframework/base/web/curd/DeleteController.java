@@ -1,4 +1,4 @@
-package org.myframework.base.web.reactive;
+package org.myframework.base.web.curd;
 
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.log.StaticLog;
