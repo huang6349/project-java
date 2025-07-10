@@ -1,0 +1,28 @@
+[mysqld]
+# 开启binlog
+server-id = 1
+log-bin = /var/log/mysql/mysql-bin.log
+binlog_format = ROW
+# 自动删除7天之前的binlog
+expire_logs_days = 7
+
+# 忽略大小写
+lower_case_table_names = 1
+
+# 开启慢查询日志配置
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/mysql-slow-queries.log
+# 超过定义为慢查询
+long_query_time = 4
+
+explicit_defaults_for_timestamp
+init_connect = 'SET collation_connection = utf8_unicode_ci'
+init_connect = 'SET NAMES utf8'
+character-set-server = utf8
+collation-server = utf8_unicode_ci
+
+# 日志输出方式
+#log_output = FILE,TABLE
+#
+# 未使用索引的查询也被记录到慢查询日志中
+#log_queries_not_using_indexes = 1

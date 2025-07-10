@@ -1,0 +1,25 @@
+version: "3.3"
+
+networks:
+  default:
+    external:
+      name: qwerty
+
+services:
+
+  mysql:
+    image: registry.cn-hangzhou.aliyuncs.com/huang6349/mysql:8.0.31
+    container_name: project-mysql
+    security_opt:
+      - "seccomp:unconfined"
+    ports:
+      - "3206:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=pwd123456"
+      - "TZ=Asia/Shanghai"
+    volumes:
+      - "$PWD/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql:ro"
+      - "$PWD/mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf:ro"
+      - "$PWD/data:/var/lib/mysql"
+      - "$PWD/log:/var/log/mysql"
+    restart: unless-stopped
