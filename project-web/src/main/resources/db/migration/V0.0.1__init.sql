@@ -453,7 +453,7 @@ CREATE TABLE IF NOT EXISTS "tb_user"
     "desc"             varchar(512)                        NULL,
     "login_time"       timestamp                           NULL,
     "status"           int2      DEFAULT 0                 NOT NULL,
-    "tenant_id"        int8                                NOT NULL,
+    "tenant_id"        int8                                NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "version"          int8      DEFAULT 0                 NOT NULL,
