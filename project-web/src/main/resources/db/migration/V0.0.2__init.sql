@@ -5,8 +5,7 @@
 -- ----------------------------
 -- Table structure for tb_example
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_example";
-CREATE TABLE "tb_example"
+CREATE TABLE IF NOT EXISTS "tb_example"
 (
     "id"               int8                                NOT NULL,
     "name"             varchar(256)                        NOT NULL,

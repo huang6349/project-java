@@ -12,8 +12,7 @@ $$ LANGUAGE plpgsql;
 -- ----------------------------
 -- Table structure for tb_tenant
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_tenant";
-CREATE TABLE "tb_tenant"
+CREATE TABLE IF NOT EXISTS "tb_tenant"
 (
     "id"               int8                                NOT NULL,
     "name"             varchar(256)                        NOT NULL,
@@ -58,8 +57,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_tenant_assoc
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_tenant_assoc";
-CREATE TABLE "tb_tenant_assoc"
+CREATE TABLE IF NOT EXISTS "tb_tenant_assoc"
 (
     "id"               int8                                NOT NULL,
     "tenant_id"        int8                                NOT NULL,
@@ -100,8 +98,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_tenant_record
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_tenant_record";
-CREATE TABLE "tb_tenant_record"
+CREATE TABLE IF NOT EXISTS "tb_tenant_record"
 (
     "id"               int8                                NOT NULL,
     "tenant_id"        int8                                NOT NULL,
@@ -136,8 +133,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_perm
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_perm";
-CREATE TABLE "tb_perm"
+CREATE TABLE IF NOT EXISTS "tb_perm"
 (
     "id"               int8                                NOT NULL,
     "name"             varchar(256)                        NOT NULL,
@@ -217,8 +213,7 @@ INSERT INTO "tb_perm" ("id", "name", "code") VALUES (10000000000000705, '消息�
 -- ----------------------------
 -- Table structure for tb_perm_assoc
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_perm_assoc";
-CREATE TABLE "tb_perm_assoc"
+CREATE TABLE IF NOT EXISTS "tb_perm_assoc"
 (
     "id"               int8                                NOT NULL,
     "perm_id"          int8                                NOT NULL,
@@ -264,8 +259,7 @@ INSERT INTO "tb_perm_assoc" ("id", "perm_id", "assoc", "assoc_id") VALUES (10000
 -- ----------------------------
 -- Table structure for tb_dept
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_dept";
-CREATE TABLE "tb_dept"
+CREATE TABLE IF NOT EXISTS "tb_dept"
 (
     "id"               int8                                NOT NULL,
     "parent_id"        int8 DEFAULT 0                      NOT NULL,
@@ -314,8 +308,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_dept_assoc
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_dept_assoc";
-CREATE TABLE "tb_dept_assoc"
+CREATE TABLE IF NOT EXISTS "tb_dept_assoc"
 (
     "id"               int8                                NOT NULL,
     "dept_id"          int8                                NOT NULL,
@@ -358,8 +351,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_role
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_role";
-CREATE TABLE "tb_role"
+CREATE TABLE IF NOT EXISTS "tb_role"
 (
     "id"               int8                                NOT NULL,
     "name"             varchar(256)                        NOT NULL,
@@ -405,8 +397,7 @@ INSERT INTO "tb_role" ("id", "name", "code") VALUES (10000000000000000, '管理�
 -- ----------------------------
 -- Table structure for tb_role_assoc
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_role_assoc";
-CREATE TABLE "tb_role_assoc"
+CREATE TABLE IF NOT EXISTS "tb_role_assoc"
 (
     "id"               int8                                NOT NULL,
     "role_id"          int8                                NOT NULL,
@@ -449,8 +440,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_user
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_user";
-CREATE TABLE "tb_user"
+CREATE TABLE IF NOT EXISTS "tb_user"
 (
     "id"               int8                                NOT NULL,
     "username"         varchar(256)                        NOT NULL,
@@ -506,8 +496,7 @@ INSERT INTO "tb_user" ("id", "username", "password", "salt", "tenant_id") VALUES
 -- ----------------------------
 -- Table structure for tb_user_assoc
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_user_assoc";
-CREATE TABLE "tb_user_assoc"
+CREATE TABLE IF NOT EXISTS "tb_user_assoc"
 (
     "id"               int8                                NOT NULL,
     "user_id"          int8                                NOT NULL,
@@ -548,8 +537,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_user_record
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_user_record";
-CREATE TABLE "tb_user_record"
+CREATE TABLE IF NOT EXISTS "tb_user_record"
 (
     "id"               int8                                NOT NULL,
     "user_id"          int8                                NOT NULL,
@@ -584,8 +572,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_file
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_file";
-CREATE TABLE "tb_file"
+CREATE TABLE IF NOT EXISTS "tb_file"
 (
     "id"               int8                                NOT NULL,
     "url"              varchar(512)                        NOT NULL,
@@ -666,8 +653,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_file_part
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_file_part";
-CREATE TABLE "tb_file_part"
+CREATE TABLE IF NOT EXISTS "tb_file_part"
 (
     "id"               int8                                NOT NULL,
     "platform"         varchar(32)                         NULL,
@@ -708,8 +694,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_notify_category
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_notify_category";
-CREATE TABLE "tb_notify_category"
+CREATE TABLE IF NOT EXISTS "tb_notify_category"
 (
     "id"               int8                                NOT NULL,
     "name"             varchar(256)                        NOT NULL,
@@ -750,8 +735,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_ai_document
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_ai_document";
-CREATE TABLE "tb_ai_document"
+CREATE TABLE IF NOT EXISTS "tb_ai_document"
 (
     "id"               int8                                NOT NULL,
     "name"             varchar(256)                        NOT NULL,
@@ -792,8 +776,7 @@ EXECUTE FUNCTION update_timestamp();
 -- ----------------------------
 -- Table structure for tb_ai_document_chunk
 -- ----------------------------
-DROP TABLE IF EXISTS "tb_ai_document_chunk";
-CREATE TABLE "tb_ai_document_chunk"
+CREATE TABLE IF NOT EXISTS "tb_ai_document_chunk"
 (
     "id"               int8                                NOT NULL,
     "document_id"      int8                                NOT NULL,
