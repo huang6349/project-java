@@ -1,0 +1,23 @@
+version: "3.3"
+
+networks:
+  default:
+    external:
+      name: qwerty
+
+services:
+
+  nginx:
+    image: registry.cn-hangzhou.aliyuncs.com/huang6349/nginx:1.26.2-r0-ls294
+    container_name: project-nginx
+    ports:
+      - "3243:443"
+      - "3280:80"
+    environment:
+      - "PUID=1000"
+      - "PGID=1000"
+      - "TZ=Asia/Shanghai"
+    volumes:
+      - "$PWD/stream.d:/etc/nginx/stream.d"
+      - "$PWD/config:/config"
+    restart: unless-stopped
