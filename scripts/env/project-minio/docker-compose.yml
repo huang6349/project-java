@@ -11,8 +11,8 @@ services:
     image: registry.cn-hangzhou.aliyuncs.com/huang6349/minio:2024.6.13
     container_name: project-minio
     ports:
-      - "3320:9000"
-      - "3321:9001"
+      - "3200:9000"
+      - "3201:9001"
     environment:
       - "MINIO_DEFAULT_BUCKETS=project"
       - "MINIO_ROOT_PASSWORD=pwd123456"

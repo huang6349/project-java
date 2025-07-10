@@ -2,4 +2,4 @@
 WORKDIR=$PWD
 mkdir -p $WORKDIR/data
 chmod -R 777 $WORKDIR/.
-docker-compose -p project-elasticsearch up -d --build
+docker-compose -p project-es up -d --build
