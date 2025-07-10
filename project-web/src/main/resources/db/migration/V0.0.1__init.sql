@@ -7,7 +7,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for tb_tenant
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_tenant`
+CREATE TABLE IF NOT EXISTS `tb_tenant`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name`             varchar(256)                       NOT NULL COMMENT '租户名称',
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_tenant`
 -- ----------------------------
 -- Table structure for tb_tenant_assoc
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_tenant_assoc`
+CREATE TABLE IF NOT EXISTS `tb_tenant_assoc`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `tenant_id`        bigint                             NOT NULL COMMENT '租户主键(所属租户)',
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_tenant_assoc`
 -- ----------------------------
 -- Table structure for tb_tenant_record
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_tenant_record`
+CREATE TABLE IF NOT EXISTS `tb_tenant_record`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `tenant_id`        bigint                             NOT NULL COMMENT '租户主键(所属租户)',
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_tenant_record`
 -- ----------------------------
 -- Table structure for tb_perm
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_perm`
+CREATE TABLE IF NOT EXISTS `tb_perm`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name`             varchar(256)                       NOT NULL COMMENT '权限名称',
@@ -82,46 +82,46 @@ CREATE TABLE IF NOT EXISTS project.`tb_perm`
 -- ----------------------------
 -- Records of tb_perm
 -- ----------------------------
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000000, '上帝权限', '*');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000101, '租户管理', '@tenant:*');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000102, '租户查询', '@tenant:query');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000103, '租户新增', '@tenant:add');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000104, '租户修改', '@tenant:update');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000105, '租户删除', '@tenant:delete');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000201, '权限管理', '@perm:*');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000202, '权限查询', '@perm:query');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000203, '权限新增', '@perm:add');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000204, '权限修改', '@perm:update');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000205, '权限删除', '@perm:delete');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000301, '部门管理', '@dept:*');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000302, '部门查询', '@dept:query');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000303, '部门新增', '@dept:add');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000304, '部门修改', '@dept:update');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000305, '部门删除', '@dept:delete');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000401, '角色管理', '@role:*');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000402, '角色查询', '@role:query');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000403, '角色新增', '@role:add');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000404, '角色修改', '@role:update');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000405, '角色删除', '@role:delete');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000406, '角色授权', '@role:auth');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000501, '用户管理', '@user:*');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000502, '用户查询', '@user:query');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000503, '用户新增', '@user:add');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000504, '用户修改', '@user:update');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000505, '用户删除', '@user:delete');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000506, '用户授权', '@user:auth');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000601, '文件管理', '@file:*');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000602, '文件查询', '@file:query');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000701, '消息管理', '@notify:*');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000702, '消息查询', '@notify:query');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000703, '消息新增', '@notify:add');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000704, '消息修改', '@notify:update');
-INSERT INTO project.`tb_perm` (`id`, `name`, `code`) VALUES (10000000000000705, '消息删除', '@notify:delete');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000000, '上帝权限', '*');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000101, '租户管理', '@tenant:*');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000102, '租户查询', '@tenant:query');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000103, '租户新增', '@tenant:add');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000104, '租户修改', '@tenant:update');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000105, '租户删除', '@tenant:delete');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000201, '权限管理', '@perm:*');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000202, '权限查询', '@perm:query');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000203, '权限新增', '@perm:add');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000204, '权限修改', '@perm:update');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000205, '权限删除', '@perm:delete');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000301, '部门管理', '@dept:*');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000302, '部门查询', '@dept:query');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000303, '部门新增', '@dept:add');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000304, '部门修改', '@dept:update');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000305, '部门删除', '@dept:delete');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000401, '角色管理', '@role:*');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000402, '角色查询', '@role:query');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000403, '角色新增', '@role:add');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000404, '角色修改', '@role:update');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000405, '角色删除', '@role:delete');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000406, '角色授权', '@role:auth');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000501, '用户管理', '@user:*');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000502, '用户查询', '@user:query');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000503, '用户新增', '@user:add');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000504, '用户修改', '@user:update');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000505, '用户删除', '@user:delete');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000506, '用户授权', '@user:auth');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000601, '文件管理', '@file:*');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000602, '文件查询', '@file:query');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000701, '消息管理', '@notify:*');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000702, '消息查询', '@notify:query');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000703, '消息新增', '@notify:add');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000704, '消息修改', '@notify:update');
+INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000705, '消息删除', '@notify:delete');
 
 -- ----------------------------
 -- Table structure for tb_perm_assoc
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_perm_assoc`
+CREATE TABLE IF NOT EXISTS `tb_perm_assoc`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `perm_id`          bigint                             NOT NULL COMMENT '权限主键(所属权限)',
@@ -140,12 +140,12 @@ CREATE TABLE IF NOT EXISTS project.`tb_perm_assoc`
 -- ----------------------------
 -- Records of tb_perm_assoc
 -- ----------------------------
-INSERT INTO project.`tb_perm_assoc` (`id`, `perm_id`, `assoc`, `assoc_id`) VALUES (10000000000000000, 10000000000000000, 'tb_user', 10000000000000000);
+INSERT INTO `tb_perm_assoc` (`id`, `perm_id`, `assoc`, `assoc_id`) VALUES (10000000000000000, 10000000000000000, 'tb_user', 10000000000000000);
 
 -- ----------------------------
 -- Table structure for tb_dept
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_dept`
+CREATE TABLE IF NOT EXISTS `tb_dept`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `parent_id`        bigint   DEFAULT 0                 NOT NULL COMMENT '父级节点(父级主键)',
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_dept`
 -- ----------------------------
 -- Table structure for tb_dept_assoc
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_dept_assoc`
+CREATE TABLE IF NOT EXISTS `tb_dept_assoc`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `dept_id`          bigint                             NOT NULL COMMENT '部门主键(所属部门)',
@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_dept_assoc`
 -- ----------------------------
 -- Table structure for tb_role
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_role`
+CREATE TABLE IF NOT EXISTS `tb_role`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name`             varchar(256)                       NOT NULL COMMENT '角色名称',
@@ -207,12 +207,12 @@ CREATE TABLE IF NOT EXISTS project.`tb_role`
 -- ----------------------------
 -- Records of tb_role
 -- ----------------------------
-INSERT INTO project.`tb_role` (`id`, `name`, `code`) VALUES (10000000000000000, '管理员', 'admin');
+INSERT INTO `tb_role` (`id`, `name`, `code`) VALUES (10000000000000000, '管理员', 'admin');
 
 -- ----------------------------
 -- Table structure for tb_role_assoc
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_role_assoc`
+CREATE TABLE IF NOT EXISTS `tb_role_assoc`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `role_id`          bigint                             NOT NULL COMMENT '角色主键(所属角色)',
@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_role_assoc`
 -- ----------------------------
 -- Table structure for tb_user
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_user`
+CREATE TABLE IF NOT EXISTS `tb_user`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `username`         varchar(256)                       NOT NULL COMMENT '用户帐号',
@@ -256,12 +256,12 @@ CREATE TABLE IF NOT EXISTS project.`tb_user`
 -- ----------------------------
 -- Records of tb_user
 -- ----------------------------
-INSERT INTO project.`tb_user` (`id`, `username`, `password`, `salt`, `tenant_id`) VALUES (10000000000000000, 'admin', '$2a$10$QyjZ4c6BaPD3693XArMopey0RPoKkiIfqHAxaxapijuYbK9takS.a', '$2a$10$QyjZ4c6BaPD3693XArMope', 10000000000000000);
+INSERT INTO `tb_user` (`id`, `username`, `password`, `salt`, `tenant_id`) VALUES (10000000000000000, 'admin', '$2a$10$QyjZ4c6BaPD3693XArMopey0RPoKkiIfqHAxaxapijuYbK9takS.a', '$2a$10$QyjZ4c6BaPD3693XArMope', 10000000000000000);
 
 -- ----------------------------
 -- Table structure for tb_user_assoc
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_user_assoc`
+CREATE TABLE IF NOT EXISTS `tb_user_assoc`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `user_id`          bigint                             NOT NULL COMMENT '用户主键(所属用户)',
@@ -280,7 +280,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_user_assoc`
 -- ----------------------------
 -- Table structure for tb_user_record
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_user_record`
+CREATE TABLE IF NOT EXISTS `tb_user_record`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `user_id`          bigint                             NOT NULL COMMENT '用户主键(所属用户)',
@@ -296,7 +296,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_user_record`
 -- ----------------------------
 -- Table structure for tb_file
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_file`
+CREATE TABLE IF NOT EXISTS `tb_file`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `url`              varchar(512)                       NOT NULL COMMENT '文件访问地址',
@@ -335,7 +335,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_file`
 -- ----------------------------
 -- Table structure for tb_file_part
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_file_part`
+CREATE TABLE IF NOT EXISTS `tb_file_part`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `platform`         varchar(32)                        NULL COMMENT '存储平台',
@@ -354,7 +354,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_file_part`
 -- ----------------------------
 -- Table structure for tb_notify_category
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_notify_category`
+CREATE TABLE IF NOT EXISTS `tb_notify_category`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name`             varchar(256)                       NOT NULL COMMENT '类别名称',
@@ -373,7 +373,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_notify_category`
 -- ----------------------------
 -- Table structure for tb_ai_document
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_ai_document`
+CREATE TABLE IF NOT EXISTS `tb_ai_document`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name`             varchar(256)                       NOT NULL COMMENT '文档名称',
@@ -392,7 +392,7 @@ CREATE TABLE IF NOT EXISTS project.`tb_ai_document`
 -- ----------------------------
 -- Table structure for tb_ai_document_chunk
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_ai_document_chunk`
+CREATE TABLE IF NOT EXISTS `tb_ai_document_chunk`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `document_id`      bigint                             NOT NULL COMMENT '文档主键(所属文档)',

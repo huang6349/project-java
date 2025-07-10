@@ -7,7 +7,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for tb_example
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS project.`tb_example`
+CREATE TABLE IF NOT EXISTS `tb_example`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name`             varchar(256)                       NOT NULL COMMENT '示例名称',
