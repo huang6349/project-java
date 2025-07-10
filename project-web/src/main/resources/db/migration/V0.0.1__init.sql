@@ -22,11 +22,11 @@ CREATE TABLE IF NOT EXISTS "tb_tenant"
     "configs"          text                                NULL,
     "extras"           text                                NULL,
     "desc"             varchar(512)                        NULL,
-    "status"           int2 DEFAULT 0                      NOT NULL,
+    "status"           int2      DEFAULT 0                 NOT NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
-    "is_deleted"       int2 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
+    "is_deleted"       int2      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -63,13 +63,13 @@ CREATE TABLE IF NOT EXISTS "tb_tenant_assoc"
     "tenant_id"        int8                                NOT NULL,
     "assoc"            varchar(256)                        NOT NULL,
     "assoc_id"         int8                                NOT NULL,
-    "effective"        int2 DEFAULT 0                      NOT NULL,
+    "effective"        int2      DEFAULT 0                 NOT NULL,
     "effective_time"   timestamp                           NULL,
-    "category"         int2 DEFAULT 0                      NULL,
+    "category"         int2      DEFAULT 0                 NULL,
     "desc"             varchar(512)                        NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS "tb_tenant_record"
     "desc"             varchar(512)                        NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -141,11 +141,11 @@ CREATE TABLE IF NOT EXISTS "tb_perm"
     "configs"          text                                NULL,
     "extras"           text                                NULL,
     "desc"             varchar(512)                        NULL,
-    "status"           int2 DEFAULT 0                      NOT NULL,
+    "status"           int2      DEFAULT 0                 NOT NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
-    "is_deleted"       int2 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
+    "is_deleted"       int2      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -219,13 +219,13 @@ CREATE TABLE IF NOT EXISTS "tb_perm_assoc"
     "perm_id"          int8                                NOT NULL,
     "assoc"            varchar(256)                        NOT NULL,
     "assoc_id"         int8                                NOT NULL,
-    "effective"        int2 DEFAULT 0                      NOT NULL,
+    "effective"        int2      DEFAULT 0                 NOT NULL,
     "effective_time"   timestamp                           NULL,
-    "category"         int2 DEFAULT 0                      NULL,
+    "category"         int2      DEFAULT 0                 NULL,
     "desc"             varchar(512)                        NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -262,20 +262,20 @@ INSERT INTO "tb_perm_assoc" ("id", "perm_id", "assoc", "assoc_id") VALUES (10000
 CREATE TABLE IF NOT EXISTS "tb_dept"
 (
     "id"               int8                                NOT NULL,
-    "parent_id"        int8 DEFAULT 0                      NOT NULL,
+    "parent_id"        int8      DEFAULT 0                 NOT NULL,
     "path"             varchar(512)                        NOT NULL,
-    "sort"             int4 DEFAULT 0                      NOT NULL,
+    "sort"             int4      DEFAULT 0                 NOT NULL,
     "name"             varchar(256)                        NOT NULL,
     "code"             varchar(256)                        NOT NULL,
     "configs"          text                                NULL,
     "extras"           text                                NULL,
     "desc"             varchar(512)                        NULL,
-    "status"           int2 DEFAULT 0                      NOT NULL,
+    "status"           int2      DEFAULT 0                 NOT NULL,
     "tenant_id"        int8                                NOT NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
-    "is_deleted"       int2 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
+    "is_deleted"       int2      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -314,14 +314,14 @@ CREATE TABLE IF NOT EXISTS "tb_dept_assoc"
     "dept_id"          int8                                NOT NULL,
     "assoc"            varchar(256)                        NOT NULL,
     "assoc_id"         int8                                NOT NULL,
-    "effective"        int2 DEFAULT 0                      NOT NULL,
+    "effective"        int2      DEFAULT 0                 NOT NULL,
     "effective_time"   timestamp                           NULL,
-    "category"         int2 DEFAULT 0                      NULL,
+    "category"         int2      DEFAULT 0                 NULL,
     "desc"             varchar(512)                        NULL,
     "tenant_id"        int8                                NOT NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -359,11 +359,11 @@ CREATE TABLE IF NOT EXISTS "tb_role"
     "configs"          text                                NULL,
     "extras"           text                                NULL,
     "desc"             varchar(512)                        NULL,
-    "status"           int2 DEFAULT 0                      NOT NULL,
+    "status"           int2      DEFAULT 0                 NOT NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
-    "is_deleted"       int2 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
+    "is_deleted"       int2      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -403,14 +403,14 @@ CREATE TABLE IF NOT EXISTS "tb_role_assoc"
     "role_id"          int8                                NOT NULL,
     "assoc"            varchar(256)                        NOT NULL,
     "assoc_id"         int8                                NOT NULL,
-    "effective"        int2 DEFAULT 0                      NOT NULL,
+    "effective"        int2      DEFAULT 0                 NOT NULL,
     "effective_time"   timestamp                           NULL,
-    "category"         int2 DEFAULT 0                      NULL,
+    "category"         int2      DEFAULT 0                 NULL,
     "desc"             varchar(512)                        NULL,
     "tenant_id"        int8                                NOT NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -452,12 +452,12 @@ CREATE TABLE IF NOT EXISTS "tb_user"
     "extras"           text                                NULL,
     "desc"             varchar(512)                        NULL,
     "login_time"       timestamp                           NULL,
-    "status"           int2 DEFAULT 0                      NOT NULL,
+    "status"           int2      DEFAULT 0                 NOT NULL,
     "tenant_id"        int8                                NOT NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
-    "is_deleted"       int2 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
+    "is_deleted"       int2      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -502,13 +502,13 @@ CREATE TABLE IF NOT EXISTS "tb_user_assoc"
     "user_id"          int8                                NOT NULL,
     "assoc"            varchar(256)                        NOT NULL,
     "assoc_id"         int8                                NOT NULL,
-    "effective"        int2 DEFAULT 0                      NOT NULL,
+    "effective"        int2      DEFAULT 0                 NOT NULL,
     "effective_time"   timestamp                           NULL,
-    "category"         int2 DEFAULT 0                      NULL,
+    "category"         int2      DEFAULT 0                 NULL,
     "desc"             varchar(512)                        NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -546,7 +546,7 @@ CREATE TABLE IF NOT EXISTS "tb_user_record"
     "desc"             varchar(512)                        NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -600,11 +600,11 @@ CREATE TABLE IF NOT EXISTS "tb_file"
     "hash_info"        text                                NULL,
     "upload_id"        varchar(128)                        NULL,
     "upload_status"    int8                                NULL,
-    "status"           int2 DEFAULT 0                      NOT NULL,
+    "status"           int2      DEFAULT 0                 NOT NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
-    "is_deleted"       int2 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
+    "is_deleted"       int2      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -664,8 +664,8 @@ CREATE TABLE IF NOT EXISTS "tb_file_part"
     "upload_id"        varchar(128)                        NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
-    "is_deleted"       int2 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
+    "is_deleted"       int2      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -702,11 +702,11 @@ CREATE TABLE IF NOT EXISTS "tb_notify_category"
     "configs"          text                                NULL,
     "extras"           text                                NULL,
     "desc"             varchar(512)                        NULL,
-    "status"           int2 DEFAULT 0                      NOT NULL,
+    "status"           int2      DEFAULT 0                 NOT NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
-    "is_deleted"       int2 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
+    "is_deleted"       int2      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -743,11 +743,11 @@ CREATE TABLE IF NOT EXISTS "tb_ai_document"
     "configs"          text                                NULL,
     "extras"           text                                NULL,
     "desc"             varchar(512)                        NULL,
-    "status"           int2 DEFAULT 0                      NOT NULL,
+    "status"           int2      DEFAULT 0                 NOT NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
-    "is_deleted"       int2 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
+    "is_deleted"       int2      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -781,12 +781,12 @@ CREATE TABLE IF NOT EXISTS "tb_ai_document_chunk"
     "id"               int8                                NOT NULL,
     "document_id"      int8                                NOT NULL,
     "content"          text                                NOT NULL,
-    "sort"             int4 DEFAULT 0                      NULL,
+    "sort"             int4      DEFAULT 0                 NULL,
     "configs"          text                                NULL,
     "extras"           text                                NULL,
     "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8 DEFAULT 0                      NOT NULL,
+    "version"          int8      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id)
 );
 
