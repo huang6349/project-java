@@ -11,8 +11,8 @@ services:
     build: $PWD/.
     container_name: project-service
     ports:
-      - "3088:8088"
-      - "3085:8085"
+      - "3288:8088"
+      - "3285:8085"
     environment:
       - "WAIT_LOGGER_LEVEL=info"
       - "WAIT_HOSTS=project-mysql:3306"
