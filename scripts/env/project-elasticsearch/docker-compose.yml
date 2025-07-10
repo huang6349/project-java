@@ -1,0 +1,32 @@
+version: "3.3"
+
+networks:
+  default:
+    external:
+      name: qwerty
+
+services:
+
+  elasticsearch:
+    image: registry.cn-hangzhou.aliyuncs.com/huang6349/elasticsearch:7.10.2
+    container_name: project-elasticsearch
+    ports:
+      - "3202:9200"
+      - "3203:9300"
+    environment:
+      - "discovery.type=single-node"
+      - "bootstrap.memory_lock=true"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "xpack.license.self_generated.type=basic"
+      - "xpack.security.enabled=true"
+      - "xpack.security.http.ssl.enabled=false"
+      - "xpack.security.transport.ssl.enabled=true"
+      - "ELASTIC_PASSWORD=pwd123456"
+      - "TZ=Asia/Shanghai"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - "$PWD/data:/usr/share/elasticsearch/data"
+    restart: unless-stopped
