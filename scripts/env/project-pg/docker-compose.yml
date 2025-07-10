@@ -1,0 +1,22 @@
+version: "3.3"
+
+networks:
+  default:
+    external:
+      name: qwerty
+
+services:
+
+  pg:
+    image: registry.cn-hangzhou.aliyuncs.com/huang6349/timescaledb:2.21.0-pg17
+    container_name: project-pg
+    ports:
+      - "3242:5432"
+    environment:
+      - "POSTGRES_PASSWORD=pwd123456"
+      - "POSTGRES_DB=project"
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - "TZ=Asia/Shanghai"
+    volumes:
+      - "$PWD/data:/var/lib/postgresql/data"
+    restart: unless-stopped
