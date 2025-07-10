@@ -1,0 +1,21 @@
+version: "3.3"
+
+networks:
+  default:
+    external:
+      name: qwerty
+
+services:
+
+  redis:
+    image: registry.cn-hangzhou.aliyuncs.com/huang6349/redis-stack-server:7.4.0-v5
+    container_name: project-redis
+    privileged: true
+    ports:
+      - "3279:6379"
+    environment:
+      - "TZ=Asia/Shanghai"
+    volumes:
+      - "$PWD/redis-stack.conf:/redis-stack.conf"
+      - "$PWD/data:/data"
+    restart: unless-stopped
