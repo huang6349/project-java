@@ -7,17 +7,17 @@
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS "tb_example"
 (
-    "id"               int8                                NOT NULL,
-    "name"             varchar(256)                        NOT NULL,
-    "code"             varchar(256)                        NOT NULL,
-    "configs"          text                                NULL,
-    "extras"           text                                NULL,
-    "desc"             varchar(512)                        NULL,
-    "status"           int2      DEFAULT 0                 NOT NULL,
-    "create_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "update_time"      timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8      DEFAULT 0                 NOT NULL,
-    "is_deleted"       int2      DEFAULT 0                 NOT NULL,
+    "id"               int8                                 NOT NULL,
+    "name"             varchar(256)                         NOT NULL,
+    "code"             varchar(256)                         NOT NULL,
+    "configs"          text                                 NULL,
+    "extras"           text                                 NULL,
+    "desc"             varchar(512)                         NULL,
+    "status"           varchar(2) DEFAULT '0'               NOT NULL,
+    "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "version"          int8                                 NULL,
+    "is_deleted"       varchar(2) DEFAULT '0'               NOT NULL,
     PRIMARY KEY (id)
 );
 
