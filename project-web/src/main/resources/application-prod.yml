@@ -1,11 +1,11 @@
 spring.datasource:
-  driver-class-name: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://project-mysql:3306/project?useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-  username: root
+  driver-class-name: org.postgresql.Driver
+  url: jdbc:postgresql://project-pg:5432/project
+  username: postgres
   password: pwd123456
   hikari:
     minimum-idle: 10
-    connection-test-query: SELECT 1 FROM DUAL
+    connection-test-query: SELECT 1
     maximum-pool-size: 20
     idle-timeout: 30000
     max-lifetime: 60000
@@ -33,9 +33,6 @@ spring.redis:
       max-wait: -1ms
 
 easy-es:
-  global-config:
-    i-kun-mode: false
-    print-dsl: false
-  address: project-elasticsearch:9200
+  address: project-es:9200
   username: elastic
   password: pwd123456

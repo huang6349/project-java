@@ -1,11 +1,11 @@
 spring.datasource:
-  driver-class-name: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://100.100.100.252:3308/project?useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-  username: root
+  driver-class-name: org.postgresql.Driver
+  url: jdbc:postgresql://100.100.100.252:3242/project
+  username: postgres
   password: pwd123456
   hikari:
     minimum-idle: 10
-    connection-test-query: SELECT 1 FROM DUAL
+    connection-test-query: SELECT 1
     maximum-pool-size: 20
     idle-timeout: 30000
     max-lifetime: 60000
@@ -22,7 +22,7 @@ spring.flyway:
 spring.redis:
   database: 0
   host: 100.100.100.252
-  port: 6379
+  port: 3279
   password: pwd123456
   timeout: 10s
   lettuce:
@@ -33,6 +33,6 @@ spring.redis:
       max-wait: -1ms
 
 easy-es:
-  address: 100.100.100.252:9200
+  address: 100.100.100.252:3202
   username: elastic
   password: pwd123456
