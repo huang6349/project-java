@@ -243,7 +243,7 @@ CREATE TABLE IF NOT EXISTS "tb_user"
     "configs"          text                               NULL COMMENT '配置信息',
     "extras"           text                               NULL COMMENT '额外信息',
     "desc"             varchar(512)                       NULL COMMENT '备注',
-    "login_time"       timestamp                          NULL COMMENT '登录时间',
+    "login_time"       datetime                           NULL COMMENT '登录时间',
     "status"           tinyint  DEFAULT 0                 NOT NULL COMMENT '用户状态(0-启用, 1-禁用)',
     "tenant_id"        bigint                             NULL COMMENT '租户主键(默认租户)',
     "create_time"      datetime DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
