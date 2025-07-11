@@ -324,7 +324,7 @@ CREATE TABLE IF NOT EXISTS `tb_file`
     `hash_info`        text                               NULL COMMENT '哈希信息',
     `upload_id`        varchar(128)                       NULL COMMENT '上传ID，仅在手动分片上传时使用',
     `upload_status`    tinyint                            NULL COMMENT '上传状态，仅在手动分片上传时使用，1：初始化完成，2：上传完成',
-    `status`           tinyint  DEFAULT 0                 NOT NULL COMMENT '文件状态(0-启用, 1-禁用)',
+    `status`           tinyint  DEFAULT 0                 NOT NULL COMMENT '文件状态(0-未使用, 1-已使用)',
     `create_time`      datetime DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
     `update_time`      datetime DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `version`          bigint   DEFAULT 0                 NULL COMMENT '更新版本',
