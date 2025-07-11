@@ -1,6 +1,5 @@
 package org.huangyalong.modules.notify.domain;
 
-import cn.hutool.core.lang.Dict;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
@@ -13,6 +12,8 @@ import lombok.experimental.Accessors;
 import org.huangyalong.modules.notify.enums.CategoryStatus;
 import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
+
+import java.util.Map;
 
 @Data(staticConstructor = "create")
 @ToString(callSuper = true)
@@ -30,13 +31,18 @@ public class NotifyCategory extends Entity<NotifyCategory, Long> {
 
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
+    @Schema(description = "类别模型")
+    private Map<String, Object> metadata;
+
+    @Column(typeHandler = JacksonTypeHandler.class)
+    @JsonIgnore
     @Schema(description = "配置信息")
-    private Dict configs;
+    private Map<String, Object> configs;
 
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
     @Schema(description = "额外信息")
-    private Dict extras;
+    private Map<String, Object> extras;
 
     @Schema(description = "备注")
     private String desc;

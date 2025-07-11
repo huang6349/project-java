@@ -359,6 +359,7 @@ CREATE TABLE IF NOT EXISTS `tb_notify_category`
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name`             varchar(256)                       NOT NULL COMMENT '类别名称',
     `code`             varchar(256)                       NOT NULL COMMENT '类别代码',
+    `metadata`         text                               NULL COMMENT '类别模型',
     `configs`          text                               NULL COMMENT '配置信息',
     `extras`           text                               NULL COMMENT '额外信息',
     `desc`             varchar(512)                       NULL COMMENT '备注',
