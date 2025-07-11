@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS "tb_tenant"
     "status"           varchar(2) DEFAULT 0                 NOT NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
+    "version"          int8       DEFAULT 0                 NULL,
     "is_deleted"       varchar(2) DEFAULT 0                 NOT NULL,
     CONSTRAINT "pk_tenant" PRIMARY KEY (id)
 );
@@ -49,8 +49,8 @@ COMMENT ON TABLE  "tb_tenant"                               IS '租户信息';
 -- Trigger of tb_tenant
 -- ----------------------------
 CREATE TRIGGER "tg_tenant"
-    BEFORE UPDATE ON "tb_tenant"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_tenant"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -62,13 +62,13 @@ CREATE TABLE IF NOT EXISTS "tb_tenant_assoc"
     "tenant_id"        int8                                 NOT NULL,
     "assoc"            varchar(256)                         NOT NULL,
     "assoc_id"         int8                                 NOT NULL,
-    "effective"        varchar(2) DEFAULT '0'               NOT NULL,
+    "effective"        varchar(2) DEFAULT 0                 NOT NULL,
     "effective_time"   timestamp                            NULL,
-    "category"         varchar(2) DEFAULT '0'               NULL,
+    "category"         varchar(2) DEFAULT 0                 NULL,
     "desc"             varchar(512)                         NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
+    "version"          int8       DEFAULT 0                 NULL,
     CONSTRAINT "pk_tenant_assoc" PRIMARY KEY (id)
 );
 
@@ -89,8 +89,8 @@ COMMENT ON TABLE  "tb_tenant_assoc"                         IS '租户关联';
 -- Trigger of tb_tenant_assoc
 -- ----------------------------
 CREATE TRIGGER "tg_tenant_assoc"
-    BEFORE UPDATE ON "tb_tenant_assoc"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_tenant_assoc"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS "tb_tenant_record"
     "desc"             varchar(512)                         NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
+    "version"          int8       DEFAULT 0                 NULL,
     CONSTRAINT "pk_tenant_record" PRIMARY KEY (id)
 );
 
@@ -123,8 +123,8 @@ COMMENT ON TABLE  "tb_tenant_record"                        IS '租户记录';
 -- Trigger of tb_tenant_record
 -- ----------------------------
 CREATE TRIGGER "tg_tenant_record"
-    BEFORE UPDATE ON "tb_tenant_record"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_tenant_record"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -138,11 +138,11 @@ CREATE TABLE IF NOT EXISTS "tb_perm"
     "configs"          text                                 NULL,
     "extras"           text                                 NULL,
     "desc"             varchar(512)                         NULL,
-    "status"           varchar(2) DEFAULT '0'               NOT NULL,
+    "status"           varchar(2) DEFAULT 0                 NOT NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
-    "is_deleted"       varchar(2) DEFAULT '0'               NOT NULL,
+    "version"          int8       DEFAULT 0                 NULL,
+    "is_deleted"       varchar(2) DEFAULT 0                 NOT NULL,
     CONSTRAINT "pk_perm" PRIMARY KEY (id)
 );
 
@@ -163,8 +163,8 @@ COMMENT ON TABLE "tb_perm"                                  IS '权限信息';
 -- Trigger of tb_perm
 -- ----------------------------
 CREATE TRIGGER "tg_perm"
-    BEFORE UPDATE ON "tb_perm"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_perm"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -215,13 +215,13 @@ CREATE TABLE IF NOT EXISTS "tb_perm_assoc"
     "perm_id"          int8                                 NOT NULL,
     "assoc"            varchar(256)                         NOT NULL,
     "assoc_id"         int8                                 NOT NULL,
-    "effective"        varchar(2) DEFAULT '0'               NOT NULL,
+    "effective"        varchar(2) DEFAULT 0                 NOT NULL,
     "effective_time"   timestamp                            NULL,
-    "category"         varchar(2) DEFAULT '0'               NULL,
+    "category"         varchar(2) DEFAULT 0                 NULL,
     "desc"             varchar(512)                         NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
+    "version"          int8       DEFAULT 0                 NULL,
     CONSTRAINT "pk_perm_assoc" PRIMARY KEY (id)
 );
 
@@ -242,8 +242,8 @@ COMMENT ON TABLE  "tb_perm_assoc"                           IS '权限关联';
 -- Trigger of tb_perm_assoc
 -- ----------------------------
 CREATE TRIGGER "tg_perm_assoc"
-    BEFORE UPDATE ON "tb_perm_assoc"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_perm_assoc"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -265,12 +265,12 @@ CREATE TABLE IF NOT EXISTS "tb_dept"
     "configs"          text                                 NULL,
     "extras"           text                                 NULL,
     "desc"             varchar(512)                         NULL,
-    "status"           varchar(2) DEFAULT '0'               NOT NULL,
+    "status"           varchar(2) DEFAULT 0                 NOT NULL,
     "tenant_id"        int8                                 NOT NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
-    "is_deleted"       varchar(2) DEFAULT '0'               NOT NULL,
+    "version"          int8       DEFAULT 0                 NULL,
+    "is_deleted"       varchar(2) DEFAULT 0                 NOT NULL,
     CONSTRAINT "pk_dept" PRIMARY KEY (id)
 );
 
@@ -295,8 +295,8 @@ COMMENT ON TABLE  "tb_dept"                                 IS '部门信息';
 -- Trigger of tb_dept
 -- ----------------------------
 CREATE TRIGGER "tg_dept"
-    BEFORE UPDATE ON "tb_dept"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_dept"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -308,14 +308,14 @@ CREATE TABLE IF NOT EXISTS "tb_dept_assoc"
     "dept_id"          int8                                 NOT NULL,
     "assoc"            varchar(256)                         NOT NULL,
     "assoc_id"         int8                                 NOT NULL,
-    "effective"        varchar(2) DEFAULT '0'               NOT NULL,
+    "effective"        varchar(2) DEFAULT 0                 NOT NULL,
     "effective_time"   timestamp                            NULL,
-    "category"         varchar(2) DEFAULT '0'               NULL,
+    "category"         varchar(2) DEFAULT 0                 NULL,
     "desc"             varchar(512)                         NULL,
     "tenant_id"        int8                                 NOT NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
+    "version"          int8       DEFAULT 0                 NULL,
     CONSTRAINT "pk_dept_assoc" PRIMARY KEY (id)
 );
 
@@ -337,8 +337,8 @@ COMMENT ON TABLE  "tb_dept_assoc"                           IS '部门关联';
 -- Trigger of tb_dept_assoc
 -- ----------------------------
 CREATE TRIGGER "tg_dept_assoc"
-    BEFORE UPDATE ON "tb_dept_assoc"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_dept_assoc"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -352,11 +352,11 @@ CREATE TABLE IF NOT EXISTS "tb_role"
     "configs"          text                                 NULL,
     "extras"           text                                 NULL,
     "desc"             varchar(512)                         NULL,
-    "status"           varchar(2) DEFAULT '0'               NOT NULL,
+    "status"           varchar(2) DEFAULT 0                 NOT NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
-    "is_deleted"       varchar(2) DEFAULT '0'               NOT NULL,
+    "version"          int8       DEFAULT 0                 NULL,
+    "is_deleted"       varchar(2) DEFAULT 0                 NOT NULL,
     CONSTRAINT "pk_role" PRIMARY KEY (id)
 );
 
@@ -377,8 +377,8 @@ COMMENT ON TABLE  "tb_role"                                 IS '角色信息';
 -- Trigger of tb_role
 -- ----------------------------
 CREATE TRIGGER "tg_role"
-    BEFORE UPDATE ON "tb_role"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_role"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -395,14 +395,14 @@ CREATE TABLE IF NOT EXISTS "tb_role_assoc"
     "role_id"          int8                                 NOT NULL,
     "assoc"            varchar(256)                         NOT NULL,
     "assoc_id"         int8                                 NOT NULL,
-    "effective"        varchar(2) DEFAULT '0'               NOT NULL,
+    "effective"        varchar(2) DEFAULT 0                 NOT NULL,
     "effective_time"   timestamp                            NULL,
-    "category"         varchar(2) DEFAULT '0'               NULL,
+    "category"         varchar(2) DEFAULT 0                 NULL,
     "desc"             varchar(512)                         NULL,
     "tenant_id"        int8                                 NOT NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
+    "version"          int8       DEFAULT 0                 NULL,
     CONSTRAINT "pk_role_assoc" PRIMARY KEY (id)
 );
 
@@ -424,8 +424,8 @@ COMMENT ON TABLE "tb_role_assoc"                            IS '角色关联';
 -- Trigger of tb_role_assoc
 -- ----------------------------
 CREATE TRIGGER "tg_role_assoc"
-    BEFORE UPDATE ON "tb_role_assoc"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_role_assoc"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -443,12 +443,12 @@ CREATE TABLE IF NOT EXISTS "tb_user"
     "extras"           text                                 NULL,
     "desc"             varchar(512)                         NULL,
     "login_time"       timestamp                            NULL,
-    "status"           varchar(2) DEFAULT '0'               NOT NULL,
+    "status"           varchar(2) DEFAULT 0                 NOT NULL,
     "tenant_id"        int8                                 NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
-    "is_deleted"       varchar(2) DEFAULT '0'               NOT NULL,
+    "version"          int8       DEFAULT 0                 NULL,
+    "is_deleted"       varchar(2) DEFAULT 0                 NOT NULL,
     CONSTRAINT "pk_user" PRIMARY KEY (id)
 );
 
@@ -474,8 +474,8 @@ COMMENT ON TABLE  "tb_user"                                 IS '用户信息';
 -- Trigger of tb_user
 -- ----------------------------
 CREATE TRIGGER "tg_user"
-    BEFORE UPDATE ON "tb_user"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_user"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -492,13 +492,13 @@ CREATE TABLE IF NOT EXISTS "tb_user_assoc"
     "user_id"          int8                                 NOT NULL,
     "assoc"            varchar(256)                         NOT NULL,
     "assoc_id"         int8                                 NOT NULL,
-    "effective"        varchar(2) DEFAULT '0'               NOT NULL,
+    "effective"        varchar(2) DEFAULT 0                 NOT NULL,
     "effective_time"   timestamp                            NULL,
-    "category"         varchar(2) DEFAULT '0'               NULL,
+    "category"         varchar(2) DEFAULT 0                 NULL,
     "desc"             varchar(512)                         NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
+    "version"          int8       DEFAULT 0                 NULL,
     CONSTRAINT "pk_user_assoc" PRIMARY KEY (id)
 );
 
@@ -519,8 +519,8 @@ COMMENT ON TABLE  "tb_user_assoc"                           IS '用户关联';
 -- Trigger of tb_user_assoc
 -- ----------------------------
 CREATE TRIGGER "tg_user_assoc"
-    BEFORE UPDATE ON "tb_user_assoc"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_user_assoc"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -535,7 +535,7 @@ CREATE TABLE IF NOT EXISTS "tb_user_record"
     "desc"             varchar(512)                         NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
+    "version"          int8       DEFAULT 0                 NULL,
     CONSTRAINT "pk_user_record" PRIMARY KEY (id)
 );
 
@@ -553,8 +553,8 @@ COMMENT ON TABLE  "tb_user_record"                          IS '用户记录';
 -- Trigger of tb_user_record
 -- ----------------------------
 CREATE TRIGGER "tg_user_record"
-    BEFORE UPDATE ON "tb_user_record"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_user_record"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -588,11 +588,11 @@ CREATE TABLE IF NOT EXISTS "tb_file"
     "hash_info"        text                                 NULL,
     "upload_id"        varchar(128)                         NULL,
     "upload_status"    int4                                 NULL,
-    "status"           varchar(2) DEFAULT '0'               NOT NULL,
+    "status"           varchar(2) DEFAULT 0                 NOT NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
-    "is_deleted"       varchar(2) DEFAULT '0'               NOT NULL,
+    "version"          int8       DEFAULT 0                 NULL,
+    "is_deleted"       varchar(2) DEFAULT 0                 NOT NULL,
     CONSTRAINT "pk_file" PRIMARY KEY (id)
 );
 
@@ -633,8 +633,8 @@ COMMENT ON TABLE  "tb_file"                                 IS '文件信息';
 -- Trigger of tb_file
 -- ----------------------------
 CREATE TRIGGER "tg_file"
-    BEFORE UPDATE ON "tb_file"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_file"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -651,8 +651,8 @@ CREATE TABLE IF NOT EXISTS "tb_file_part"
     "upload_id"        varchar(128)                         NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
-    "is_deleted"       varchar(2) DEFAULT '0'               NOT NULL,
+    "version"          int8       DEFAULT 0                 NULL,
+    "is_deleted"       varchar(2) DEFAULT 0                 NOT NULL,
     CONSTRAINT "pk_file_part" PRIMARY KEY (id)
 );
 
@@ -673,8 +673,8 @@ COMMENT ON TABLE  "tb_file_part"                            IS '文件分片';
 -- Trigger of tb_file_part
 -- ----------------------------
 CREATE TRIGGER "tg_file_part"
-    BEFORE UPDATE ON "tb_file_part"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_file_part"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -688,11 +688,11 @@ CREATE TABLE IF NOT EXISTS "tb_notify_category"
     "configs"          text                                 NULL,
     "extras"           text                                 NULL,
     "desc"             varchar(512)                         NULL,
-    "status"           varchar(2) DEFAULT '0'               NOT NULL,
+    "status"           varchar(2) DEFAULT 0                 NOT NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
-    "is_deleted"       varchar(2) DEFAULT '0'               NOT NULL,
+    "version"          int8       DEFAULT 0                 NULL,
+    "is_deleted"       varchar(2) DEFAULT 0                 NOT NULL,
     CONSTRAINT "pk_notify_category" PRIMARY KEY (id)
 );
 
@@ -713,8 +713,8 @@ COMMENT ON TABLE  "tb_notify_category"                      IS '消息类别';
 -- Trigger of tb_notify_category
 -- ----------------------------
 CREATE TRIGGER "tg_notify_category"
-    BEFORE UPDATE ON "tb_notify_category"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_notify_category"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -728,11 +728,11 @@ CREATE TABLE IF NOT EXISTS "tb_ai_document"
     "configs"          text                                 NULL,
     "extras"           text                                 NULL,
     "desc"             varchar(512)                         NULL,
-    "status"           varchar(2) DEFAULT '0'               NOT NULL,
+    "status"           varchar(2) DEFAULT 0                 NOT NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
-    "is_deleted"       varchar(2) DEFAULT '0'               NOT NULL,
+    "version"          int8       DEFAULT 0                 NULL,
+    "is_deleted"       varchar(2) DEFAULT 0                 NOT NULL,
     CONSTRAINT "pk_ai_document" PRIMARY KEY (id)
 );
 
@@ -753,8 +753,8 @@ COMMENT ON TABLE  "tb_ai_document"                          IS '文档信息';
 -- Trigger of tb_ai_document
 -- ----------------------------
 CREATE TRIGGER "tg_ai_document"
-    BEFORE UPDATE ON "tb_ai_document"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_ai_document"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- ----------------------------
@@ -770,7 +770,7 @@ CREATE TABLE IF NOT EXISTS "tb_ai_document_chunk"
     "extras"           text                                 NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
+    "version"          int8       DEFAULT 0                 NULL,
     CONSTRAINT "pk_ai_document_chunk" PRIMARY KEY (id)
 );
 
@@ -789,6 +789,6 @@ COMMENT ON TABLE  "tb_ai_document_chunk"                    IS '分片信息';
 -- Trigger of tb_ai_document_chunk
 -- ----------------------------
 CREATE TRIGGER "tg_ai_document_chunk"
-    BEFORE UPDATE ON "tb_ai_document_chunk"
-    FOR EACH ROW
+BEFORE UPDATE ON "tb_ai_document_chunk"
+FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();

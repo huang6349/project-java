@@ -13,11 +13,11 @@ CREATE TABLE IF NOT EXISTS "tb_example"
     "configs"          text                                 NULL,
     "extras"           text                                 NULL,
     "desc"             varchar(512)                         NULL,
-    "status"           varchar(2) DEFAULT '0'               NOT NULL,
+    "status"           varchar(2) DEFAULT 0                 NOT NULL,
     "create_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "update_time"      timestamp  DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "version"          int8                                 NULL,
-    "is_deleted"       varchar(2) DEFAULT '0'               NOT NULL,
+    "version"          int8       DEFAULT 0                 NULL,
+    "is_deleted"       varchar(2) DEFAULT 0                 NOT NULL,
     CONSTRAINT "pk_example" PRIMARY KEY (id)
 );
 
