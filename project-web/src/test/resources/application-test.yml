@@ -14,9 +14,10 @@ spring.datasource:
     connection-timeout: 10000
 
 spring.flyway:
+  enabled: true
+  locations: classpath:db/migration
   baseline-on-migrate: true
   baseline-version: 0
-  enabled: true
   clean-disabled: false
 
 spring.redis:
