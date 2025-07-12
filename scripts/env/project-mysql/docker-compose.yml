@@ -10,8 +10,7 @@ services:
   mysql:
     image: registry.cn-hangzhou.aliyuncs.com/huang6349/mysql:8.0.42
     container_name: project-mysql
-    security_opt:
-      - "seccomp:unconfined"
+    privileged: true
     ports:
       - "3206:3306"
     environment:
