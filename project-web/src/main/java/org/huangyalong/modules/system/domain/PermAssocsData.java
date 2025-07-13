@@ -22,7 +22,7 @@ public class PermAssocsData implements Serializable {
 
     public PermAssocsData addPermIds(List<Long> permIds) {
         Opt.ofNullable(permIds)
-                .get()
+                .orElse(CollUtil.newArrayList())
                 .stream()
                 .map(this::addPermId)
                 .forEach(this::add);
