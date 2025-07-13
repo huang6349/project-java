@@ -23,7 +23,7 @@ import java.util.List;
 @Tag(name = "字典管理")
 public class DictController {
 
-    @GetMapping("/{category:.+}/items")
+    @GetMapping("/{category:.+}/_items")
     @Operation(summary = "选项查询")
     public Mono<List<ItemDefine>> items(@PathVariable String category) {
         var define = DictCache.query(category);

@@ -237,6 +237,43 @@ class PermControllerTest extends MyFrameworkTest {
 
     @Order(5)
     @Test
+    void items() {
+        var beforeSize = Perm.create()
+                .count();
+        testClient.post()
+                .uri("/perm")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(PermUtil.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        testClient.get()
+                .uri("/perm/_items")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE))
+                .jsonPath("$.data.[0].label")
+                .value(is(PermUtil.DEFAULT_NAME));
+        var afterSize = Perm.create()
+                .count();
+        assertThat(beforeSize + 1)
+                .isEqualTo(afterSize);
+    }
+
+    @Order(6)
+    @Test
     void getById() {
         var beforeSize = Perm.create()
                 .count();
@@ -285,7 +322,7 @@ class PermControllerTest extends MyFrameworkTest {
                 .isEqualTo(afterSize);
     }
 
-    @Order(6)
+    @Order(7)
     @Test
     void delete() {
         var beforeSize = Perm.create()

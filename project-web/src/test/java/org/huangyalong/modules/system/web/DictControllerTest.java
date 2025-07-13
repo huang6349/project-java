@@ -23,7 +23,7 @@ class DictControllerTest extends MyFrameworkTest {
     @Test
     void items() {
         testClient.get()
-                .uri("/dict/{category:.+}/items", "data-source")
+                .uri("/dict/{category:.+}/_items", "data-source")
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()
