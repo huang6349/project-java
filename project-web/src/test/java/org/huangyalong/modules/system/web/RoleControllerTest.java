@@ -235,7 +235,44 @@ class RoleControllerTest extends MyFrameworkTest {
                 .isEqualTo(afterSize);
     }
 
-    @Order(5)
+    @Order(4)
+    @Test
+    void items() {
+        var beforeSize = Role.create()
+                .count();
+        testClient.post()
+                .uri("/role")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(RoleUtil.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        testClient.get()
+                .uri("/role/_items")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE))
+                .jsonPath("$.data.[0].label")
+                .value(is(RoleUtil.DEFAULT_NAME));
+        var afterSize = Role.create()
+                .count();
+        assertThat(beforeSize + 1)
+                .isEqualTo(afterSize);
+    }
+
+    @Order(6)
     @Test
     void getById() {
         var beforeSize = Role.create()
@@ -285,7 +322,7 @@ class RoleControllerTest extends MyFrameworkTest {
                 .isEqualTo(afterSize);
     }
 
-    @Order(6)
+    @Order(7)
     @Test
     void delete() {
         var beforeSize = Role.create()
