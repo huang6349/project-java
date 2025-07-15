@@ -9,11 +9,11 @@ import org.myframework.core.redis.RedisHelper;
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
-public final class PermHelper {
+public final class PermCodeHelper {
 
     public static void load(Object message) {
         if (ObjectUtil.isNotEmpty(message)) {
-            var key = format("user_perm_{}", message);
+            var key = format("user_perm_code_{}", message);
             RedisHelper.delete(key);
             var perms = SpringUtil.getBean(UserPermService.class)
                     .getBlockByUserId(message)

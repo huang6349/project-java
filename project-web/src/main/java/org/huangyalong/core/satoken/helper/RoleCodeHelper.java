@@ -9,11 +9,11 @@ import org.myframework.core.redis.RedisHelper;
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
-public final class RoleHelper {
+public final class RoleCodeHelper {
 
     static void load(Object message) {
         if (ObjectUtil.isNotEmpty(message)) {
-            var key = format("user_role_{}", message);
+            var key = format("user_role_code_{}", message);
             RedisHelper.delete(key);
             var roles = SpringUtil.getBean(UserRoleService.class)
                     .getBlockByUserId(message)

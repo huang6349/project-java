@@ -11,29 +11,29 @@ import static cn.hutool.core.text.CharSequenceUtil.format;
 @SuppressWarnings("unused")
 public final class UserHelper extends ContextHelper {
 
-    public static List<String> getPerms(Object message) {
-        var key = format("user_perm_{}", message);
+    public static List<String> getPermCode(Object message) {
+        var key = format("user_perm_code_{}", message);
         if (!RedisHelper.hasKey(key))
-            PermHelper.load(message);
+            PermCodeHelper.load(message);
         return RedisHelper.lRange(key, 0, -1);
     }
 
-    public static List<String> getPerms() {
+    public static List<String> getPermCode() {
         return Opt.ofNullable(getLoginId())
-                .map(UserHelper::getPerms)
+                .map(UserHelper::getPermCode)
                 .get();
     }
 
-    public static List<String> getRoles(Object message) {
-        var key = format("user_role_{}", message);
+    public static List<String> getRoleCode(Object message) {
+        var key = format("user_role_code_{}", message);
         if (!RedisHelper.hasKey(key))
-            RoleHelper.load(message);
+            RoleCodeHelper.load(message);
         return RedisHelper.lRange(key, 0, -1);
     }
 
-    public static List<String> getRoles() {
+    public static List<String> getRoleCode() {
         return Opt.ofNullable(getLoginId())
-                .map(UserHelper::getRoles)
+                .map(UserHelper::getRoleCode)
                 .get();
     }
 
@@ -64,9 +64,9 @@ public final class UserHelper extends ContextHelper {
     }
 
     public static void load(Object message) {
+        PermCodeHelper.load(message);
+        RoleCodeHelper.load(message);
         NicknameHelper.load(message);
         TenantHelper.load(message);
-        PermHelper.load(message);
-        RoleHelper.load(message);
     }
 }

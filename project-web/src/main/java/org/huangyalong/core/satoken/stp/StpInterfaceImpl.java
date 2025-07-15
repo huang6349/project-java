@@ -19,7 +19,7 @@ public class StpInterfaceImpl implements StpInterface {
     public List<String> getPermissionList(Object loginId,
                                           String loginType) {
         return Opt.ofBlankAble(loginId)
-                .map(UserHelper::getPerms)
+                .map(UserHelper::getPermCode)
                 .orElse(EMPTY);
     }
 
@@ -27,7 +27,7 @@ public class StpInterfaceImpl implements StpInterface {
     public List<String> getRoleList(Object loginId,
                                     String loginType) {
         return Opt.ofBlankAble(loginId)
-                .map(UserHelper::getRoles)
+                .map(UserHelper::getRoleCode)
                 .orElse(EMPTY);
     }
 }
