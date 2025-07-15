@@ -1,6 +1,5 @@
 package org.huangyalong.modules.system.service.impl;
 
-import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.crypto.digest.BCrypt;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
@@ -37,12 +36,10 @@ public class UserJWTServiceImpl extends ReactorServiceImpl<UserMapper, User> imp
         var data = getBlockService()
                 .getOneOpt(query)
                 .orElseThrow(() -> new BusinessException("帐号或密码错误"));
-        if (BCrypt.checkpw(password, data.getPassword())) {
-            StpUtil.login(data.getId());
-        } else throw new BusinessException("帐号或密码错误");
-        return Mono.fromSupplier(() -> {
-            var idToken = StpUtil.getTokenValue();
-            return new JWTToken(idToken);
-        });
+        if (!BCrypt.checkpw(password, data.getPassword()))
+            throw new BusinessException("帐号或密码错误");
+        var id = data.getId();
+        var token = JWTToken.create(id);
+        return Mono.justOrEmpty(token);
     }
 }
