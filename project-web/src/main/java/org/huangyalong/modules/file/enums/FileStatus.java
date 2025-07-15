@@ -10,14 +10,14 @@ import org.myframework.extra.dict.EnumDict;
 import static org.myframework.extra.dict.IsDefault.NO;
 import static org.myframework.extra.dict.IsDefault.YES;
 import static org.myframework.extra.dict.Style.ERROR;
-import static org.myframework.extra.dict.Style.PRIMARY;
+import static org.myframework.extra.dict.Style.WARNING;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public enum FileStatus implements EnumDict<String> {
-    TYPE0("0", "未使用", 0, YES.getValue(), PRIMARY.getValue()),
-    TYPE1("1", "已使用", 0, NO.getValue(), ERROR.getValue());
+    TYPE0("0", "未使用", 0, YES.getValue(), ERROR.getValue()),
+    TYPE1("1", "已使用", 0, NO.getValue(), WARNING.getValue());
 
     @EnumValue
     @JsonValue
