@@ -2,7 +2,6 @@ package org.myframework.core.satoken.interceptor;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.log.StaticLog;
 import org.myframework.core.satoken.util.ContextUtil;
@@ -32,10 +31,14 @@ public class SaTokenInterceptor extends SaInterceptor {
     public SaTokenInterceptor() {
         super(handler -> {
             // 设置 ThreadLocal 的值
-            var loginId = StpUtil.getLoginIdDefaultNull();
-            Opt.ofBlankAble(loginId)
-                    .map(Convert::toLong)
-                    .ifPresent(ContextUtil::setLoginId);
+            if (StpUtil.isLogin()) {
+                var loginId = StpUtil.getLoginIdAsLong();
+                Opt.ofBlankAble(loginId)
+                        .ifPresent(ContextUtil::setLoginId);
+                var token = StpUtil.getTokenValue();
+                Opt.ofBlankAble(token)
+                        .ifPresent(ContextUtil::setToken);
+            }
         });
     }
 }

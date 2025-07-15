@@ -22,6 +22,11 @@ public class ContextUtil {
         return Convert.convert(type, map.getOrDefault(key, String.valueOf(def == null ? StrUtil.EMPTY : def)));
     }
 
+    public static String get(String key) {
+        Map<String, String> map = getLocalMap();
+        return map.getOrDefault(key, StrUtil.EMPTY);
+    }
+
     public static Map<String, String> getLocalMap() {
         Map<String, String> map = THREAD_LOCAL.get();
         if (map == null) {
@@ -46,5 +51,17 @@ public class ContextUtil {
     public static Long getLoginId() {
         StaticLog.trace("获取线程变量中的登录信息");
         return get("loginId", Long.class, 0L);
+    }
+
+    /****************** 令牌信息 ***************/
+
+    public static void setToken(String token) {
+        StaticLog.trace("设置线程变量中的令牌信息");
+        set("token", token);
+    }
+
+    public static String getToken() {
+        StaticLog.trace("获取线程变量中的令牌信息");
+        return get("token");
     }
 }

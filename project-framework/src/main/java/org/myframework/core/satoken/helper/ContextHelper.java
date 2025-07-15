@@ -26,4 +26,10 @@ public class ContextHelper {
             return StpUtil.getLoginIdDefaultNull();
         } else return ContextUtil.getLoginId();
     }
+
+    public static String getToken() {
+        if (SpringMVCUtil.isWeb()) {
+            return StpUtil.getTokenValue();
+        } else return ContextUtil.getToken();
+    }
 }
