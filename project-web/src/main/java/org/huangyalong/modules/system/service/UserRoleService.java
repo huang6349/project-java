@@ -1,6 +1,8 @@
 package org.huangyalong.modules.system.service;
 
+import com.mybatis.flex.reactor.core.ReactorService;
 import org.huangyalong.modules.system.domain.Role;
+import org.huangyalong.modules.system.request.UserRoleBO;
 import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
@@ -8,7 +10,7 @@ import java.util.List;
 
 import static com.mybatis.flex.reactor.core.utils.ReactorUtils.runBlock;
 
-public interface UserRoleService {
+public interface UserRoleService extends ReactorService<Role> {
 
     default List<Role> getBlockByUserId(Serializable id) {
         var mono = getByUserId(id);
@@ -21,4 +23,6 @@ public interface UserRoleService {
     }
 
     Mono<List<Role>> getByUserId(Serializable id);
+
+    Mono<Boolean> assoc(UserRoleBO roleBO);
 }

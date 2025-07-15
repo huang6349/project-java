@@ -11,6 +11,7 @@ import org.huangyalong.modules.system.request.PermAssocBO;
 import org.huangyalong.modules.system.request.PermDissocBO;
 import org.huangyalong.modules.system.service.PermAssocService;
 import org.myframework.core.enums.AssocCategory;
+import org.myframework.core.enums.TimeEffective;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
@@ -30,7 +31,8 @@ public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, Pe
                 .map(PermDissocBO::getId)
                 .get();
         var query = QueryWrapper.create()
-                .where(PERM_ASSOC.CATEGORY.eq(AssocCategory.TYPE0))
+                .where(PERM_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE0))
+                .and(PERM_ASSOC.CATEGORY.eq(AssocCategory.TYPE0))
                 .and(PERM_ASSOC.ASSOC.eq(assoc))
                 .and(PERM_ASSOC.ASSOC_ID.eq(id));
         return remove(query);
