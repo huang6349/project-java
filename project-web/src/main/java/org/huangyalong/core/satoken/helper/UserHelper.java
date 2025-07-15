@@ -1,5 +1,6 @@
 package org.huangyalong.core.satoken.helper;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Opt;
 import org.myframework.core.redis.RedisHelper;
 import org.myframework.core.satoken.helper.ContextHelper;
@@ -37,16 +38,35 @@ public final class UserHelper extends ContextHelper {
                 .get();
     }
 
-    public static String getNickname(Object message) {
-        var key = format("user_nickname_{}", message);
+    public static List<Long> getPerm(Object message) {
+        var key = format("user_perm_{}", message);
         if (!RedisHelper.hasKey(key))
-            NicknameHelper.load(message);
-        return RedisHelper.get(key);
+            PermHelper.load(message);
+        return RedisHelper.lRange(key, 0, -1)
+                .stream()
+                .map(Convert::toLong)
+                .toList();
     }
 
-    public static String getNickname() {
+    public static List<Long> getPerm() {
         return Opt.ofNullable(getLoginId())
-                .map(UserHelper::getNickname)
+                .map(UserHelper::getPerm)
+                .get();
+    }
+
+    public static List<Long> getRole(Object message) {
+        var key = format("user_role_{}", message);
+        if (!RedisHelper.hasKey(key))
+            RoleHelper.load(message);
+        return RedisHelper.lRange(key, 0, -1)
+                .stream()
+                .map(Convert::toLong)
+                .toList();
+    }
+
+    public static List<Long> getRole() {
+        return Opt.ofNullable(getLoginId())
+                .map(UserHelper::getRole)
                 .get();
     }
 
@@ -63,10 +83,23 @@ public final class UserHelper extends ContextHelper {
                 .get();
     }
 
+    public static String getNickname(Object message) {
+        var key = format("user_nickname_{}", message);
+        if (!RedisHelper.hasKey(key))
+            NicknameHelper.load(message);
+        return RedisHelper.get(key);
+    }
+
+    public static String getNickname() {
+        return Opt.ofNullable(getLoginId())
+                .map(UserHelper::getNickname)
+                .get();
+    }
+
     public static void load(Object message) {
         PermCodeHelper.load(message);
         RoleCodeHelper.load(message);
-        NicknameHelper.load(message);
         TenantHelper.load(message);
+        NicknameHelper.load(message);
     }
 }
