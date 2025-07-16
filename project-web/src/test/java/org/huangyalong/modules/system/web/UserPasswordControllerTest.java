@@ -73,34 +73,32 @@ class UserPasswordControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testUser = User.create()
-                .orderBy(USER.ID, Boolean.FALSE)
-                .one();
-        assertThat(testUser)
+        var testEntity = UserUtil.getEntity();
+        assertThat(testEntity)
                 .isNotNull();
-        assertThat(testUser.getId())
+        assertThat(testEntity.getId())
                 .isNotNull();
-        assertThat(testUser.getUsername())
+        assertThat(testEntity.getUsername())
                 .isEqualTo(UserUtil.DEFAULT_USERNAME);
-        assertThat(BCrypt.checkpw(UserUtil.UPDATED_PASSWORD, testUser.getPassword()))
+        assertThat(BCrypt.checkpw(UserUtil.UPDATED_PASSWORD, testEntity.getPassword()))
                 .isTrue();
-        assertThat(testUser.getSalt())
+        assertThat(testEntity.getSalt())
                 .isNotNull();
-        assertThat(testUser.getMobile())
+        assertThat(testEntity.getMobile())
                 .isEqualTo(UserUtil.DEFAULT_MOBILE);
-        assertThat(testUser.getEmail())
+        assertThat(testEntity.getEmail())
                 .isEqualTo(UserUtil.DEFAULT_EMAIL);
-        assertThat(testUser.getConfigs())
+        assertThat(testEntity.getConfigs())
                 .isNull();
-        assertThat(testUser.getExtras())
+        assertThat(testEntity.getExtras())
                 .hasSize(4);
-        assertThat(testUser.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(UserUtil.DEFAULT_DESC);
-        assertThat(testUser.getStatus())
+        assertThat(testEntity.getStatus())
                 .isEqualTo(UserStatus.TYPE0);
-        assertThat(testUser.getTenantId())
+        assertThat(testEntity.getTenantId())
                 .isNull();
-        var extras = testUser.getExtras();
+        var extras = testEntity.getExtras();
         var testExtras = JSONUtil.parseObj(extras);
         assertThat(testExtras.getRaw())
                 .isNotNull();

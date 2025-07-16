@@ -19,7 +19,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 @AutoConfigureMockMvc
 @IntegrationTest
@@ -50,34 +49,32 @@ class UserControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testUser = User.create()
-                .orderBy(USER.ID, Boolean.FALSE)
-                .one();
-        assertThat(testUser)
+        var testEntity = UserUtil.getEntity();
+        assertThat(testEntity)
                 .isNotNull();
-        assertThat(testUser.getId())
+        assertThat(testEntity.getId())
                 .isNotNull();
-        assertThat(testUser.getUsername())
+        assertThat(testEntity.getUsername())
                 .isEqualTo(UserUtil.DEFAULT_USERNAME);
-        assertThat(BCrypt.checkpw(UserUtil.DEFAULT_PASSWORD, testUser.getPassword()))
+        assertThat(BCrypt.checkpw(UserUtil.DEFAULT_PASSWORD, testEntity.getPassword()))
                 .isTrue();
-        assertThat(testUser.getSalt())
+        assertThat(testEntity.getSalt())
                 .isNotNull();
-        assertThat(testUser.getMobile())
+        assertThat(testEntity.getMobile())
                 .isEqualTo(UserUtil.DEFAULT_MOBILE);
-        assertThat(testUser.getEmail())
+        assertThat(testEntity.getEmail())
                 .isEqualTo(UserUtil.DEFAULT_EMAIL);
-        assertThat(testUser.getConfigs())
+        assertThat(testEntity.getConfigs())
                 .isNull();
-        assertThat(testUser.getExtras())
+        assertThat(testEntity.getExtras())
                 .hasSize(4);
-        assertThat(testUser.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(UserUtil.DEFAULT_DESC);
-        assertThat(testUser.getStatus())
+        assertThat(testEntity.getStatus())
                 .isEqualTo(UserStatus.TYPE0);
-        assertThat(testUser.getTenantId())
+        assertThat(testEntity.getTenantId())
                 .isNull();
-        var extras = testUser.getExtras();
+        var extras = testEntity.getExtras();
         var testExtras = JSONUtil.parseObj(extras);
         assertThat(testExtras.getRaw())
                 .isNotNull();
@@ -109,18 +106,11 @@ class UserControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var user = User.create()
-                .orderBy(USER.ID, Boolean.FALSE)
-                .one();
-        assertThat(user)
-                .isNotNull();
-        assertThat(user.getId())
-                .isNotNull();
         testClient.put()
                 .uri("/user")
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(UserUtil.createBO(user.getId()))
+                .bodyValue(UserUtil.createBO(UserUtil.getId()))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -133,34 +123,32 @@ class UserControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testUser = User.create()
-                .orderBy(USER.ID, Boolean.FALSE)
-                .one();
-        assertThat(testUser)
+        var testEntity = UserUtil.getEntity();
+        assertThat(testEntity)
                 .isNotNull();
-        assertThat(testUser.getId())
+        assertThat(testEntity.getId())
                 .isNotNull();
-        assertThat(testUser.getUsername())
+        assertThat(testEntity.getUsername())
                 .isEqualTo(UserUtil.DEFAULT_USERNAME);
-        assertThat(BCrypt.checkpw(UserUtil.UPDATED_PASSWORD, testUser.getPassword()))
+        assertThat(BCrypt.checkpw(UserUtil.UPDATED_PASSWORD, testEntity.getPassword()))
                 .isTrue();
-        assertThat(testUser.getSalt())
+        assertThat(testEntity.getSalt())
                 .isNotNull();
-        assertThat(testUser.getMobile())
+        assertThat(testEntity.getMobile())
                 .isEqualTo(UserUtil.UPDATED_MOBILE);
-        assertThat(testUser.getEmail())
+        assertThat(testEntity.getEmail())
                 .isEqualTo(UserUtil.UPDATED_EMAIL);
-        assertThat(testUser.getConfigs())
+        assertThat(testEntity.getConfigs())
                 .isNull();
-        assertThat(testUser.getExtras())
+        assertThat(testEntity.getExtras())
                 .hasSize(4);
-        assertThat(testUser.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(UserUtil.UPDATED_DESC);
-        assertThat(testUser.getStatus())
+        assertThat(testEntity.getStatus())
                 .isEqualTo(UserStatus.TYPE0);
-        assertThat(testUser.getTenantId())
+        assertThat(testEntity.getTenantId())
                 .isNull();
-        var extras = testUser.getExtras();
+        var extras = testEntity.getExtras();
         var testExtras = JSONUtil.parseObj(extras);
         assertThat(testExtras.getRaw())
                 .isNotNull();
@@ -294,15 +282,8 @@ class UserControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var user = User.create()
-                .orderBy(USER.ID, Boolean.FALSE)
-                .one();
-        assertThat(user)
-                .isNotNull();
-        assertThat(user.getId())
-                .isNotNull();
         testClient.get()
-                .uri("/user/{id:.+}", user.getId())
+                .uri("/user/{id:.+}", UserUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()
@@ -352,15 +333,8 @@ class UserControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var user = User.create()
-                .orderBy(USER.ID, Boolean.FALSE)
-                .one();
-        assertThat(user)
-                .isNotNull();
-        assertThat(user.getId())
-                .isNotNull();
         testClient.delete()
-                .uri("/user/{id:.+}", user.getId())
+                .uri("/user/{id:.+}", UserUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()

@@ -7,7 +7,6 @@ import org.huangyalong.modules.system.enums.PermStatus;
 import org.huangyalong.modules.system.request.PermUtil;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.myframework.core.enums.IsDeleted;
 import org.myframework.test.MyFrameworkTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,7 +15,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.huangyalong.modules.system.domain.table.PermTableDef.PERM;
 
 @AutoConfigureMockMvc
 @IntegrationTest
@@ -47,35 +45,25 @@ class PermControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testPerm = Perm.create()
-                .orderBy(PERM.ID, Boolean.FALSE)
-                .one();
-        assertThat(testPerm)
+        var testEntity = PermUtil.getEntity();
+        assertThat(testEntity)
                 .isNotNull();
-        assertThat(testPerm.getId())
+        assertThat(testEntity.getId())
                 .isNotNull();
-        assertThat(testPerm.getName())
+        assertThat(testEntity.getName())
                 .isEqualTo(PermUtil.DEFAULT_NAME);
-        assertThat(testPerm.getCode())
+        assertThat(testEntity.getCode())
                 .isEqualTo(PermUtil.DEFAULT_CODE);
-        assertThat(testPerm.getCode())
+        assertThat(testEntity.getCode())
                 .isNotNull();
-        assertThat(testPerm.getConfigs())
+        assertThat(testEntity.getConfigs())
                 .isNull();
-        assertThat(testPerm.getExtras())
+        assertThat(testEntity.getExtras())
                 .isNull();
-        assertThat(testPerm.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(PermUtil.DEFAULT_DESC);
-        assertThat(testPerm.getStatus())
+        assertThat(testEntity.getStatus())
                 .isEqualTo(PermStatus.TYPE0);
-        assertThat(testPerm.getCreateTime())
-                .isNotNull();
-        assertThat(testPerm.getUpdateTime())
-                .isNotNull();
-        assertThat(testPerm.getVersion())
-                .isNotNull();
-        assertThat(testPerm.getIsDeleted())
-                .isEqualTo(IsDeleted.TYPE0);
     }
 
     @Order(2)
@@ -96,18 +84,11 @@ class PermControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var perm = Perm.create()
-                .orderBy(PERM.ID, Boolean.FALSE)
-                .one();
-        assertThat(perm)
-                .isNotNull();
-        assertThat(perm.getId())
-                .isNotNull();
         testClient.put()
                 .uri("/perm")
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(PermUtil.createBO(perm.getId()))
+                .bodyValue(PermUtil.createBO(PermUtil.getId()))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -120,33 +101,23 @@ class PermControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testPerm = Perm.create()
-                .orderBy(PERM.ID, Boolean.FALSE)
-                .one();
-        assertThat(testPerm)
+        var testEntity = PermUtil.getEntity();
+        assertThat(testEntity)
                 .isNotNull();
-        assertThat(testPerm.getId())
+        assertThat(testEntity.getId())
                 .isNotNull();
-        assertThat(testPerm.getName())
+        assertThat(testEntity.getName())
                 .isEqualTo(PermUtil.UPDATED_NAME);
-        assertThat(testPerm.getCode())
+        assertThat(testEntity.getCode())
                 .isNotNull();
-        assertThat(testPerm.getConfigs())
+        assertThat(testEntity.getConfigs())
                 .isNull();
-        assertThat(testPerm.getExtras())
+        assertThat(testEntity.getExtras())
                 .isNull();
-        assertThat(testPerm.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(PermUtil.UPDATED_DESC);
-        assertThat(testPerm.getStatus())
+        assertThat(testEntity.getStatus())
                 .isEqualTo(PermStatus.TYPE0);
-        assertThat(testPerm.getCreateTime())
-                .isNotNull();
-        assertThat(testPerm.getUpdateTime())
-                .isNotNull();
-        assertThat(testPerm.getVersion())
-                .isNotNull();
-        assertThat(testPerm.getIsDeleted())
-                .isEqualTo(IsDeleted.TYPE0);
     }
 
     @Order(3)
@@ -290,15 +261,8 @@ class PermControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var perm = Perm.create()
-                .orderBy(PERM.ID, Boolean.FALSE)
-                .one();
-        assertThat(perm)
-                .isNotNull();
-        assertThat(perm.getId())
-                .isNotNull();
         testClient.get()
-                .uri("/perm/{id:.+}", perm.getId())
+                .uri("/perm/{id:.+}", PermUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()
@@ -340,15 +304,8 @@ class PermControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var perm = Perm.create()
-                .orderBy(PERM.ID, Boolean.FALSE)
-                .one();
-        assertThat(perm)
-                .isNotNull();
-        assertThat(perm.getId())
-                .isNotNull();
         testClient.delete()
-                .uri("/perm/{id:.+}", perm.getId())
+                .uri("/perm/{id:.+}", PermUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()

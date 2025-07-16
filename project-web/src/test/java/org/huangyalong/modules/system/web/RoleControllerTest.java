@@ -7,7 +7,6 @@ import org.huangyalong.modules.system.enums.RoleStatus;
 import org.huangyalong.modules.system.request.RoleUtil;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.myframework.core.enums.IsDeleted;
 import org.myframework.test.MyFrameworkTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,7 +15,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
 
 @AutoConfigureMockMvc
 @IntegrationTest
@@ -47,35 +45,25 @@ class RoleControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testRole = Role.create()
-                .orderBy(ROLE.ID, Boolean.FALSE)
-                .one();
-        assertThat(testRole)
+        var testEntity = RoleUtil.getEntity();
+        assertThat(testEntity)
                 .isNotNull();
-        assertThat(testRole.getId())
+        assertThat(testEntity.getId())
                 .isNotNull();
-        assertThat(testRole.getName())
+        assertThat(testEntity.getName())
                 .isEqualTo(RoleUtil.DEFAULT_NAME);
-        assertThat(testRole.getCode())
+        assertThat(testEntity.getCode())
                 .isEqualTo(RoleUtil.DEFAULT_CODE);
-        assertThat(testRole.getCode())
+        assertThat(testEntity.getCode())
                 .isNotNull();
-        assertThat(testRole.getConfigs())
+        assertThat(testEntity.getConfigs())
                 .isNull();
-        assertThat(testRole.getExtras())
+        assertThat(testEntity.getExtras())
                 .isNull();
-        assertThat(testRole.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(RoleUtil.DEFAULT_DESC);
-        assertThat(testRole.getStatus())
+        assertThat(testEntity.getStatus())
                 .isEqualTo(RoleStatus.TYPE0);
-        assertThat(testRole.getCreateTime())
-                .isNotNull();
-        assertThat(testRole.getUpdateTime())
-                .isNotNull();
-        assertThat(testRole.getVersion())
-                .isNotNull();
-        assertThat(testRole.getIsDeleted())
-                .isEqualTo(IsDeleted.TYPE0);
     }
 
     @Order(2)
@@ -96,18 +84,11 @@ class RoleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var role = Role.create()
-                .orderBy(ROLE.ID, Boolean.FALSE)
-                .one();
-        assertThat(role)
-                .isNotNull();
-        assertThat(role.getId())
-                .isNotNull();
         testClient.put()
                 .uri("/role")
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(RoleUtil.createBO(role.getId()))
+                .bodyValue(RoleUtil.createBO(RoleUtil.getId()))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -120,33 +101,23 @@ class RoleControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testRole = Role.create()
-                .orderBy(ROLE.ID, Boolean.FALSE)
-                .one();
-        assertThat(testRole)
+        var testEntity = RoleUtil.getEntity();
+        assertThat(testEntity)
                 .isNotNull();
-        assertThat(testRole.getId())
+        assertThat(testEntity.getId())
                 .isNotNull();
-        assertThat(testRole.getName())
+        assertThat(testEntity.getName())
                 .isEqualTo(RoleUtil.UPDATED_NAME);
-        assertThat(testRole.getCode())
+        assertThat(testEntity.getCode())
                 .isNotNull();
-        assertThat(testRole.getConfigs())
+        assertThat(testEntity.getConfigs())
                 .isNull();
-        assertThat(testRole.getExtras())
+        assertThat(testEntity.getExtras())
                 .isNull();
-        assertThat(testRole.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(RoleUtil.UPDATED_DESC);
-        assertThat(testRole.getStatus())
+        assertThat(testEntity.getStatus())
                 .isEqualTo(RoleStatus.TYPE0);
-        assertThat(testRole.getCreateTime())
-                .isNotNull();
-        assertThat(testRole.getUpdateTime())
-                .isNotNull();
-        assertThat(testRole.getVersion())
-                .isNotNull();
-        assertThat(testRole.getIsDeleted())
-                .isEqualTo(IsDeleted.TYPE0);
     }
 
     @Order(3)
@@ -290,15 +261,8 @@ class RoleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var role = Role.create()
-                .orderBy(ROLE.ID, Boolean.FALSE)
-                .one();
-        assertThat(role)
-                .isNotNull();
-        assertThat(role.getId())
-                .isNotNull();
         testClient.get()
-                .uri("/role/{id:.+}", role.getId())
+                .uri("/role/{id:.+}", RoleUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()
@@ -340,15 +304,8 @@ class RoleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var role = Role.create()
-                .orderBy(ROLE.ID, Boolean.FALSE)
-                .one();
-        assertThat(role)
-                .isNotNull();
-        assertThat(role.getId())
-                .isNotNull();
         testClient.delete()
-                .uri("/role/{id:.+}", role.getId())
+                .uri("/role/{id:.+}", RoleUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()

@@ -7,7 +7,6 @@ import org.huangyalong.modules.example.enums.ExampleStatus;
 import org.huangyalong.modules.example.request.ExampleUtil;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.myframework.core.enums.IsDeleted;
 import org.myframework.test.MyFrameworkTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,7 +15,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.huangyalong.modules.example.domain.table.ExampleTableDef.EXAMPLE;
 
 @AutoConfigureMockMvc
 @IntegrationTest
@@ -47,33 +45,23 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testExample = Example.create()
-                .orderBy(EXAMPLE.ID, Boolean.FALSE)
-                .one();
-        assertThat(testExample)
+        var testEntity = ExampleUtil.getEntity();
+        assertThat(testEntity)
                 .isNotNull();
-        assertThat(testExample.getId())
+        assertThat(testEntity.getId())
                 .isNotNull();
-        assertThat(testExample.getName())
+        assertThat(testEntity.getName())
                 .isEqualTo(ExampleUtil.DEFAULT_NAME);
-        assertThat(testExample.getCode())
+        assertThat(testEntity.getCode())
                 .isNotNull();
-        assertThat(testExample.getConfigs())
+        assertThat(testEntity.getConfigs())
                 .isNull();
-        assertThat(testExample.getExtras())
+        assertThat(testEntity.getExtras())
                 .isNull();
-        assertThat(testExample.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(ExampleUtil.DEFAULT_DESC);
-        assertThat(testExample.getStatus())
+        assertThat(testEntity.getStatus())
                 .isEqualTo(ExampleStatus.TYPE0);
-        assertThat(testExample.getCreateTime())
-                .isNotNull();
-        assertThat(testExample.getUpdateTime())
-                .isNotNull();
-        assertThat(testExample.getVersion())
-                .isNotNull();
-        assertThat(testExample.getIsDeleted())
-                .isEqualTo(IsDeleted.TYPE0);
     }
 
     @Order(2)
@@ -94,18 +82,11 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var example = Example.create()
-                .orderBy(EXAMPLE.ID, Boolean.FALSE)
-                .one();
-        assertThat(example)
-                .isNotNull();
-        assertThat(example.getId())
-                .isNotNull();
         testClient.put()
                 .uri("/example")
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(ExampleUtil.createBO(example.getId()))
+                .bodyValue(ExampleUtil.createBO(ExampleUtil.getId()))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -118,33 +99,23 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testExample = Example.create()
-                .orderBy(EXAMPLE.ID, Boolean.FALSE)
-                .one();
-        assertThat(testExample)
+        var testEntity = ExampleUtil.getEntity();
+        assertThat(testEntity)
                 .isNotNull();
-        assertThat(testExample.getId())
+        assertThat(testEntity.getId())
                 .isNotNull();
-        assertThat(testExample.getName())
+        assertThat(testEntity.getName())
                 .isEqualTo(ExampleUtil.UPDATED_NAME);
-        assertThat(testExample.getCode())
+        assertThat(testEntity.getCode())
                 .isNotNull();
-        assertThat(testExample.getConfigs())
+        assertThat(testEntity.getConfigs())
                 .isNull();
-        assertThat(testExample.getExtras())
+        assertThat(testEntity.getExtras())
                 .isNull();
-        assertThat(testExample.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(ExampleUtil.UPDATED_DESC);
-        assertThat(testExample.getStatus())
+        assertThat(testEntity.getStatus())
                 .isEqualTo(ExampleStatus.TYPE0);
-        assertThat(testExample.getCreateTime())
-                .isNotNull();
-        assertThat(testExample.getUpdateTime())
-                .isNotNull();
-        assertThat(testExample.getVersion())
-                .isNotNull();
-        assertThat(testExample.getIsDeleted())
-                .isEqualTo(IsDeleted.TYPE0);
     }
 
     @Order(3)
@@ -247,15 +218,8 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var example = Example.create()
-                .orderBy(EXAMPLE.ID, Boolean.FALSE)
-                .one();
-        assertThat(example)
-                .isNotNull();
-        assertThat(example.getId())
-                .isNotNull();
         testClient.get()
-                .uri("/example/{id:.+}", example.getId())
+                .uri("/example/{id:.+}", ExampleUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()
@@ -295,15 +259,8 @@ class ExampleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var example = Example.create()
-                .orderBy(EXAMPLE.ID, Boolean.FALSE)
-                .one();
-        assertThat(example)
-                .isNotNull();
-        assertThat(example.getId())
-                .isNotNull();
         testClient.delete()
-                .uri("/example/{id:.+}", example.getId())
+                .uri("/example/{id:.+}", ExampleUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()

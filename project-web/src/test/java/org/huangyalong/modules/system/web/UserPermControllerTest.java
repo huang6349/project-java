@@ -3,7 +3,6 @@ package org.huangyalong.modules.system.web;
 import cn.dev33.satoken.stp.StpUtil;
 import org.huangyalong.core.IntegrationTest;
 import org.huangyalong.modules.system.domain.PermAssoc;
-import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.enums.PermStatus;
 import org.huangyalong.modules.system.request.PermUtil;
 import org.huangyalong.modules.system.request.UserPermUtil;
@@ -19,7 +18,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 @AutoConfigureMockMvc
 @IntegrationTest
@@ -76,15 +74,8 @@ class UserPermControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var user = User.create()
-                .orderBy(USER.ID, Boolean.FALSE)
-                .one();
-        assertThat(user)
-                .isNotNull();
-        assertThat(user.getId())
-                .isNotNull();
         testClient.get()
-                .uri("/user/perm/{id:.+}", user.getId())
+                .uri("/user/perm/{id:.+}", UserUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()

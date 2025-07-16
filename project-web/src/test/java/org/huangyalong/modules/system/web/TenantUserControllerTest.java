@@ -95,20 +95,24 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testAssoc = TenantUserUtil.getEntity();
-        assertThat(testAssoc.getTenantId())
+        var testEntity = TenantUserUtil.getEntity();
+        assertThat(testEntity)
+                .isNotNull();
+        assertThat(testEntity.getId())
+                .isNotNull();
+        assertThat(testEntity.getTenantId())
                 .isEqualTo(TenantUtil.getId());
-        assertThat(testAssoc.getAssoc())
+        assertThat(testEntity.getAssoc())
                 .isEqualTo(USER.getTableName());
-        assertThat(testAssoc.getAssocId())
+        assertThat(testEntity.getAssocId())
                 .isEqualTo(UserUtil.getId());
-        assertThat(testAssoc.getEffective())
+        assertThat(testEntity.getEffective())
                 .isEqualTo(TimeEffective.TYPE0);
-        assertThat(testAssoc.getEffectiveTime())
+        assertThat(testEntity.getEffectiveTime())
                 .isNull();
-        assertThat(testAssoc.getCategory())
+        assertThat(testEntity.getCategory())
                 .isEqualTo(AssocCategory.TYPE0);
-        assertThat(testAssoc.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(TenantUserUtil.DEFAULT_DESC);
     }
 
@@ -147,20 +151,24 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testAssoc = TenantUserUtil.getEntity();
-        assertThat(testAssoc.getTenantId())
+        var testEntity = TenantUserUtil.getEntity();
+        assertThat(testEntity)
+                .isNotNull();
+        assertThat(testEntity.getId())
+                .isNotNull();
+        assertThat(testEntity.getTenantId())
                 .isEqualTo(TenantUtil.getId());
-        assertThat(testAssoc.getAssoc())
+        assertThat(testEntity.getAssoc())
                 .isEqualTo(USER.getTableName());
-        assertThat(testAssoc.getAssocId())
+        assertThat(testEntity.getAssocId())
                 .isEqualTo(UserUtil.getId());
-        assertThat(testAssoc.getEffective())
+        assertThat(testEntity.getEffective())
                 .isEqualTo(TimeEffective.TYPE0);
-        assertThat(testAssoc.getEffectiveTime())
+        assertThat(testEntity.getEffectiveTime())
                 .isNull();
-        assertThat(testAssoc.getCategory())
+        assertThat(testEntity.getCategory())
                 .isEqualTo(AssocCategory.TYPE0);
-        assertThat(testAssoc.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(TenantUserUtil.UPDATED_DESC);
     }
 

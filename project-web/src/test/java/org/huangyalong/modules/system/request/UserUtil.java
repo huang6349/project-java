@@ -1,5 +1,6 @@
 package org.huangyalong.modules.system.request;
 
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -9,7 +10,6 @@ import org.huangyalong.modules.system.enums.UserGender;
 import java.io.Serializable;
 
 import static cn.hutool.core.util.RandomUtil.BASE_CHAR;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 public interface UserUtil {
@@ -64,14 +64,15 @@ public interface UserUtil {
         return createBO(obj);
     }
 
-    static Long getId() {
-        var user = User.create()
+    static User getEntity() {
+        return User.create()
                 .orderBy(USER.ID, Boolean.FALSE)
                 .one();
-        assertThat(user)
-                .isNotNull();
-        assertThat(user.getId())
-                .isNotNull();
-        return user.getId();
+    }
+
+    static Long getId() {
+        return Opt.ofNullable(getEntity())
+                .map(User::getId)
+                .get();
     }
 }

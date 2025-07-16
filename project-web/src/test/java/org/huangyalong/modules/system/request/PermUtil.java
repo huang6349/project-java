@@ -1,10 +1,14 @@
 package org.huangyalong.modules.system.request;
 
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import org.huangyalong.modules.system.domain.Perm;
 
 import java.io.Serializable;
+
+import static org.huangyalong.modules.system.domain.table.PermTableDef.PERM;
 
 public interface PermUtil {
 
@@ -37,5 +41,17 @@ public interface PermUtil {
     static PermBO createBO() {
         var obj = JSONUtil.createObj();
         return createBO(obj);
+    }
+
+    static Perm getEntity() {
+        return Perm.create()
+                .orderBy(PERM.ID, Boolean.FALSE)
+                .one();
+    }
+
+    static Long getId() {
+        return Opt.ofNullable(getEntity())
+                .map(Perm::getId)
+                .get();
     }
 }

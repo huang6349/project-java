@@ -10,7 +10,6 @@ import org.huangyalong.modules.system.enums.TenantStatus;
 import org.huangyalong.modules.system.request.TenantUtil;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.myframework.core.enums.IsDeleted;
 import org.myframework.test.MyFrameworkTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,7 +18,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.huangyalong.modules.system.domain.table.TenantTableDef.TENANT;
 
 @AutoConfigureMockMvc
 @IntegrationTest
@@ -50,38 +48,28 @@ class TenantControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testTenant = Tenant.create()
-                .orderBy(TENANT.ID, Boolean.FALSE)
-                .one();
-        assertThat(testTenant)
+        var testEntity = TenantUtil.getEntity();
+        assertThat(testEntity)
                 .isNotNull();
-        assertThat(testTenant.getId())
+        assertThat(testEntity.getId())
                 .isNotNull();
-        assertThat(testTenant.getName())
+        assertThat(testEntity.getName())
                 .isEqualTo(TenantUtil.DEFAULT_NAME);
-        assertThat(testTenant.getCode())
+        assertThat(testEntity.getCode())
                 .isNotNull();
-        assertThat(testTenant.getCategory())
+        assertThat(testEntity.getCategory())
                 .isEqualTo(TenantCategory.TYPE1);
-        assertThat(testTenant.getAddress())
+        assertThat(testEntity.getAddress())
                 .isEqualTo(TenantUtil.DEFAULT_ADDRESS);
-        assertThat(testTenant.getConfigs())
+        assertThat(testEntity.getConfigs())
                 .isNull();
-        assertThat(testTenant.getExtras())
+        assertThat(testEntity.getExtras())
                 .hasSize(3);
-        assertThat(testTenant.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(TenantUtil.DEFAULT_DESC);
-        assertThat(testTenant.getStatus())
+        assertThat(testEntity.getStatus())
                 .isEqualTo(TenantStatus.TYPE0);
-        assertThat(testTenant.getCreateTime())
-                .isNotNull();
-        assertThat(testTenant.getUpdateTime())
-                .isNotNull();
-        assertThat(testTenant.getVersion())
-                .isNotNull();
-        assertThat(testTenant.getIsDeleted())
-                .isEqualTo(IsDeleted.TYPE0);
-        var extras = testTenant.getExtras();
+        var extras = testEntity.getExtras();
         var testExtras = JSONUtil.parseObj(extras);
         assertThat(testExtras.getRaw())
                 .isNotNull();
@@ -111,18 +99,11 @@ class TenantControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var tenant = Tenant.create()
-                .orderBy(TENANT.ID, Boolean.FALSE)
-                .one();
-        assertThat(tenant)
-                .isNotNull();
-        assertThat(tenant.getId())
-                .isNotNull();
         testClient.put()
                 .uri("/tenant")
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(TenantUtil.createBO(tenant.getId()))
+                .bodyValue(TenantUtil.createBO(TenantUtil.getId()))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -135,38 +116,28 @@ class TenantControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testTenant = Tenant.create()
-                .orderBy(TENANT.ID, Boolean.FALSE)
-                .one();
-        assertThat(testTenant)
+        var testEntity = TenantUtil.getEntity();
+        assertThat(testEntity)
                 .isNotNull();
-        assertThat(testTenant.getId())
+        assertThat(testEntity.getId())
                 .isNotNull();
-        assertThat(testTenant.getName())
+        assertThat(testEntity.getName())
                 .isEqualTo(TenantUtil.UPDATED_NAME);
-        assertThat(testTenant.getCode())
+        assertThat(testEntity.getCode())
                 .isNotNull();
-        assertThat(testTenant.getCategory())
+        assertThat(testEntity.getCategory())
                 .isEqualTo(TenantCategory.TYPE2);
-        assertThat(testTenant.getAddress())
+        assertThat(testEntity.getAddress())
                 .isEqualTo(TenantUtil.UPDATED_ADDRESS);
-        assertThat(testTenant.getConfigs())
+        assertThat(testEntity.getConfigs())
                 .isNull();
-        assertThat(testTenant.getExtras())
+        assertThat(testEntity.getExtras())
                 .hasSize(3);
-        assertThat(testTenant.getDesc())
+        assertThat(testEntity.getDesc())
                 .isEqualTo(TenantUtil.UPDATED_DESC);
-        assertThat(testTenant.getStatus())
+        assertThat(testEntity.getStatus())
                 .isEqualTo(TenantStatus.TYPE0);
-        assertThat(testTenant.getCreateTime())
-                .isNotNull();
-        assertThat(testTenant.getUpdateTime())
-                .isNotNull();
-        assertThat(testTenant.getVersion())
-                .isNotNull();
-        assertThat(testTenant.getIsDeleted())
-                .isEqualTo(IsDeleted.TYPE0);
-        var extras = testTenant.getExtras();
+        var extras = testEntity.getExtras();
         var testExtras = JSONUtil.parseObj(extras);
         assertThat(testExtras.getRaw())
                 .isNotNull();
@@ -294,15 +265,8 @@ class TenantControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var tenant = Tenant.create()
-                .orderBy(TENANT.ID, Boolean.FALSE)
-                .one();
-        assertThat(tenant)
-                .isNotNull();
-        assertThat(tenant.getId())
-                .isNotNull();
         testClient.get()
-                .uri("/tenant/{id:.+}", tenant.getId())
+                .uri("/tenant/{id:.+}", TenantUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()
@@ -350,15 +314,8 @@ class TenantControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var tenant = Tenant.create()
-                .orderBy(TENANT.ID, Boolean.FALSE)
-                .one();
-        assertThat(tenant)
-                .isNotNull();
-        assertThat(tenant.getId())
-                .isNotNull();
         testClient.delete()
-                .uri("/tenant/{id:.+}", tenant.getId())
+                .uri("/tenant/{id:.+}", TenantUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()

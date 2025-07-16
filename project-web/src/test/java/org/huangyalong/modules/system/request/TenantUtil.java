@@ -1,5 +1,6 @@
 package org.huangyalong.modules.system.request;
 
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -8,7 +9,6 @@ import org.huangyalong.modules.system.enums.TenantCategory;
 
 import java.io.Serializable;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.huangyalong.modules.system.domain.table.TenantTableDef.TENANT;
 
 public interface TenantUtil {
@@ -56,14 +56,15 @@ public interface TenantUtil {
         return createBO(obj);
     }
 
-    static Long getId() {
-        var tenant = Tenant.create()
+    static Tenant getEntity() {
+        return Tenant.create()
                 .orderBy(TENANT.ID, Boolean.FALSE)
                 .one();
-        assertThat(tenant)
-                .isNotNull();
-        assertThat(tenant.getId())
-                .isNotNull();
-        return tenant.getId();
+    }
+
+    static Long getId() {
+        return Opt.ofNullable(getEntity())
+                .map(Tenant::getId)
+                .get();
     }
 }

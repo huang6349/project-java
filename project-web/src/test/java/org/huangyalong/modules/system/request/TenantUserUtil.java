@@ -1,5 +1,6 @@
 package org.huangyalong.modules.system.request;
 
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -8,7 +9,6 @@ import org.huangyalong.modules.system.domain.TenantAssoc;
 import java.io.Serializable;
 
 import static cn.hutool.core.collection.CollUtil.newArrayList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.huangyalong.modules.system.domain.table.TenantAssocTableDef.TENANT_ASSOC;
 
 public interface TenantUserUtil {
@@ -40,18 +40,14 @@ public interface TenantUserUtil {
     }
 
     static TenantAssoc getEntity() {
-        var assoc = TenantAssoc.create()
+        return TenantAssoc.create()
                 .orderBy(TENANT_ASSOC.ID, Boolean.FALSE)
                 .one();
-        assertThat(assoc)
-                .isNotNull();
-        return assoc;
     }
 
     static Long getId() {
-        var entity = getEntity();
-        assertThat(entity.getId())
-                .isNotNull();
-        return entity.getId();
+        return Opt.ofNullable(getEntity())
+                .map(TenantAssoc::getId)
+                .get();
     }
 }

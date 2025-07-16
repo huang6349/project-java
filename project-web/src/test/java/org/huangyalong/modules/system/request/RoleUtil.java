@@ -1,5 +1,6 @@
 package org.huangyalong.modules.system.request;
 
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -7,7 +8,6 @@ import org.huangyalong.modules.system.domain.Role;
 
 import java.io.Serializable;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
 
 public interface RoleUtil {
@@ -43,14 +43,15 @@ public interface RoleUtil {
         return createBO(obj);
     }
 
-    static Long getId() {
-        var role = Role.create()
+    static Role getEntity() {
+        return Role.create()
                 .orderBy(ROLE.ID, Boolean.FALSE)
                 .one();
-        assertThat(role)
-                .isNotNull();
-        assertThat(role.getId())
-                .isNotNull();
-        return role.getId();
+    }
+
+    static Long getId() {
+        return Opt.ofNullable(getEntity())
+                .map(Role::getId)
+                .get();
     }
 }

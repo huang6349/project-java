@@ -1,10 +1,14 @@
 package org.huangyalong.modules.example.request;
 
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import org.huangyalong.modules.example.domain.Example;
 
 import java.io.Serializable;
+
+import static org.huangyalong.modules.example.domain.table.ExampleTableDef.EXAMPLE;
 
 public interface ExampleUtil {
 
@@ -35,5 +39,17 @@ public interface ExampleUtil {
     static ExampleBO createBO() {
         var obj = JSONUtil.createObj();
         return createBO(obj);
+    }
+
+    static Example getEntity() {
+        return Example.create()
+                .orderBy(EXAMPLE.ID, Boolean.FALSE)
+                .one();
+    }
+
+    static Long getId() {
+        return Opt.ofNullable(getEntity())
+                .map(Example::getId)
+                .get();
     }
 }
