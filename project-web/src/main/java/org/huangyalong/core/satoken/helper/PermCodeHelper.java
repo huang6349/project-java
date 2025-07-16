@@ -6,6 +6,7 @@ import org.huangyalong.modules.system.domain.Perm;
 import org.huangyalong.modules.system.service.UserPermService;
 import org.myframework.core.redis.RedisHelper;
 
+import static cn.hutool.core.convert.Convert.toLong;
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.stream.Collectors.toList;
@@ -21,13 +22,13 @@ public final class PermCodeHelper {
                     .getBlockByUserId(message)
                     .stream()
                     .map(Perm::getCode)
+                    .filter(ObjectUtil::isNotEmpty)
                     .collect(toList());
-            if (ObjectUtil.equal(SUPER_ADMIN_ID, message))
-                perms.add("*");
-            if (ObjectUtil.isNotEmpty(perms)) {
+            if (ObjectUtil.equal(SUPER_ADMIN_ID, toLong(message)))
+                RedisHelper.lLeftPushAll(key, "*");
+            if (ObjectUtil.isNotEmpty(perms))
                 RedisHelper.lLeftPushAll(key, perms);
-                RedisHelper.expire(key, 1, MINUTES);
-            }
+            RedisHelper.expire(key, 1, MINUTES);
         }
     }
 }

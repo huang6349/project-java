@@ -6,8 +6,11 @@ import org.huangyalong.modules.system.domain.Role;
 import org.huangyalong.modules.system.service.UserRoleService;
 import org.myframework.core.redis.RedisHelper;
 
+import static cn.hutool.core.convert.Convert.toLong;
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.stream.Collectors.toList;
+import static org.huangyalong.core.constants.Constants.SUPER_ADMIN_ID;
 
 public final class RoleCodeHelper {
 
@@ -19,11 +22,13 @@ public final class RoleCodeHelper {
                     .getBlockByUserId(message)
                     .stream()
                     .map(Role::getCode)
-                    .toList();
-            if (ObjectUtil.isNotEmpty(roles)) {
+                    .filter(ObjectUtil::isNotEmpty)
+                    .collect(toList());
+            if (ObjectUtil.equal(SUPER_ADMIN_ID, toLong(message)))
+                RedisHelper.lLeftPushAll(key, "super-admin");
+            if (ObjectUtil.isNotEmpty(roles))
                 RedisHelper.lLeftPushAll(key, roles);
-                RedisHelper.expire(key, 1, MINUTES);
-            }
+            RedisHelper.expire(key, 1, MINUTES);
         }
     }
 }
