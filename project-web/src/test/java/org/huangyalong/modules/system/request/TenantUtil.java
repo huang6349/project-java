@@ -63,7 +63,8 @@ public interface TenantUtil {
     }
 
     static Long getId() {
-        return Opt.ofNullable(getEntity())
+        var entity = getEntity();
+        return Opt.ofNullable(entity)
                 .map(Tenant::getId)
                 .get();
     }

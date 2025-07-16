@@ -13,11 +13,9 @@ import static org.huangyalong.modules.example.domain.table.ExampleTableDef.EXAMP
 public interface ExampleUtil {
 
     String DEFAULT_NAME = RandomUtil.randomString(12);
-
     String DEFAULT_DESC = RandomUtil.randomString(12);
 
     String UPDATED_NAME = RandomUtil.randomString(12);
-
     String UPDATED_DESC = RandomUtil.randomString(12);
 
     static ExampleBO createBO(JSONObject object) {
@@ -48,7 +46,8 @@ public interface ExampleUtil {
     }
 
     static Long getId() {
-        return Opt.ofNullable(getEntity())
+        var entity = getEntity();
+        return Opt.ofNullable(entity)
                 .map(Example::getId)
                 .get();
     }

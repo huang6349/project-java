@@ -50,7 +50,8 @@ public interface PermUtil {
     }
 
     static Long getId() {
-        return Opt.ofNullable(getEntity())
+        var entity = getEntity();
+        return Opt.ofNullable(entity)
                 .map(Perm::getId)
                 .get();
     }

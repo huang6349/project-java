@@ -50,7 +50,8 @@ public interface RoleUtil {
     }
 
     static Long getId() {
-        return Opt.ofNullable(getEntity())
+        var entity = getEntity();
+        return Opt.ofNullable(entity)
                 .map(Role::getId)
                 .get();
     }
