@@ -2,9 +2,7 @@ package org.huangyalong.modules.system.web;
 
 import cn.dev33.satoken.stp.StpUtil;
 import org.huangyalong.core.IntegrationTest;
-import org.huangyalong.modules.system.domain.Tenant;
 import org.huangyalong.modules.system.domain.TenantAssoc;
-import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.enums.UserStatus;
 import org.huangyalong.modules.system.request.RoleUtil;
 import org.huangyalong.modules.system.request.TenantUserUtil;
@@ -24,7 +22,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.huangyalong.modules.system.domain.table.TenantAssocTableDef.TENANT_ASSOC;
-import static org.huangyalong.modules.system.domain.table.TenantTableDef.TENANT;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 @AutoConfigureMockMvc
@@ -99,16 +96,6 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var tenantId = Tenant.create()
-                .orderBy(TENANT.ID, Boolean.FALSE)
-                .oneOpt()
-                .map(Tenant::getId)
-                .orElse(null);
-        var userId = User.create()
-                .orderBy(USER.ID, Boolean.FALSE)
-                .oneOpt()
-                .map(User::getId)
-                .orElse(null);
         var testAssoc = TenantAssoc.create()
                 .orderBy(TENANT_ASSOC.ID, Boolean.FALSE)
                 .one();
@@ -117,11 +104,11 @@ class TenantUserControllerTest extends MyFrameworkTest {
         assertThat(testAssoc.getId())
                 .isNotNull();
         assertThat(testAssoc.getTenantId())
-                .isEqualTo(tenantId);
+                .isEqualTo(TenantUtil.getId());
         assertThat(testAssoc.getAssoc())
                 .isEqualTo(USER.getTableName());
         assertThat(testAssoc.getAssocId())
-                .isEqualTo(userId);
+                .isEqualTo(UserUtil.getId());
         assertThat(testAssoc.getEffective())
                 .isEqualTo(TimeEffective.TYPE0);
         assertThat(testAssoc.getEffectiveTime())
@@ -150,18 +137,11 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var assoc = TenantAssoc.create()
-                .orderBy(TENANT_ASSOC.ID, Boolean.FALSE)
-                .one();
-        assertThat(assoc)
-                .isNotNull();
-        assertThat(assoc.getId())
-                .isNotNull();
         testClient.put()
                 .uri("/tenant/user")
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(TenantUserUtil.createBO(assoc.getId()))
+                .bodyValue(TenantUserUtil.createBO(TenantUserUtil.getId()))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -174,16 +154,6 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var tenantId = Tenant.create()
-                .orderBy(TENANT.ID, Boolean.FALSE)
-                .oneOpt()
-                .map(Tenant::getId)
-                .orElse(null);
-        var userId = User.create()
-                .orderBy(USER.ID, Boolean.FALSE)
-                .oneOpt()
-                .map(User::getId)
-                .orElse(null);
         var testAssoc = TenantAssoc.create()
                 .orderBy(TENANT_ASSOC.ID, Boolean.FALSE)
                 .one();
@@ -192,11 +162,11 @@ class TenantUserControllerTest extends MyFrameworkTest {
         assertThat(testAssoc.getId())
                 .isNotNull();
         assertThat(testAssoc.getTenantId())
-                .isEqualTo(tenantId);
+                .isEqualTo(TenantUtil.getId());
         assertThat(testAssoc.getAssoc())
                 .isEqualTo(USER.getTableName());
         assertThat(testAssoc.getAssocId())
-                .isEqualTo(userId);
+                .isEqualTo(UserUtil.getId());
         assertThat(testAssoc.getEffective())
                 .isEqualTo(TimeEffective.TYPE0);
         assertThat(testAssoc.getEffectiveTime())
@@ -327,15 +297,8 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var assoc = TenantAssoc.create()
-                .orderBy(TENANT_ASSOC.ID, Boolean.FALSE)
-                .one();
-        assertThat(assoc)
-                .isNotNull();
-        assertThat(assoc.getId())
-                .isNotNull();
         testClient.get()
-                .uri("/tenant/user/{id:.+}", assoc.getId())
+                .uri("/tenant/user/{id:.+}", TenantUserUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()
@@ -385,15 +348,8 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var assoc = TenantAssoc.create()
-                .orderBy(TENANT_ASSOC.ID, Boolean.FALSE)
-                .one();
-        assertThat(assoc)
-                .isNotNull();
-        assertThat(assoc.getId())
-                .isNotNull();
         testClient.delete()
-                .uri("/tenant/user/{id:.+}", assoc.getId())
+                .uri("/tenant/user/{id:.+}", TenantUserUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()

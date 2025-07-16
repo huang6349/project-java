@@ -3,16 +3,13 @@ package org.huangyalong.modules.system.request;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import org.huangyalong.modules.system.domain.Role;
-import org.huangyalong.modules.system.domain.Tenant;
-import org.huangyalong.modules.system.domain.User;
+import org.huangyalong.modules.system.domain.TenantAssoc;
 
 import java.io.Serializable;
 
 import static cn.hutool.core.collection.CollUtil.newArrayList;
-import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
-import static org.huangyalong.modules.system.domain.table.TenantTableDef.TENANT;
-import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.huangyalong.modules.system.domain.table.TenantAssocTableDef.TENANT_ASSOC;
 
 public interface TenantUserUtil {
 
@@ -21,26 +18,11 @@ public interface TenantUserUtil {
     String UPDATED_DESC = RandomUtil.randomString(12);
 
     static TenantUserBO createBO(JSONObject object) {
-        var tenantId = Tenant.create()
-                .orderBy(TENANT.ID, Boolean.FALSE)
-                .oneOpt()
-                .map(Tenant::getId)
-                .orElse(null);
-        var userId = User.create()
-                .orderBy(USER.ID, Boolean.FALSE)
-                .oneOpt()
-                .map(User::getId)
-                .orElse(null);
-        var roleId = Role.create()
-                .orderBy(ROLE.ID, Boolean.FALSE)
-                .oneOpt()
-                .map(Role::getId)
-                .orElse(null);
         var userBO = new TenantUserBO();
         userBO.setId(object.getLong("id"));
-        userBO.setTenantId(tenantId);
-        userBO.setUserId(userId);
-        userBO.setRoleIds(newArrayList(roleId));
+        userBO.setTenantId(TenantUtil.getId());
+        userBO.setUserId(UserUtil.getId());
+        userBO.setRoleIds(newArrayList(RoleUtil.getId()));
         userBO.setDesc(object.getStr("desc", DEFAULT_DESC));
         return userBO;
     }
@@ -55,5 +37,16 @@ public interface TenantUserUtil {
     static TenantUserBO createBO() {
         var obj = JSONUtil.createObj();
         return createBO(obj);
+    }
+
+    static Long getId() {
+        var assoc = TenantAssoc.create()
+                .orderBy(TENANT_ASSOC.ID, Boolean.FALSE)
+                .one();
+        assertThat(assoc)
+                .isNotNull();
+        assertThat(assoc.getId())
+                .isNotNull();
+        return assoc.getId();
     }
 }

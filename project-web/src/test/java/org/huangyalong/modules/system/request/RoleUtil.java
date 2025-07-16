@@ -3,8 +3,12 @@ package org.huangyalong.modules.system.request;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import org.huangyalong.modules.system.domain.Role;
 
 import java.io.Serializable;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
 
 public interface RoleUtil {
 
@@ -37,5 +41,16 @@ public interface RoleUtil {
     static RoleBO createBO() {
         var obj = JSONUtil.createObj();
         return createBO(obj);
+    }
+
+    static Long getId() {
+        var role = Role.create()
+                .orderBy(ROLE.ID, Boolean.FALSE)
+                .one();
+        assertThat(role)
+                .isNotNull();
+        assertThat(role.getId())
+                .isNotNull();
+        return role.getId();
     }
 }
