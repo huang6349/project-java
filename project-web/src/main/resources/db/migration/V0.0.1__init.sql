@@ -82,7 +82,6 @@ CREATE TABLE IF NOT EXISTS `tb_perm`
 -- ----------------------------
 -- Records of tb_perm
 -- ----------------------------
-INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000000, '上帝权限', '*');
 INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000101, '租户管理', '@tenant:*');
 INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000102, '租户查询', '@tenant:query');
 INSERT INTO `tb_perm` (`id`, `name`, `code`) VALUES (10000000000000103, '租户新增', '@tenant:add');
@@ -136,11 +135,6 @@ CREATE TABLE IF NOT EXISTS `tb_perm_assoc`
     `version`          bigint   DEFAULT 0                 NULL COMMENT '更新版本',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT '权限关联';
-
--- ----------------------------
--- Records of tb_perm_assoc
--- ----------------------------
-INSERT INTO `tb_perm_assoc` (`id`, `perm_id`, `assoc`, `assoc_id`) VALUES (10000000000000000, 10000000000000000, 'tb_user', 10000000000000000);
 
 -- ----------------------------
 -- Table structure for tb_dept

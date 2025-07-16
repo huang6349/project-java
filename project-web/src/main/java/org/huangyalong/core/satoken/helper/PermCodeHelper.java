@@ -8,6 +8,8 @@ import org.myframework.core.redis.RedisHelper;
 
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.stream.Collectors.toList;
+import static org.huangyalong.core.constants.Constants.SUPER_ADMIN_ID;
 
 public final class PermCodeHelper {
 
@@ -19,7 +21,9 @@ public final class PermCodeHelper {
                     .getBlockByUserId(message)
                     .stream()
                     .map(Perm::getCode)
-                    .toList();
+                    .collect(toList());
+            if (ObjectUtil.equal(SUPER_ADMIN_ID, message))
+                perms.add("*");
             if (ObjectUtil.isNotEmpty(perms)) {
                 RedisHelper.lLeftPushAll(key, perms);
                 RedisHelper.expire(key, 1, MINUTES);
