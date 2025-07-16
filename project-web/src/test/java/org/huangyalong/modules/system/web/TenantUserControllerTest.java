@@ -21,7 +21,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.huangyalong.modules.system.domain.table.TenantAssocTableDef.TENANT_ASSOC;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 @AutoConfigureMockMvc
@@ -96,13 +95,7 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testAssoc = TenantAssoc.create()
-                .orderBy(TENANT_ASSOC.ID, Boolean.FALSE)
-                .one();
-        assertThat(testAssoc)
-                .isNotNull();
-        assertThat(testAssoc.getId())
-                .isNotNull();
+        var testAssoc = TenantUserUtil.getEntity();
         assertThat(testAssoc.getTenantId())
                 .isEqualTo(TenantUtil.getId());
         assertThat(testAssoc.getAssoc())
@@ -154,13 +147,7 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
-        var testAssoc = TenantAssoc.create()
-                .orderBy(TENANT_ASSOC.ID, Boolean.FALSE)
-                .one();
-        assertThat(testAssoc)
-                .isNotNull();
-        assertThat(testAssoc.getId())
-                .isNotNull();
+        var testAssoc = TenantUserUtil.getEntity();
         assertThat(testAssoc.getTenantId())
                 .isEqualTo(TenantUtil.getId());
         assertThat(testAssoc.getAssoc())

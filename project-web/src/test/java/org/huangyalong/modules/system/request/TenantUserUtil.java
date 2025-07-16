@@ -39,14 +39,19 @@ public interface TenantUserUtil {
         return createBO(obj);
     }
 
-    static Long getId() {
+    static TenantAssoc getEntity() {
         var assoc = TenantAssoc.create()
                 .orderBy(TENANT_ASSOC.ID, Boolean.FALSE)
                 .one();
         assertThat(assoc)
                 .isNotNull();
-        assertThat(assoc.getId())
+        return assoc;
+    }
+
+    static Long getId() {
+        var entity = getEntity();
+        assertThat(entity.getId())
                 .isNotNull();
-        return assoc.getId();
+        return entity.getId();
     }
 }
