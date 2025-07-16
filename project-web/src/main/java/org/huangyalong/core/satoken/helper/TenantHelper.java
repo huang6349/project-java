@@ -21,10 +21,9 @@ public final class TenantHelper {
                     .map(User::getTenantId)
                     .map(Convert::toStr)
                     .orElse(null);
-            if (ObjectUtil.isNotNull(tenant)) {
+            if (ObjectUtil.isNotNull(tenant))
                 RedisHelper.set(key, tenant);
-                RedisHelper.expire(key, 30, MINUTES);
-            }
+            RedisHelper.expire(key, 30, MINUTES);
         }
     }
 }

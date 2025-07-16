@@ -22,10 +22,9 @@ public final class PermHelper {
                     .map(Perm::getId)
                     .map(Convert::toStr)
                     .toList();
-            if (ObjectUtil.isNotEmpty(perms)) {
+            if (ObjectUtil.isNotEmpty(perms))
                 RedisHelper.lLeftPushAll(key, perms);
-                RedisHelper.expire(key, 1, MINUTES);
-            }
+            RedisHelper.expire(key, 1, MINUTES);
         }
     }
 }

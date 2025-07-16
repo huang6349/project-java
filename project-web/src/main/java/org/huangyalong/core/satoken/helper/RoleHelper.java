@@ -22,10 +22,9 @@ public final class RoleHelper {
                     .map(Role::getId)
                     .map(Convert::toStr)
                     .toList();
-            if (ObjectUtil.isNotEmpty(roles)) {
+            if (ObjectUtil.isNotEmpty(roles))
                 RedisHelper.lLeftPushAll(key, roles);
-                RedisHelper.expire(key, 1, MINUTES);
-            }
+            RedisHelper.expire(key, 1, MINUTES);
         }
     }
 }

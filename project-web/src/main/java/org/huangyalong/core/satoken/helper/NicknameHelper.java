@@ -23,10 +23,9 @@ public final class NicknameHelper {
             var nickname = optional
                     .map(User::getNickname)
                     .orElse(username);
-            if (ObjectUtil.isNotNull(nickname)) {
+            if (ObjectUtil.isNotNull(nickname))
                 RedisHelper.set(key, nickname);
-                RedisHelper.expire(key, 30, MINUTES);
-            }
+            RedisHelper.expire(key, 30, MINUTES);
         }
     }
 }
