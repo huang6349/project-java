@@ -202,6 +202,7 @@ CREATE TABLE IF NOT EXISTS `tb_role`
 -- Records of tb_role
 -- ----------------------------
 INSERT INTO `tb_role` (`id`, `name`, `code`) VALUES (10000000000000000, '管理员', 'admin');
+INSERT INTO `tb_role` (`id`, `name`, `code`) VALUES (10000000000000001, '普通用户', 'user');
 
 -- ----------------------------
 -- Table structure for tb_role_assoc
@@ -250,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `tb_user`
 -- ----------------------------
 -- Records of tb_user
 -- ----------------------------
-INSERT INTO `tb_user` (`id`, `username`, `password`, `salt`, `tenant_id`) VALUES (10000000000000000, 'admin', '$2a$10$QyjZ4c6BaPD3693XArMopey0RPoKkiIfqHAxaxapijuYbK9takS.a', '$2a$10$QyjZ4c6BaPD3693XArMope', 10000000000000000);
+INSERT INTO `tb_user` (`id`, `username`, `password`, `salt`) VALUES (10000000000000000, 'admin', '$2a$10$QyjZ4c6BaPD3693XArMopey0RPoKkiIfqHAxaxapijuYbK9takS.a', '$2a$10$QyjZ4c6BaPD3693XArMope');
 
 -- ----------------------------
 -- Table structure for tb_user_assoc

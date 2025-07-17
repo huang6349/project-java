@@ -8,7 +8,6 @@ import org.huangyalong.modules.system.domain.TenantAssoc;
 
 import java.io.Serializable;
 
-import static cn.hutool.core.collection.CollUtil.newArrayList;
 import static org.huangyalong.modules.system.domain.table.TenantAssocTableDef.TENANT_ASSOC;
 
 public interface TenantUserUtil {
@@ -22,7 +21,6 @@ public interface TenantUserUtil {
         userBO.setId(object.getLong("id"));
         userBO.setTenantId(TenantUtil.getId());
         userBO.setUserId(UserUtil.getId());
-        userBO.setRoleIds(newArrayList(RoleUtil.getId()));
         userBO.setDesc(object.getStr("desc", DEFAULT_DESC));
         return userBO;
     }

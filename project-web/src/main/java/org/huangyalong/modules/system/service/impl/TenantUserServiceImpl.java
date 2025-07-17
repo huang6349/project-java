@@ -1,5 +1,6 @@
 package org.huangyalong.modules.system.service.impl;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.BooleanUtil;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
@@ -25,6 +26,7 @@ import reactor.core.publisher.Mono;
 import java.io.Serializable;
 
 import static cn.hutool.core.convert.Convert.toLong;
+import static org.huangyalong.core.constants.RoleConstants.USER_ID;
 import static org.huangyalong.modules.system.domain.table.TenantAssocTableDef.TENANT_ASSOC;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 import static org.myframework.core.constants.Constants.SYSTEM_RESERVED;
@@ -124,12 +126,9 @@ public class TenantUserServiceImpl extends ReactorServiceImpl<UserMapper, User> 
         var userId = Opt.ofNullable(userBO)
                 .map(TenantUserBO::getUserId)
                 .get();
-        var roleIds = Opt.ofNullable(userBO)
-                .map(TenantUserBO::getRoleIds)
-                .get();
         var assocBO = new RoleAssocBO();
         assocBO.setTenantId(tenantId);
-        assocBO.setRoleIds(roleIds);
+        assocBO.setRoleIds(ListUtil.of(USER_ID));
         assocBO.setAssoc(USER.getTableName());
         assocBO.setId(userId);
         return assocService.assoc(assocBO)
