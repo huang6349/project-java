@@ -47,6 +47,11 @@ public class Example extends Entity<Example, Long> {
     @Schema(description = "示例状态")
     private ExampleStatus status;
 
+    @Column(tenantId = true)
+    @JsonIgnore
+    @Schema(description = "租户主键")
+    private Long tenantId;
+
     /****************** with ******************/
 
     @SuppressWarnings("DuplicatedCode")

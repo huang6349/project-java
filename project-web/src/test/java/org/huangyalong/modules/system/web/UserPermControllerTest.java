@@ -5,6 +5,7 @@ import org.huangyalong.core.IntegrationTest;
 import org.huangyalong.modules.system.domain.PermAssoc;
 import org.huangyalong.modules.system.enums.PermStatus;
 import org.huangyalong.modules.system.request.PermUtil;
+import org.huangyalong.modules.system.request.TenantUtil;
 import org.huangyalong.modules.system.request.UserPermUtil;
 import org.huangyalong.modules.system.request.UserUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,19 @@ class UserPermControllerTest extends MyFrameworkTest {
 
     @BeforeEach
     void initTest() {
+        testClient.post()
+                .uri("/tenant")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(TenantUtil.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
         testClient.post()
                 .uri("/perm")
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())

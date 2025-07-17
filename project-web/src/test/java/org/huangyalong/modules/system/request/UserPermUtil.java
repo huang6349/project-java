@@ -8,6 +8,7 @@ public interface UserPermUtil {
         var permId = PermUtil.getId();
         var id = UserUtil.getId();
         var permBO = new UserPermBO();
+        permBO.setTenantId(TenantUtil.getId());
         permBO.setPermIds(newArrayList(permId));
         permBO.setId(id);
         return permBO;

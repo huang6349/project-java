@@ -23,6 +23,9 @@ public class UserPermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> im
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> assoc(UserPermBO permBO) {
+        var tenantId = Opt.ofNullable(permBO)
+                .map(UserPermBO::getTenantId)
+                .get();
         var permIds = Opt.ofNullable(permBO)
                 .map(UserPermBO::getPermIds)
                 .get();
@@ -30,6 +33,7 @@ public class UserPermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> im
                 .map(UserPermBO::getId)
                 .get();
         var assocBO = new PermAssocBO();
+        assocBO.setTenantId(tenantId);
         assocBO.setPermIds(permIds);
         assocBO.setAssoc(USER.getTableName());
         assocBO.setId(id);

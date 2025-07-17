@@ -47,4 +47,8 @@ public class PermAssoc extends SuperEntity<PermAssoc, Long> {
 
     @Schema(description = "备注")
     private String desc;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @Schema(description = "租户主键")
+    private Long tenantId;
 }

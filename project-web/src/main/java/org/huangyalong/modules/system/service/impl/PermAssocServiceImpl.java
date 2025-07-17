@@ -24,6 +24,9 @@ public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, Pe
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> dissoc(PermDissocBO dissocBO) {
+        var tenantId = Opt.ofNullable(dissocBO)
+                .map(PermDissocBO::getTenantId)
+                .get();
         var assoc = Opt.ofNullable(dissocBO)
                 .map(PermDissocBO::getAssoc)
                 .get();
@@ -33,6 +36,7 @@ public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, Pe
         var query = QueryWrapper.create()
                 .where(PERM_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE0))
                 .and(PERM_ASSOC.CATEGORY.eq(AssocCategory.TYPE0))
+                .and(PERM_ASSOC.TENANT_ID.eq(tenantId))
                 .and(PERM_ASSOC.ASSOC.eq(assoc))
                 .and(PERM_ASSOC.ASSOC_ID.eq(id));
         return remove(query);

@@ -4,7 +4,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import org.huangyalong.core.IntegrationTest;
 import org.huangyalong.modules.system.domain.TenantAssoc;
 import org.huangyalong.modules.system.enums.UserStatus;
-import org.huangyalong.modules.system.request.RoleUtil;
 import org.huangyalong.modules.system.request.TenantUserUtil;
 import org.huangyalong.modules.system.request.TenantUtil;
 import org.huangyalong.modules.system.request.UserUtil;
@@ -50,19 +49,6 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(UserUtil.createBO())
-                .exchange()
-                .expectStatus()
-                .isOk()
-                .expectHeader()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .expectBody()
-                .jsonPath("$.success")
-                .value(is(Boolean.TRUE));
-        testClient.post()
-                .uri("/role")
-                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(RoleUtil.createBO())
                 .exchange()
                 .expectStatus()
                 .isOk()
