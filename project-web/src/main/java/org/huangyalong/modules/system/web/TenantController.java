@@ -28,8 +28,8 @@ public class TenantController extends ReactorController<
 
     @Override
     public ApiResponse<QueryWrapper> handlerQuery(TenantQueries queries) {
-        var data = getBaseService().
-                getQueryWrapper(queries);
+        var data = getBaseService()
+                .getQueryWrapper(queries);
         return ApiResponse.ok(data);
     }
 

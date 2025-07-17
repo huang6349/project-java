@@ -39,8 +39,8 @@ public class RoleController extends ReactorController<
 
     @Override
     public ApiResponse<QueryWrapper> handlerQuery(RoleQueries queries) {
-        var data = getBaseService().
-                getQueryWrapper(queries);
+        var data = getBaseService()
+                .getQueryWrapper(queries);
         return ApiResponse.ok(data);
     }
 

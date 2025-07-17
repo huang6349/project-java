@@ -33,15 +33,15 @@ public class PermController extends ReactorController<
 
     @Override
     public ApiResponse<QueryWrapper> handlerOption(PermQueries queries) {
-        var data = getBaseService().
-                getOptionWrapper(queries);
+        var data = getBaseService()
+                .getOptionWrapper(queries);
         return ApiResponse.ok(data);
     }
 
     @Override
     public ApiResponse<QueryWrapper> handlerQuery(PermQueries queries) {
-        var data = getBaseService().
-                getQueryWrapper(queries);
+        var data = getBaseService()
+                .getQueryWrapper(queries);
         return ApiResponse.ok(data);
     }
 
