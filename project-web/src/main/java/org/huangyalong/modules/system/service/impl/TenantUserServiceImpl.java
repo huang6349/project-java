@@ -37,9 +37,9 @@ import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
 @Service
 public class TenantUserServiceImpl extends ReactorServiceImpl<UserMapper, User> implements TenantUserService {
 
-    private final TenantAssocService tenantAssocService;
+    private final TenantAssocService tenantService;
 
-    private final RoleAssocService assocService;
+    private final RoleAssocService roleService;
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> add(TenantUserBO userBO) {
@@ -58,7 +58,7 @@ public class TenantUserServiceImpl extends ReactorServiceImpl<UserMapper, User> 
                 .setAssoc(USER.getTableName())
                 .setAssocId(userId)
                 .setDesc(desc);
-        return tenantAssocService.save(data)
+        return tenantService.save(data)
                 .thenReturn(userBO)
                 .flatMap(this::roleAssoc);
     }
@@ -72,22 +72,20 @@ public class TenantUserServiceImpl extends ReactorServiceImpl<UserMapper, User> 
         var id = Opt.ofNullable(userBO)
                 .map(TenantUserBO::getId)
                 .get();
-        var data = tenantAssocService.getBlockService()
+        var data = tenantService.getBlockService()
                 .getByIdOpt(id)
                 .orElseThrow(() -> new BusinessException(NOT_FOUND))
                 .setDesc(desc);
-        return tenantAssocService.updateById(data)
-                .thenReturn(userBO)
-                .flatMap(this::roleAssoc);
+        return tenantService.updateById(data);
     }
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> delete(Serializable id) {
         validateDelete(id);
-        var data = tenantAssocService.getBlockService()
+        var data = tenantService.getBlockService()
                 .getByIdOpt(id)
                 .orElseThrow(() -> new BusinessException(NOT_FOUND));
-        return tenantAssocService.removeById(data)
+        return tenantService.removeById(data)
                 .thenReturn(data)
                 .flatMap(this::roleDissoc);
     }
@@ -131,7 +129,7 @@ public class TenantUserServiceImpl extends ReactorServiceImpl<UserMapper, User> 
         assocBO.setRoleIds(ListUtil.of(USER_ID));
         assocBO.setAssoc(USER.getTableName());
         assocBO.setId(userId);
-        return assocService.assoc(assocBO)
+        return roleService.assoc(assocBO)
                 .thenReturn(userId)
                 .doOnNext(UserHelper::load)
                 .thenReturn(Boolean.TRUE);
@@ -148,7 +146,7 @@ public class TenantUserServiceImpl extends ReactorServiceImpl<UserMapper, User> 
         dissocBO.setTenantId(tenantId);
         dissocBO.setAssoc(USER.getTableName());
         dissocBO.setId(userId);
-        return assocService.dissoc(dissocBO)
+        return roleService.dissoc(dissocBO)
                 .thenReturn(userId)
                 .doOnNext(UserHelper::load)
                 .thenReturn(Boolean.TRUE);
