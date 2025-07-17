@@ -6,6 +6,7 @@ import com.mybatisflex.core.query.QueryWrapper;
 import org.huangyalong.modules.system.domain.Perm;
 import org.huangyalong.modules.system.request.PermBO;
 import org.huangyalong.modules.system.request.PermQueries;
+import org.myframework.base.response.OptionVO;
 import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
@@ -13,6 +14,15 @@ import java.io.Serializable;
 import static org.huangyalong.modules.system.domain.table.PermTableDef.PERM;
 
 public interface PermService extends ReactorService<Perm> {
+
+    default QueryWrapper getOptionWrapper(PermQueries queries) {
+        var query = QueryWrapper.create()
+                .select(PERM.NAME.as(OptionVO::getLabel),
+                        PERM.ID.as(OptionVO::getValue))
+                .from(PERM);
+        query.orderBy(PERM.ID, Boolean.FALSE);
+        return getQueryWrapper(queries, query);
+    }
 
     default QueryWrapper getQueryWrapper(PermQueries queries,
                                          QueryWrapper query) {
