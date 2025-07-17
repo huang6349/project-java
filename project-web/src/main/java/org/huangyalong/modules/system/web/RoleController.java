@@ -7,15 +7,12 @@ import org.huangyalong.modules.system.request.RoleBO;
 import org.huangyalong.modules.system.request.RoleQueries;
 import org.huangyalong.modules.system.service.RoleService;
 import org.myframework.base.response.ApiResponse;
-import org.myframework.base.response.OptionVO;
 import org.myframework.base.web.ReactorController;
 import org.myframework.base.web.extra.OptionController;
 import org.myframework.core.satoken.annotation.PreAuth;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
-
-import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
 
 @PreAuth(replace = "@role")
 @RestController
@@ -35,12 +32,8 @@ public class RoleController extends ReactorController<
 
     @Override
     public ApiResponse<QueryWrapper> handlerOption(RoleQueries queries) {
-        var query = QueryWrapper.create()
-                .select(ROLE.NAME.as(OptionVO::getLabel),
-                        ROLE.ID.as(OptionVO::getValue))
-                .orderBy(ROLE.ID, Boolean.FALSE);
         var data = getBaseService()
-                .getQueryWrapper(queries, query);
+                .getOptionWrapper(queries);
         return ApiResponse.ok(data);
     }
 

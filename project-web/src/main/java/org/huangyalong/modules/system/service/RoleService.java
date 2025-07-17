@@ -6,6 +6,7 @@ import com.mybatisflex.core.query.QueryWrapper;
 import org.huangyalong.modules.system.domain.Role;
 import org.huangyalong.modules.system.request.RoleBO;
 import org.huangyalong.modules.system.request.RoleQueries;
+import org.myframework.base.response.OptionVO;
 import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
@@ -13,6 +14,15 @@ import java.io.Serializable;
 import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
 
 public interface RoleService extends ReactorService<Role> {
+
+    default QueryWrapper getOptionWrapper(RoleQueries queries) {
+        var query = QueryWrapper.create()
+                .select(ROLE.NAME.as(OptionVO::getLabel),
+                        ROLE.ID.as(OptionVO::getValue))
+                .from(ROLE);
+        query.orderBy(ROLE.ID, Boolean.FALSE);
+        return getQueryWrapper(queries, query);
+    }
 
     default QueryWrapper getQueryWrapper(RoleQueries queries,
                                          QueryWrapper query) {
