@@ -25,7 +25,7 @@ public class UserRoleController extends SuperSimpleController<UserRoleService, R
     @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)
     @PatchMapping
     @Operation(summary = "修改")
-    public Mono<Boolean> assoc(@RequestBody @Validated UserRoleBO roleBO) {
+    public Mono<Boolean> update(@RequestBody @Validated UserRoleBO roleBO) {
         return getBaseService()
                 .assoc(roleBO);
     }

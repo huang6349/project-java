@@ -20,19 +20,19 @@ import reactor.core.publisher.Mono;
 @Tag(name = "角色权限")
 public class RolePermController extends SuperSimpleController<RolePermService, Perm> {
 
-    @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)
-    @PatchMapping
-    @Operation(summary = "修改")
-    public Mono<Boolean> assoc(@RequestBody @Validated RolePermBO permBO) {
-        return getBaseService()
-                .assoc(permBO);
-    }
-
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/{id:.+}")
-    @Operation(summary = "查询")
+    @Operation(summary = "单体查询")
     public Flux<Perm> query(@PathVariable Long id) {
         return getBaseService()
                 .list(id);
+    }
+
+    @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)
+    @PatchMapping
+    @Operation(summary = "修改")
+    public Mono<Boolean> update(@RequestBody @Validated RolePermBO permBO) {
+        return getBaseService()
+                .assoc(permBO);
     }
 }
