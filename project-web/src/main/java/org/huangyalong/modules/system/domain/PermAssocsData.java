@@ -20,6 +20,8 @@ public class PermAssocsData implements Serializable {
 
     private Long assocId;
 
+    private Long tenantId;
+
     public PermAssocsData addPermIds(List<Long> permIds) {
         Opt.ofNullable(permIds)
                 .orElse(CollUtil.newArrayList())
@@ -40,6 +42,7 @@ public class PermAssocsData implements Serializable {
         return PermAssoc.create()
                 .setPermId(permId)
                 .setAssoc(assoc)
-                .setAssocId(assocId);
+                .setAssocId(assocId)
+                .setTenantId(tenantId);
     }
 }

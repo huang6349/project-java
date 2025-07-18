@@ -44,6 +44,7 @@ public class RoleAssocServiceImpl extends ReactorServiceImpl<RoleAssocMapper, Ro
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> assoc(RoleAssocBO assocBO) {
+        // noinspection DuplicatedCode
         var tenantId = Opt.ofNullable(assocBO)
                 .map(RoleDissocBO::getTenantId)
                 .get();
