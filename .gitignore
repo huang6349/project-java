@@ -60,7 +60,7 @@ Temporary Items
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-!.idea/inspectionProfiles/
+!.idea/inspectionProfiles/*.xml
 
 ### VS Code ###
 .vscode/
