@@ -61,6 +61,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 !.idea/inspectionProfiles/*.xml
+!.idea/codeStyles/*.xml
 
 ### VS Code ###
 .vscode/
