@@ -60,6 +60,7 @@ Temporary Items
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+!.idea/inspectionProfiles/
 
 ### VS Code ###
 .vscode/
@@ -124,5 +125,4 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 ### Project ###
-!.idea/inspectionProfiles/*.xml
 !libs/*.jar
