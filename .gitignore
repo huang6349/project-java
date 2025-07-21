@@ -124,4 +124,5 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 ### Project ###
+!.idea/inspectionProfiles/*.xml
 !libs/*.jar
