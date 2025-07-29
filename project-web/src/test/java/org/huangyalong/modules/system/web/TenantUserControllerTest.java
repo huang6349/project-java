@@ -279,7 +279,7 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
         testClient.get()
-                .uri("/tenant/user/{id:.+}/_assoc", UserUtil.getId())
+                .uri("/tenant/user/{id:.+}/_assoc", TenantUserUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()
@@ -319,7 +319,7 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
         testClient.get()
-                .uri("/tenant/user/{id:.+}", UserUtil.getId())
+                .uri("/tenant/user/{id:.+}", TenantUserUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()

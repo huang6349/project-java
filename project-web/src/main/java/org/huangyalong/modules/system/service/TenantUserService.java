@@ -30,13 +30,13 @@ public interface TenantUserService extends ReactorService<User> {
 
     default QueryWrapper getQueryWrapper(UserQueries queries) {
         var query = QueryWrapper.create();
-        query.orderBy(USER.ID, Boolean.FALSE);
+        query.orderBy(TENANT_ASSOC.ID, Boolean.FALSE);
         return getQueryWrapper(queries, getQueryWrapper(query));
     }
 
     default QueryWrapper getQueryWrapper(Serializable id,
                                          QueryWrapper query) {
-        query.where(USER.ID.eq(id));
+        query.where(TENANT_ASSOC.ID.eq(id));
         return query;
     }
 
@@ -46,7 +46,7 @@ public interface TenantUserService extends ReactorService<User> {
     }
 
     default QueryWrapper getQueryWrapper(QueryWrapper query) {
-        return query.select(USER.ID,
+        return query.select(TENANT_ASSOC.ID,
                         USER.USERNAME,
                         USER.MOBILE,
                         USER.EMAIL,
@@ -79,12 +79,10 @@ public interface TenantUserService extends ReactorService<User> {
                         TENANT_ASSOC.CREATE_TIME,
                         TENANT_ASSOC.UPDATE_TIME)
                 .from(TENANT_ASSOC)
-                .where(TENANT_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE0)
-                        .or(TENANT_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE1)
-                                .and(TENANT_ASSOC.EFFECTIVE_TIME.ge(now()))))
+                .where(TENANT_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE0))
                 .and(TENANT_ASSOC.CATEGORY.eq(AssocCategory.TYPE0))
                 .and(TENANT_ASSOC.ASSOC.eq(USER.getTableName()))
-                .and(TENANT_ASSOC.ASSOC_ID.eq(id));
+                .and(TENANT_ASSOC.ID.eq(id));
         return getOneAs(query, TenantUserVO.class);
     }
 
