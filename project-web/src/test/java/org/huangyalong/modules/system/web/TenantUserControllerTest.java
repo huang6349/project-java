@@ -262,6 +262,46 @@ class TenantUserControllerTest extends MyFrameworkTest {
 
     @Order(5)
     @Test
+    void getAssocById() {
+        var beforeSize = TenantAssoc.create()
+                .count();
+        testClient.post()
+                .uri("/tenant/user")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(TenantUserUtil.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        testClient.get()
+                .uri("/tenant/user/{id:.+}/_assoc", UserUtil.getId())
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE))
+                .jsonPath("$.data.tenantId")
+                .value(is(TenantUtil.getIdAsString()))
+                .jsonPath("$.data.userId")
+                .value(is(UserUtil.getIdAsString()))
+                .jsonPath("$.data.desc");
+        var afterSize = TenantAssoc.create()
+                .count();
+        assertThat(beforeSize + 1)
+                .isEqualTo(afterSize);
+    }
+
+    @Order(6)
+    @Test
     void getById() {
         var beforeSize = TenantAssoc.create()
                 .count();
@@ -279,7 +319,7 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
         testClient.get()
-                .uri("/tenant/user/{id:.+}", TenantUserUtil.getId())
+                .uri("/tenant/user/{id:.+}", UserUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()
@@ -311,7 +351,7 @@ class TenantUserControllerTest extends MyFrameworkTest {
                 .isEqualTo(afterSize);
     }
 
-    @Order(6)
+    @Order(7)
     @Test
     void delete() {
         var beforeSize = TenantAssoc.create()

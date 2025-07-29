@@ -1,5 +1,6 @@
 package org.huangyalong.modules.system.request;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
@@ -60,6 +61,13 @@ public interface TenantUtil {
         return Tenant.create()
                 .orderBy(TENANT.ID, Boolean.FALSE)
                 .one();
+    }
+
+    static String getIdAsString() {
+        var id = getId();
+        return Opt.ofNullable(id)
+                .map(Convert::toStr)
+                .get();
     }
 
     static Long getId() {

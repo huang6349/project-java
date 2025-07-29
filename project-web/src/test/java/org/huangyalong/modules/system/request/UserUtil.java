@@ -1,5 +1,6 @@
 package org.huangyalong.modules.system.request;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
@@ -68,6 +69,13 @@ public interface UserUtil {
         return User.create()
                 .orderBy(USER.ID, Boolean.FALSE)
                 .one();
+    }
+
+    static String getIdAsString() {
+        var id = getId();
+        return Opt.ofNullable(id)
+                .map(Convert::toStr)
+                .get();
     }
 
     static Long getId() {

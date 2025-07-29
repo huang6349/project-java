@@ -6,6 +6,7 @@ import com.mybatisflex.core.query.QueryWrapper;
 import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.request.TenantUserBO;
 import org.huangyalong.modules.system.request.UserQueries;
+import org.huangyalong.modules.system.response.TenantUserVO;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
 import reactor.core.publisher.Mono;
@@ -29,13 +30,13 @@ public interface TenantUserService extends ReactorService<User> {
 
     default QueryWrapper getQueryWrapper(UserQueries queries) {
         var query = QueryWrapper.create();
-        query.orderBy(TENANT_ASSOC.ID, Boolean.FALSE);
+        query.orderBy(USER.ID, Boolean.FALSE);
         return getQueryWrapper(queries, getQueryWrapper(query));
     }
 
     default QueryWrapper getQueryWrapper(Serializable id,
                                          QueryWrapper query) {
-        query.where(TENANT_ASSOC.ID.eq(id));
+        query.where(USER.ID.eq(id));
         return query;
     }
 
@@ -45,16 +46,15 @@ public interface TenantUserService extends ReactorService<User> {
     }
 
     default QueryWrapper getQueryWrapper(QueryWrapper query) {
-        return query.select(TENANT_ASSOC.ID,
+        return query.select(USER.ID,
                         USER.USERNAME,
                         USER.MOBILE,
                         USER.EMAIL,
                         TENANT_ASSOC.DESC,
                         USER.LOGIN_TIME,
                         USER.STATUS,
-                        USER.TENANT_ID,
-                        USER.CREATE_TIME,
-                        USER.UPDATE_TIME)
+                        TENANT_ASSOC.CREATE_TIME,
+                        TENANT_ASSOC.UPDATE_TIME)
                 .select(ue(USER.EXTRAS, NAME_NICKNAME).as(User::getNickname),
                         ue(USER.EXTRAS, NAME_AVATAR).as(User::getAvatar),
                         ue(USER.EXTRAS, NAME_GENDER).as(User::getGender),
@@ -68,6 +68,24 @@ public interface TenantUserService extends ReactorService<User> {
                                 .and(TENANT_ASSOC.EFFECTIVE_TIME.ge(now()))))
                 .and(TENANT_ASSOC.CATEGORY.eq(AssocCategory.TYPE0))
                 .and(TENANT_ASSOC.ASSOC.eq(USER.getTableName()));
+    }
+
+    default Mono<TenantUserVO> getAssocById(Serializable id) {
+        var query = QueryWrapper.create()
+                .select(TENANT_ASSOC.ID,
+                        TENANT_ASSOC.TENANT_ID,
+                        TENANT_ASSOC.ASSOC_ID.as(TenantUserVO::getUserId),
+                        TENANT_ASSOC.DESC,
+                        TENANT_ASSOC.CREATE_TIME,
+                        TENANT_ASSOC.UPDATE_TIME)
+                .from(TENANT_ASSOC)
+                .where(TENANT_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE0)
+                        .or(TENANT_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE1)
+                                .and(TENANT_ASSOC.EFFECTIVE_TIME.ge(now()))))
+                .and(TENANT_ASSOC.CATEGORY.eq(AssocCategory.TYPE0))
+                .and(TENANT_ASSOC.ASSOC.eq(USER.getTableName()))
+                .and(TENANT_ASSOC.ASSOC_ID.eq(id));
+        return getOneAs(query, TenantUserVO.class);
     }
 
     @Override
