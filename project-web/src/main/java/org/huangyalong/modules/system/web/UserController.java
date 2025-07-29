@@ -8,6 +8,7 @@ import org.huangyalong.modules.system.request.UserQueries;
 import org.huangyalong.modules.system.service.UserService;
 import org.myframework.base.response.ApiResponse;
 import org.myframework.base.web.ReactorController;
+import org.myframework.base.web.extra.OptionController;
 import org.myframework.core.satoken.annotation.PreAuth;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,18 @@ public class UserController extends ReactorController<
         UserQueries,
         UserBO,
         UserBO
+        >
+        implements OptionController<
+        User,
+        UserQueries
         > {
+
+    @Override
+    public ApiResponse<QueryWrapper> handlerOption(UserQueries queries) {
+        var data = getBaseService()
+                .getOptionWrapper(queries);
+        return ApiResponse.ok(data);
+    }
 
     @Override
     public ApiResponse<QueryWrapper> handlerQuery(UserQueries queries) {

@@ -6,6 +6,7 @@ import com.mybatisflex.core.query.QueryWrapper;
 import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.request.UserBO;
 import org.huangyalong.modules.system.request.UserQueries;
+import org.myframework.base.response.OptionVO;
 import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
@@ -16,6 +17,15 @@ import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 import static org.myframework.core.mybatisflex.JsonMethods.ue;
 
 public interface UserService extends ReactorService<User> {
+
+    default QueryWrapper getOptionWrapper(UserQueries queries) {
+        var query = QueryWrapper.create()
+                .select(USER.USERNAME.as(OptionVO::getLabel),
+                        USER.ID.as(OptionVO::getValue))
+                .from(USER);
+        query.orderBy(USER.ID, Boolean.FALSE);
+        return getQueryWrapper(queries, query);
+    }
 
     default QueryWrapper getQueryWrapper(UserQueries queries,
                                          QueryWrapper query) {

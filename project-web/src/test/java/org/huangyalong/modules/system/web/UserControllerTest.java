@@ -266,6 +266,43 @@ class UserControllerTest extends MyFrameworkTest {
 
     @Order(5)
     @Test
+    void items() {
+        var beforeSize = User.create()
+                .count();
+        testClient.post()
+                .uri("/user")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(UserUtil.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        testClient.get()
+                .uri("/user/_items")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE))
+                .jsonPath("$.data.[0].label")
+                .value(is(UserUtil.DEFAULT_USERNAME));
+        var afterSize = User.create()
+                .count();
+        assertThat(beforeSize + 1)
+                .isEqualTo(afterSize);
+    }
+
+    @Order(6)
+    @Test
     void getById() {
         var beforeSize = User.create()
                 .count();
@@ -315,7 +352,7 @@ class UserControllerTest extends MyFrameworkTest {
                 .isEqualTo(afterSize);
     }
 
-    @Order(6)
+    @Order(7)
     @Test
     void delete() {
         var beforeSize = User.create()
