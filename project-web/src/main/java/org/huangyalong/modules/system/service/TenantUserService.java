@@ -5,7 +5,7 @@ import com.mybatisflex.core.query.If;
 import com.mybatisflex.core.query.QueryWrapper;
 import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.request.TenantUserBO;
-import org.huangyalong.modules.system.request.UserQueries;
+import org.huangyalong.modules.system.request.TenantUserQueries;
 import org.huangyalong.modules.system.response.TenantUserVO;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
@@ -21,16 +21,17 @@ import static org.myframework.core.mybatisflex.JsonMethods.ue;
 
 public interface TenantUserService extends ReactorService<User> {
 
-    default QueryWrapper getQueryWrapper(UserQueries queries,
+    default QueryWrapper getQueryWrapper(TenantUserQueries queries,
                                          QueryWrapper query) {
+        query.where(TENANT_ASSOC.TENANT_ID.like(queries.getTenantId(), If::notNull));
         query.where(USER.USERNAME.like(queries.getUsername(), If::hasText));
         query.where(USER.MOBILE.like(queries.getMobile(), If::hasText));
         return query;
     }
 
-    default QueryWrapper getQueryWrapper(UserQueries queries) {
+    default QueryWrapper getQueryWrapper(TenantUserQueries queries) {
         var query = QueryWrapper.create();
-        query.orderBy(TENANT_ASSOC.ID, Boolean.FALSE);
+        query.orderBy(TENANT_ASSOC.ID, Boolean.TRUE);
         return getQueryWrapper(queries, getQueryWrapper(query));
     }
 

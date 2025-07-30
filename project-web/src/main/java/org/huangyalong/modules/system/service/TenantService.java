@@ -26,7 +26,7 @@ public interface TenantService extends ReactorService<Tenant> {
 
     default QueryWrapper getQueryWrapper(TenantQueries queries) {
         var query = QueryWrapper.create();
-        query.orderBy(TENANT.ID, Boolean.FALSE);
+        query.orderBy(TENANT.ID, Boolean.TRUE);
         return getQueryWrapper(queries, getQueryWrapper(query));
     }
 

@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.request.TenantUserBO;
-import org.huangyalong.modules.system.request.UserQueries;
+import org.huangyalong.modules.system.request.TenantUserQueries;
 import org.huangyalong.modules.system.response.TenantUserVO;
 import org.huangyalong.modules.system.service.TenantUserService;
 import org.myframework.base.response.ApiResponse;
@@ -27,13 +27,13 @@ public class TenantUserController extends ReactorController<
         TenantUserService,
         Long,
         User,
-        UserQueries,
+        TenantUserQueries,
         TenantUserBO,
         TenantUserBO
         > {
 
     @Override
-    public ApiResponse<QueryWrapper> handlerQuery(UserQueries queries) {
+    public ApiResponse<QueryWrapper> handlerQuery(TenantUserQueries queries) {
         var data = getBaseService()
                 .getQueryWrapper(queries);
         return ApiResponse.ok(data);
