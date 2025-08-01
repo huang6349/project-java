@@ -12,6 +12,7 @@ import org.huangyalong.modules.system.response.JWTToken;
 import org.huangyalong.modules.system.service.UserJWTService;
 import org.myframework.core.exception.BusinessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
@@ -20,7 +21,7 @@ import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 @Service
 public class UserJWTServiceImpl extends ReactorServiceImpl<UserMapper, User> implements UserJWTService {
 
-    @Override
+    @Transactional(rollbackFor = Exception.class)
     public Mono<JWTToken> authorize(LoginBO loginBO) {
         var username = Opt.ofNullable(loginBO)
                 .map(LoginBO::getUsername)
