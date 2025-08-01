@@ -39,8 +39,8 @@ public class UserJWTServiceImpl extends ReactorServiceImpl<UserMapper, User> imp
                 .orElseThrow(() -> new BusinessException("帐号或密码错误"));
         if (!BCrypt.checkpw(password, data.getPassword()))
             throw new BusinessException("帐号或密码错误");
-        var id = data.getId();
-        var token = JWTToken.create(id);
-        return Mono.justOrEmpty(token);
+        return Mono.just(data)
+                .map(User::getId)
+                .map(JWTToken::create);
     }
 }
