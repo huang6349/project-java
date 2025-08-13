@@ -20,7 +20,7 @@ public interface PermService extends ReactorService<Perm> {
                 .select(PERM.NAME.as(OptionVO::getLabel),
                         PERM.ID.as(OptionVO::getValue))
                 .from(PERM);
-        query.orderBy(PERM.ID, Boolean.FALSE);
+        query.orderBy(PERM.ID, Boolean.TRUE);
         return getQueryWrapper(queries, query);
     }
 
@@ -33,7 +33,7 @@ public interface PermService extends ReactorService<Perm> {
 
     default QueryWrapper getQueryWrapper(PermQueries queries) {
         var query = QueryWrapper.create();
-        query.orderBy(PERM.ID, Boolean.FALSE);
+        query.orderBy(PERM.ID, Boolean.TRUE);
         return getQueryWrapper(queries, getQueryWrapper(query));
     }
 

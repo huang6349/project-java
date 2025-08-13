@@ -20,7 +20,7 @@ public interface RoleService extends ReactorService<Role> {
                 .select(ROLE.NAME.as(OptionVO::getLabel),
                         ROLE.ID.as(OptionVO::getValue))
                 .from(ROLE);
-        query.orderBy(ROLE.ID, Boolean.FALSE);
+        query.orderBy(ROLE.ID, Boolean.TRUE);
         return getQueryWrapper(queries, query);
     }
 
@@ -33,7 +33,7 @@ public interface RoleService extends ReactorService<Role> {
 
     default QueryWrapper getQueryWrapper(RoleQueries queries) {
         var query = QueryWrapper.create();
-        query.orderBy(ROLE.ID, Boolean.FALSE);
+        query.orderBy(ROLE.ID, Boolean.TRUE);
         return getQueryWrapper(queries, getQueryWrapper(query));
     }
 
