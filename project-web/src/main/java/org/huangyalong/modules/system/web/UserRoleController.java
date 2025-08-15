@@ -23,9 +23,9 @@ import reactor.core.publisher.Mono;
 public class UserRoleController extends SuperSimpleController<UserRoleService, Role> {
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
-    @GetMapping("/_vo")
-    @Operation(summary = "视图查询")
-    public Mono<UserRoleVO> vo(@Validated UserRoleQueries queries) {
+    @GetMapping
+    @Operation(summary = "单体查询")
+    public Mono<UserRoleVO> query(@Validated UserRoleQueries queries) {
         var tenantId = Opt.ofNullable(queries)
                 .map(UserRoleQueries::getTenantId)
                 .get();

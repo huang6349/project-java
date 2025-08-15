@@ -5,15 +5,22 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.myframework.base.response.BaseVO;
+import org.huangyalong.modules.system.domain.Perm;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Data
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode
 @Schema(name = "用户权限-VO")
-public class UserPermVO extends BaseVO<Long> {
+public class UserPermVO implements Serializable {
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @Schema(description = "数据主键")
+    private Long id;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Schema(description = "租户主键")
@@ -22,4 +29,14 @@ public class UserPermVO extends BaseVO<Long> {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Schema(description = "权限主键")
     private List<Long> permIds;
+
+    /****************** with ******************/
+
+    public UserPermVO with(List<Perm> perms) {
+        setPermIds(Stream.ofNullable(perms)
+                .flatMap(Collection::stream)
+                .map(Perm::getId)
+                .toList());
+        return this;
+    }
 }

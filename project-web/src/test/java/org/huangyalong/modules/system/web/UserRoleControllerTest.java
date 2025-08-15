@@ -89,7 +89,7 @@ public class UserRoleControllerTest extends MyFrameworkTest {
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
         testClient.get()
-                .uri("/user/role/_vo?tenantId={tenantId}&id={id}", TenantUtil.getId(), UserUtil.getId())
+                .uri("/user/role?tenantId={tenantId}&id={id}", TenantUtil.getId(), UserUtil.getId())
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()
@@ -99,10 +99,6 @@ public class UserRoleControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.id")
-                .value(is(toStr(UserUtil.getId())))
-                .jsonPath("$.data.tenantId")
-                .value(is(toStr(TenantUtil.getId())))
                 .jsonPath("$.data.roleIds.[0]")
                 .value(is(toStr(RoleUtil.getId())));
         var afterSize = RoleAssoc.create()

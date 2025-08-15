@@ -55,7 +55,8 @@ public interface UserPermService extends ReactorService<Perm> {
         return getBlockByUserId(convert);
     }
 
-    default Flux<Perm> list(Serializable id) {
+    default Flux<Perm> list(Serializable tenantId,
+                            Serializable id) {
         var query = QueryWrapper.create()
                 .select(PERM.ALL_COLUMNS)
                 .from(PERM)
@@ -66,6 +67,7 @@ public interface UserPermService extends ReactorService<Perm> {
                                 .and(PERM_ASSOC.EFFECTIVE_TIME.ge(now()))))
                 .and(PERM_ASSOC.CATEGORY.eq(AssocCategory.TYPE0))
                 .and(PERM_ASSOC.ASSOC.eq(USER.getTableName()))
+                .and(PERM_ASSOC.TENANT_ID.eq(tenantId))
                 .and(PERM_ASSOC.ASSOC_ID.eq(id));
         return list(query);
     }

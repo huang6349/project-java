@@ -1,9 +1,12 @@
 package org.huangyalong.modules.system.web;
 
+import cn.hutool.core.lang.Opt;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.huangyalong.modules.system.domain.Perm;
 import org.huangyalong.modules.system.request.UserPermBO;
+import org.huangyalong.modules.system.request.UserPermQueries;
+import org.huangyalong.modules.system.response.UserPermVO;
 import org.huangyalong.modules.system.service.UserPermService;
 import org.myframework.base.web.SuperSimpleController;
 import org.myframework.core.satoken.annotation.PreAuth;
@@ -11,7 +14,6 @@ import org.myframework.core.satoken.annotation.PreCheckPermission;
 import org.myframework.core.satoken.annotation.PreMode;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @PreAuth(replace = "@user")
@@ -21,11 +23,22 @@ import reactor.core.publisher.Mono;
 public class UserPermController extends SuperSimpleController<UserPermService, Perm> {
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
-    @GetMapping("/{id:.+}")
+    @GetMapping
     @Operation(summary = "单体查询")
-    public Flux<Perm> query(@PathVariable Long id) {
+    public Mono<UserPermVO> query(@Validated UserPermQueries queries) {
+        var tenantId = Opt.ofNullable(queries)
+                .map(UserPermQueries::getTenantId)
+                .get();
+        var id = Opt.ofNullable(queries)
+                .map(UserPermQueries::getId)
+                .get();
+        var permVO = new UserPermVO();
+        permVO.setTenantId(tenantId);
+        permVO.setId(id);
         return getBaseService()
-                .list(id);
+                .list(tenantId, id)
+                .collectList()
+                .map(permVO::with);
     }
 
     @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)
