@@ -3,7 +3,6 @@ package org.huangyalong.modules.system.web;
 import cn.dev33.satoken.stp.StpUtil;
 import org.huangyalong.core.IntegrationTest;
 import org.huangyalong.modules.system.domain.PermAssoc;
-import org.huangyalong.modules.system.enums.PermStatus;
 import org.huangyalong.modules.system.request.PermUtil;
 import org.huangyalong.modules.system.request.RolePermUtil;
 import org.huangyalong.modules.system.request.RoleUtil;
@@ -16,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import static cn.hutool.core.convert.Convert.toStr;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -85,14 +85,8 @@ class RolePermControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.[0].name")
-                .value(is(PermUtil.DEFAULT_NAME))
-                .jsonPath("$.data.[0].code")
-                .value(is(PermUtil.DEFAULT_CODE))
-                .jsonPath("$.data.[0].desc")
-                .value(is(PermUtil.DEFAULT_DESC))
-                .jsonPath("$.data.[0].status")
-                .value(is(PermStatus.TYPE0.getValue()));
+                .jsonPath("$.data.permIds.[0]")
+                .value(is(toStr(PermUtil.getId())));
         var afterSize = PermAssoc.create()
                 .count();
         assertThat(beforeSize + 1)
