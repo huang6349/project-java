@@ -24,7 +24,7 @@ public class UserPermController extends SuperSimpleController<UserPermService, P
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping
-    @Operation(summary = "单体查询")
+    @Operation(summary = "单体查询（用户权限）")
     public Mono<UserPermVO> query(@Validated UserPermQueries queries) {
         var tenantId = Opt.ofNullable(queries)
                 .map(UserPermQueries::getTenantId)
@@ -37,6 +37,25 @@ public class UserPermController extends SuperSimpleController<UserPermService, P
         permVO.setId(id);
         return getBaseService()
                 .list(tenantId, id)
+                .collectList()
+                .map(permVO::with);
+    }
+
+    @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
+    @GetMapping("/_all")
+    @Operation(summary = "单体查询（全部权限）")
+    public Mono<UserPermVO> all(@Validated UserPermQueries queries) {
+        var tenantId = Opt.ofNullable(queries)
+                .map(UserPermQueries::getTenantId)
+                .get();
+        var id = Opt.ofNullable(queries)
+                .map(UserPermQueries::getId)
+                .get();
+        var permVO = new UserPermVO();
+        permVO.setTenantId(tenantId);
+        permVO.setId(id);
+        return getBaseService()
+                .all(tenantId, id)
                 .collectList()
                 .map(permVO::with);
     }

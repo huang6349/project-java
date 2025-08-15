@@ -72,5 +72,8 @@ public interface UserPermService extends ReactorService<Perm> {
         return list(query);
     }
 
+    Flux<Perm> all(Serializable tenantId,
+                   Serializable id);
+
     Mono<Boolean> assoc(UserPermBO permBO);
 }
