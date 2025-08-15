@@ -5,8 +5,8 @@ import cn.hutool.core.lang.Opt;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.QueryWrapper;
 import lombok.Getter;
+import org.huangyalong.core.satoken.helper.RoleHelper;
 import org.huangyalong.modules.system.domain.Perm;
-import org.huangyalong.modules.system.domain.Role;
 import org.huangyalong.modules.system.mapper.PermMapper;
 import org.huangyalong.modules.system.request.PermAssocBO;
 import org.huangyalong.modules.system.request.UserPermBO;
@@ -23,7 +23,6 @@ import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
 
-import static com.mybatis.flex.reactor.core.utils.ReactorUtils.runBlock;
 import static com.mybatisflex.core.query.QueryMethods.now;
 import static org.huangyalong.modules.system.domain.table.PermAssocTableDef.PERM_ASSOC;
 import static org.huangyalong.modules.system.domain.table.PermTableDef.PERM;
@@ -43,10 +42,7 @@ public class UserPermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> im
     @Override
     public Flux<Perm> all(Serializable tenantId,
                           Serializable id) {
-        var roles = runBlock(getRoleService()
-                .list(tenantId, id)
-                .map(Role::getId)
-                .collectList());
+        var roles = RoleHelper.load(tenantId, id);
         var query = QueryWrapper.create()
                 .select(PERM.ALL_COLUMNS)
                 .from(PERM)
