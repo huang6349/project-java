@@ -17,11 +17,9 @@ public final class NicknameHelper {
             RedisHelper.delete(key);
             var optional = SpringUtil.getBean(UserService.class)
                     .getBlockByIdOpt(message);
-            var username = optional
-                    .map(User::getUsername)
+            var username = optional.map(User::getUsername)
                     .orElse(null);
-            var nickname = optional
-                    .map(User::getNickname)
+            var nickname = optional.map(User::getNickname)
                     .orElse(username);
             if (ObjectUtil.isNotNull(nickname))
                 RedisHelper.set(key, nickname);

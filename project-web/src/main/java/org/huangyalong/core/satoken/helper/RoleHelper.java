@@ -20,8 +20,8 @@ public final class RoleHelper {
     public static List<String> load(Serializable tenantId,
                                     Serializable id) {
         if (ObjectUtil.isNotEmpty(tenantId) && ObjectUtil.isNotNull(id)) {
-            return runBlock(SpringUtil.getBean(UserRoleService.class)
-                    .list(tenantId, id)
+            var roleService = SpringUtil.getBean(UserRoleService.class);
+            return runBlock(roleService.list(tenantId, id)
                     .map(Role::getId)
                     .filter(ObjectUtil::isNotNull)
                     .map(Convert::toStr)
