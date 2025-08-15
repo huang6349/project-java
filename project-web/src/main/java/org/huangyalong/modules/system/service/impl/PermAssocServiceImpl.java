@@ -44,7 +44,6 @@ public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, Pe
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> assoc(PermAssocBO assocBO) {
-        // noinspection DuplicatedCode
         var tenantId = Opt.ofNullable(assocBO)
                 .map(PermAssocBO::getTenantId)
                 .get();

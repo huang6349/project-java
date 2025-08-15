@@ -61,7 +61,6 @@ public class UserPermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> im
                     .and(PERM_ASSOC.TENANT_ID.eq(tenantId))
                     .and(PERM_ASSOC.ASSOC_ID.eq(id))
                     .or(PERM_ASSOC.ASSOC.eq(ROLE.getTableName())
-                            .and(PERM_ASSOC.TENANT_ID.eq(tenantId))
                             .and(PERM_ASSOC.ASSOC_ID.in(roles))));
         else query.and(PERM_ASSOC.ASSOC.eq(USER.getTableName())
                 .and(PERM_ASSOC.TENANT_ID.eq(tenantId))

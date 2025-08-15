@@ -2,6 +2,7 @@ package org.huangyalong.modules.system.service;
 
 import com.mybatis.flex.reactor.core.ReactorService;
 import com.mybatisflex.core.query.QueryWrapper;
+import org.huangyalong.core.satoken.helper.UserHelper;
 import org.huangyalong.modules.system.domain.Role;
 import org.huangyalong.modules.system.request.UserRoleBO;
 import org.myframework.core.enums.AssocCategory;
@@ -21,7 +22,9 @@ import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 public interface UserRoleService extends ReactorService<Role> {
 
     default List<Role> getBlockByUserId(Serializable id) {
-        var mono = getByUserId(id);
+        var tenantId = UserHelper.getTenant();
+        var mono = list(tenantId, id)
+                .collectList();
         return runBlock(mono);
     }
 
@@ -29,8 +32,6 @@ public interface UserRoleService extends ReactorService<Role> {
         var convert = (Serializable) id;
         return getBlockByUserId(convert);
     }
-
-    Mono<List<Role>> getByUserId(Serializable id);
 
     default Flux<Role> list(Serializable tenantId,
                             Serializable id) {
