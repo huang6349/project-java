@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.myframework.es.service.EsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection", "LombokGetterMayBeUsed", "unchecked"})
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 public abstract class SuperSimpleController<S extends EsService<Entity>, Entity> implements BaseController<Entity> {
 
     @Autowired

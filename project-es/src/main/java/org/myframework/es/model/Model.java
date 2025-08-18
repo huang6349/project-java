@@ -2,7 +2,6 @@ package org.myframework.es.model;
 
 import java.io.Serializable;
 
-@SuppressWarnings({"UnnecessaryLocalVariable", "unchecked", "unused"})
 public abstract class Model<T extends Model<T>> implements Serializable {
 
     public T self() {

@@ -6,7 +6,6 @@ import org.myframework.es.web.curd.QueryController;
 
 import java.io.Serializable;
 
-@SuppressWarnings("unchecked")
 public abstract class EsController<
         S extends EsService<Entity>,
         Id extends Serializable,
