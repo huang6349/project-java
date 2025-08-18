@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
 
-@SuppressWarnings("CodeBlock2Expr")
+@SuppressWarnings({"CodeBlock2Expr", "unused"})
 public interface EsService<Entity> {
 
     int DEFAULT_PAGE_NUMBER = 1;

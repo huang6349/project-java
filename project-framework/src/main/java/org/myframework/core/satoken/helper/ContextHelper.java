@@ -6,6 +6,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Opt;
 import org.myframework.core.satoken.util.ContextUtil;
 
+@SuppressWarnings("unused")
 public class ContextHelper {
 
     public static String getLoginIdAsString() {

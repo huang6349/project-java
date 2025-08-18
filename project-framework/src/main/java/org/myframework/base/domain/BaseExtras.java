@@ -7,6 +7,7 @@ import cn.hutool.json.JSONUtil;
 import java.io.Serializable;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public abstract class BaseExtras<T extends BaseExtras<T>> implements Serializable {
 
     private Map<String, Object> extras;

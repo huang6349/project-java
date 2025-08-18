@@ -1,13 +1,14 @@
 package org.huangyalong.core.satoken.helper;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import org.huangyalong.modules.system.domain.User;
-import org.huangyalong.modules.system.service.UserService;
 import org.myframework.core.redis.RedisHelper;
 
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static org.huangyalong.modules.system.domain.UserExtras.NAME_NICKNAME;
+import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
+import static org.myframework.core.mybatisflex.JsonMethods.ue;
 
 public final class NicknameHelper {
 
@@ -15,13 +16,16 @@ public final class NicknameHelper {
         if (ObjectUtil.isNotEmpty(message)) {
             var key = format("user_nickname_{}", message);
             RedisHelper.delete(key);
-            var optional = SpringUtil.getBean(UserService.class)
-                    .getBlockByIdOpt(message);
-            var username = optional.map(User::getUsername)
-                    .orElse(null);
-            var nickname = optional.map(User::getNickname)
+            var username = User.create()
+                    .select(USER.USERNAME)
+                    .where(USER.ID.eq(message))
+                    .oneAs(String.class);
+            var nickname = User.create()
+                    .select(ue(USER.EXTRAS, NAME_NICKNAME).as(User::getNickname))
+                    .where(USER.ID.eq(message))
+                    .oneAsOpt(String.class)
                     .orElse(username);
-            if (ObjectUtil.isNotNull(nickname))
+            if (ObjectUtil.isNotEmpty(nickname))
                 RedisHelper.set(key, nickname);
             RedisHelper.expire(key, 30, MINUTES);
         }

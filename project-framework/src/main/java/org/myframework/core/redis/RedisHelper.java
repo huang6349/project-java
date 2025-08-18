@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.myframework.core.redis.RedisUtil.getChannelName;
 
+@SuppressWarnings("unused")
 public class RedisHelper extends RedisTemplate {
 
     private static StringRedisTemplate redisTemplate;

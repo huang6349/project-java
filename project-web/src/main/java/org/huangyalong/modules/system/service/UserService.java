@@ -10,7 +10,6 @@ import org.myframework.base.response.OptionVO;
 import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 import static org.huangyalong.modules.system.domain.UserExtras.*;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
@@ -68,17 +67,6 @@ public interface UserService extends ReactorService<User> {
                         ue(USER.EXTRAS, NAME_BIRTHDAY).as(User::getBirthday),
                         ue(USER.EXTRAS, NAME_ADDRESS).as(User::getAddress))
                 .from(USER);
-    }
-
-    default Optional<User> getBlockByIdOpt(Serializable id) {
-        var query = getQueryWrapper(id);
-        return getBlockService()
-                .getOneOpt(query);
-    }
-
-    default Optional<User> getBlockByIdOpt(Object id) {
-        var convert = (Serializable) id;
-        return getBlockByIdOpt(convert);
     }
 
     @Override
