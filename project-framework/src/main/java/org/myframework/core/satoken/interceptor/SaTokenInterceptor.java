@@ -4,6 +4,7 @@ import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.log.StaticLog;
+import org.jetbrains.annotations.NotNull;
 import org.myframework.core.satoken.util.ContextUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SaTokenInterceptor extends SaInterceptor {
 
-    @SuppressWarnings("all")
-    public void afterCompletion(HttpServletRequest request,
-                                HttpServletResponse response,
-                                Object handler,
-                                Exception ex) throws Exception {
+    @Override
+    public void afterCompletion(@NotNull HttpServletRequest request,
+                                @NotNull HttpServletResponse response,
+                                @NotNull Object handler,
+                                Exception ex) {
         // 清空 ThreadLocal 的值，防止下次请求时获取到的值是旧数据，同时也能防止内存溢出
         ContextUtil.remove();
     }
 
-    @SuppressWarnings("all")
+    @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) throws Exception {

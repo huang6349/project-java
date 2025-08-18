@@ -6,7 +6,6 @@ import org.myframework.base.web.curd.*;
 
 import java.io.Serializable;
 
-@SuppressWarnings("unchecked")
 public abstract class ReactorController<
         S extends ReactorService<Entity>,
         Id extends Serializable,

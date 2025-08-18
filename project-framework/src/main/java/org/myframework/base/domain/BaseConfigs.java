@@ -7,7 +7,6 @@ import cn.hutool.json.JSONUtil;
 import java.io.Serializable;
 import java.util.Map;
 
-@SuppressWarnings({"UnnecessaryLocalVariable", "unchecked", "unused"})
 public abstract class BaseConfigs<T extends BaseConfigs<T>> implements Serializable {
 
     private Map<String, Object> configs;

@@ -5,7 +5,7 @@ import com.mybatis.flex.reactor.core.ReactorService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection", "LombokGetterMayBeUsed", "unchecked"})
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 public abstract class SuperSimpleController<S extends ReactorService<Entity>, Entity> implements BaseController<Entity> {
 
     @Autowired
