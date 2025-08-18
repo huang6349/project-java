@@ -1,9 +1,9 @@
 package org.huangyalong.core.satoken.helper;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import org.huangyalong.modules.system.domain.Role;
-import org.huangyalong.modules.system.service.UserRoleService;
+import org.myframework.core.enums.AssocCategory;
+import org.myframework.core.enums.TimeEffective;
 import org.myframework.core.redis.RedisHelper;
 
 import java.io.Serializable;
@@ -12,20 +12,30 @@ import java.util.List;
 import static cn.hutool.core.collection.ListUtil.empty;
 import static cn.hutool.core.convert.Convert.toLong;
 import static cn.hutool.core.text.CharSequenceUtil.format;
-import static com.mybatis.flex.reactor.core.utils.ReactorUtils.runBlock;
+import static com.mybatisflex.core.query.QueryMethods.now;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.huangyalong.core.constants.Constants.SUPER_ADMIN_ID;
+import static org.huangyalong.modules.system.domain.table.RoleAssocTableDef.ROLE_ASSOC;
+import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
+import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 public final class RoleCodeHelper {
 
     public static List<String> load(Serializable tenantId,
                                     Serializable id) {
         if (ObjectUtil.isNotEmpty(tenantId) && ObjectUtil.isNotNull(id)) {
-            var roleService = SpringUtil.getBean(UserRoleService.class);
-            return runBlock(roleService.list(tenantId, id)
-                    .map(Role::getCode)
-                    .filter(ObjectUtil::isNotEmpty)
-                    .collectList());
+            return Role.create()
+                    .select(ROLE.CODE)
+                    .rightJoin(ROLE_ASSOC)
+                    .on(ROLE_ASSOC.ROLE_ID.eq(ROLE.ID))
+                    .where(ROLE_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE0)
+                            .or(ROLE_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE1)
+                                    .and(ROLE_ASSOC.EFFECTIVE_TIME.ge(now()))))
+                    .and(ROLE_ASSOC.CATEGORY.eq(AssocCategory.TYPE0))
+                    .and(ROLE_ASSOC.ASSOC.eq(USER.getTableName()))
+                    .and(ROLE_ASSOC.TENANT_ID.eq(tenantId))
+                    .and(ROLE_ASSOC.ASSOC_ID.eq(id))
+                    .listAs(String.class);
         } else return empty();
     }
 
@@ -34,7 +44,10 @@ public final class RoleCodeHelper {
             var key = format("user_role_code_{}", message);
             RedisHelper.delete(key);
             var id = (Serializable) message;
-            var roles = load(UserHelper.getTenant(), id);
+            var roles = load(UserHelper.getTenant(), id)
+                    .stream()
+                    .filter(ObjectUtil::isNotEmpty)
+                    .toList();
             if (ObjectUtil.equal(SUPER_ADMIN_ID, toLong(message)))
                 RedisHelper.lLeftPushAll(key, "super-admin");
             if (ObjectUtil.isNotEmpty(roles))

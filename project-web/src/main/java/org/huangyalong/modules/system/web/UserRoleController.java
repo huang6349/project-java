@@ -16,6 +16,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import static org.huangyalong.core.satoken.helper.RoleHelper.load;
+
 @PreAuth(replace = "@user")
 @RestController
 @RequestMapping("/user/role")
@@ -35,10 +37,8 @@ public class UserRoleController extends SuperSimpleController<UserRoleService, R
         var roleVO = new UserRoleVO();
         roleVO.setTenantId(tenantId);
         roleVO.setId(id);
-        return getBaseService()
-                .list(tenantId, id)
-                .collectList()
-                .map(roleVO::with);
+        roleVO.setRoleIds(load(tenantId, id));
+        return Mono.just(roleVO);
     }
 
     @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)

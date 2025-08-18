@@ -9,6 +9,7 @@ import java.util.List;
 
 import static cn.hutool.core.text.CharSequenceUtil.format;
 
+@SuppressWarnings("unused")
 public final class UserHelper extends ContextHelper {
 
     public static List<String> getPermCode(Object message) {

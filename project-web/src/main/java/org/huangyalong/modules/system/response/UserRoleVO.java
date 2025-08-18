@@ -5,12 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.huangyalong.modules.system.domain.Role;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Data
 @ToString(callSuper = true)
@@ -29,14 +26,4 @@ public class UserRoleVO implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Schema(description = "角色主键")
     private List<Long> roleIds;
-
-    /****************** with ******************/
-
-    public UserRoleVO with(List<Role> roles) {
-        setRoleIds(Stream.ofNullable(roles)
-                .flatMap(Collection::stream)
-                .map(Role::getId)
-                .toList());
-        return this;
-    }
 }
