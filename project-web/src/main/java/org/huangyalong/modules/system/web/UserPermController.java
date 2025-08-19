@@ -16,6 +16,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import static org.huangyalong.core.satoken.helper.PermHelper.load;
+
 @PreAuth(replace = "@user")
 @RestController
 @RequestMapping("/user/perm")
@@ -54,10 +56,8 @@ public class UserPermController extends SuperSimpleController<UserPermService, P
         var permVO = new UserPermVO();
         permVO.setTenantId(tenantId);
         permVO.setId(id);
-        return getBaseService()
-                .all(tenantId, id)
-                .collectList()
-                .map(permVO::with);
+        permVO.setPermIds(load(tenantId, id));
+        return Mono.just(permVO);
     }
 
     @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)

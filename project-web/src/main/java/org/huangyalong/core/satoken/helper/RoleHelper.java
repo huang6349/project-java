@@ -25,7 +25,7 @@ public final class RoleHelper {
         if (ObjectUtil.isNotEmpty(tenantId) && ObjectUtil.isNotNull(id)) {
             return Role.create()
                     .select(ROLE.ID)
-                    .rightJoin(ROLE_ASSOC)
+                    .leftJoin(ROLE_ASSOC)
                     .on(ROLE_ASSOC.ROLE_ID.eq(ROLE.ID))
                     .where(ROLE_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE0)
                             .or(ROLE_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE1)
