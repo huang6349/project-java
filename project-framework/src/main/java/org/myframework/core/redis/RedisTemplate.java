@@ -8,5 +8,5 @@ public abstract class RedisTemplate {
 
     @Autowired
     @Getter
-    protected StringRedisTemplate stringRedisTemplate;
+    protected StringRedisTemplate template;
 }

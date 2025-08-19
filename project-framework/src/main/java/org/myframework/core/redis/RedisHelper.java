@@ -19,7 +19,7 @@ public class RedisHelper extends RedisTemplate {
 
     @PostConstruct
     void init() {
-        redisTemplate = stringRedisTemplate;
+        redisTemplate = getTemplate();
         StaticLog.trace("RedisHelper 初始化完成，静态模板已注入");
     }
 
