@@ -50,3 +50,7 @@ easy-es:
   global-config:
     i-kun-mode: false
     print-dsl: true
+
+# 消息总线配置
+eventbus:
+  type: redis

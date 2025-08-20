@@ -14,7 +14,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import static org.myframework.core.redis.RedisUtil.getChannelName;
 
 @Configuration
-@Import({RedisHelper.class})
+@Import(RedisHelper.class)
 public class FrameworkRedis {
 
     @Bean("redisMessageListenerContainer")
