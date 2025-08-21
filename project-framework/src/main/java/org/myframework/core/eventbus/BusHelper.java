@@ -5,7 +5,7 @@ import com.github.likavn.eventbus.core.api.MsgDelayListener;
 import com.github.likavn.eventbus.core.api.MsgListener;
 import com.github.likavn.eventbus.core.metadata.data.MsgBody;
 
-public class MsgHelper extends AbstractMsgHelper {
+public class BusHelper extends AbstractBusHelper {
 
     /* --------------------延时消息------------------------ */
 
