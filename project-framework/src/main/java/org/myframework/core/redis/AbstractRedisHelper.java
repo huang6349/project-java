@@ -15,7 +15,6 @@ public abstract class AbstractRedisHelper {
 
     @PostConstruct
     void init() {
-
         template = redisTemplate;
         StaticLog.trace("初始化完成，静态模板已注入");
     }
