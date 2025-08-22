@@ -40,7 +40,7 @@ public final class RoleHelper {
 
     public static void load(Object message) {
         if (ObjectUtil.isNotEmpty(message)) {
-            var key = format("user_role_{}", message);
+            var key = format("user:role:{}", message);
             RedisHelper.delete(key);
             var id = (Serializable) message;
             var roles = load(UserHelper.getTenant(), id)

@@ -12,7 +12,7 @@ public final class TenantHelper {
 
     public static void load(Object message) {
         if (ObjectUtil.isNotEmpty(message)) {
-            var key = format("user_tenant_{}", message);
+            var key = format("user:tenant:{}", message);
             RedisHelper.delete(key);
             var tenant = User.create()
                     .select(USER.TENANT_ID)

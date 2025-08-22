@@ -41,7 +41,7 @@ public final class RoleCodeHelper {
 
     public static void load(Object message) {
         if (ObjectUtil.isNotEmpty(message)) {
-            var key = format("user_role_code_{}", message);
+            var key = format("user:role:code:{}", message);
             RedisHelper.delete(key);
             var id = (Serializable) message;
             var roles = load(UserHelper.getTenant(), id)

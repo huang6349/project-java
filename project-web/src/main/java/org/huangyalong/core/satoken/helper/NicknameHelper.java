@@ -14,7 +14,7 @@ public final class NicknameHelper {
 
     public static void load(Object message) {
         if (ObjectUtil.isNotEmpty(message)) {
-            var key = format("user_nickname_{}", message);
+            var key = format("user:nickname:{}", message);
             RedisHelper.delete(key);
             var username = User.create()
                     .select(USER.USERNAME)

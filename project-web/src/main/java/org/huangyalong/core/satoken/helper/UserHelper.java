@@ -9,11 +9,10 @@ import java.util.List;
 
 import static cn.hutool.core.text.CharSequenceUtil.format;
 
-@SuppressWarnings("unused")
 public final class UserHelper extends ContextHelper {
 
     public static List<String> getPermCode(Object message) {
-        var key = format("user_perm_code_{}", message);
+        var key = format("user:perm:code:{}", message);
         if (!RedisHelper.hasKey(key))
             PermCodeHelper.load(message);
         return RedisHelper.lRange(key, 0, -1);
@@ -26,7 +25,7 @@ public final class UserHelper extends ContextHelper {
     }
 
     public static List<String> getRoleCode(Object message) {
-        var key = format("user_role_code_{}", message);
+        var key = format("user:role:code:{}", message);
         if (!RedisHelper.hasKey(key))
             RoleCodeHelper.load(message);
         return RedisHelper.lRange(key, 0, -1);
@@ -39,7 +38,7 @@ public final class UserHelper extends ContextHelper {
     }
 
     public static List<Long> getPerm(Object message) {
-        var key = format("user_perm_{}", message);
+        var key = format("user:perm:{}", message);
         if (!RedisHelper.hasKey(key))
             PermHelper.load(message);
         return RedisHelper.lRange(key, 0, -1)
@@ -55,7 +54,7 @@ public final class UserHelper extends ContextHelper {
     }
 
     public static List<Long> getRole(Object message) {
-        var key = format("user_role_{}", message);
+        var key = format("user:role:{}", message);
         if (!RedisHelper.hasKey(key))
             RoleHelper.load(message);
         return RedisHelper.lRange(key, 0, -1)
@@ -71,7 +70,7 @@ public final class UserHelper extends ContextHelper {
     }
 
     public static String getTenant(Object message) {
-        var key = format("user_tenant_{}", message);
+        var key = format("user:tenant:{}", message);
         if (!RedisHelper.hasKey(key))
             TenantHelper.load(message);
         return RedisHelper.get(key);
@@ -84,7 +83,7 @@ public final class UserHelper extends ContextHelper {
     }
 
     public static String getNickname(Object message) {
-        var key = format("user_nickname_{}", message);
+        var key = format("user:nickname:{}", message);
         if (!RedisHelper.hasKey(key))
             NicknameHelper.load(message);
         return RedisHelper.get(key);

@@ -47,7 +47,7 @@ public final class PermCodeHelper {
 
     public static void load(Object message) {
         if (ObjectUtil.isNotEmpty(message)) {
-            var key = format("user_perm_code_{}", message);
+            var key = format("user:perm:code:{}", message);
             RedisHelper.delete(key);
             var id = (Serializable) message;
             var perms = load(UserHelper.getTenant(), id)
