@@ -74,9 +74,9 @@ CREATE TABLE IF NOT EXISTS `tb_ai_document`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT '文档信息';
 
 -- ----------------------------
--- Table structure for tb_ai_document_chunk
+-- Table structure for tb_ai_chunk
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS `tb_ai_document_chunk`
+CREATE TABLE IF NOT EXISTS `tb_ai_chunk`
 (
     `id`               bigint                             NOT NULL AUTO_INCREMENT COMMENT '主键',
     `document_id`      bigint                             NOT NULL COMMENT '文档主键(所属文档)',
