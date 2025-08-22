@@ -14,8 +14,7 @@ public interface EnumDict<T> {
 
     Integer getStyle();
 
-    static <Enum extends EnumDict<T>, T> Enum fromValue(T value,
-                                                        Class<Enum> enumClass) {
+    static <Enum extends EnumDict<T>, T> Enum fromValue(T value, Class<Enum> enumClass) {
         for (var enumInstance : enumClass.getEnumConstants())
             if (enumInstance.getValue().equals(value))
                 return enumInstance;

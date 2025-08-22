@@ -70,7 +70,6 @@ public class Tenant extends Entity<Tenant, Long> {
 
     /****************** with ******************/
 
-    @SuppressWarnings("DuplicatedCode")
     public Tenant with(TenantBO tenantBO) {
         var category = Opt.ofNullable(tenantBO)
                 .map(TenantBO::getCategory)

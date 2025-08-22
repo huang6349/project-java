@@ -97,7 +97,6 @@ public class User extends Entity<User, Long> {
 
     /****************** with ******************/
 
-    @SuppressWarnings("DuplicatedCode")
     public User with(UserBO userBO) {
         Opt.ofNullable(userBO)
                 .map(UserBO::getUsername)
@@ -133,6 +132,6 @@ public class User extends Entity<User, Long> {
 
     public String getNickname() {
         return Opt.ofNullable(nickname)
-                .orElse(username);
+                .orElseGet(this::getUsername);
     }
 }

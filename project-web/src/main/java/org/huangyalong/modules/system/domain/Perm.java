@@ -49,7 +49,6 @@ public class Perm extends Entity<Perm, Long> {
 
     /****************** with ******************/
 
-    @SuppressWarnings("DuplicatedCode")
     public Perm with(PermBO permBO) {
         Opt.ofNullable(permBO)
                 .map(PermBO::getName)

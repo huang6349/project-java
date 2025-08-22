@@ -1,13 +1,14 @@
 package org.huangyalong.modules.system.domain;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.lang.Opt;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Data(staticConstructor = "create")
 @ToString(callSuper = true)
@@ -23,9 +24,8 @@ public class PermAssocsData implements Serializable {
     private Long tenantId;
 
     public PermAssocsData addPermIds(List<Long> permIds) {
-        Opt.ofNullable(permIds)
-                .orElse(CollUtil.newArrayList())
-                .stream()
+        Stream.ofNullable(permIds)
+                .flatMap(Collection::stream)
                 .map(this::addPermId)
                 .forEach(this::add);
         return this;

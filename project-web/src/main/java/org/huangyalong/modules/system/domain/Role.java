@@ -49,7 +49,6 @@ public class Role extends Entity<Role, Long> {
 
     /****************** with ******************/
 
-    @SuppressWarnings("DuplicatedCode")
     public Role with(RoleBO roleBO) {
         Opt.ofNullable(roleBO)
                 .map(RoleBO::getName)
