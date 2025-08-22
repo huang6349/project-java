@@ -18,8 +18,6 @@ import org.myframework.extra.jackson.JKDictFormat;
 
 import java.util.Map;
 
-import static org.myframework.extra.dict.EnumDict.fromValue;
-
 @Data(staticConstructor = "create")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
@@ -71,9 +69,6 @@ public class Tenant extends Entity<Tenant, Long> {
     /****************** with ******************/
 
     public Tenant with(TenantBO tenantBO) {
-        var category = Opt.ofNullable(tenantBO)
-                .map(TenantBO::getCategory)
-                .get();
         var abbr = Opt.ofNullable(tenantBO)
                 .map(TenantBO::getAbbr)
                 .get();
@@ -84,12 +79,15 @@ public class Tenant extends Entity<Tenant, Long> {
                 .map(TenantBO::getName)
                 .ifPresent(this::setName);
         Opt.ofNullable(tenantBO)
+                .map(TenantBO::getCategory)
+                .map(TenantCategory::fromValue)
+                .ifPresent(this::setCategory);
+        Opt.ofNullable(tenantBO)
                 .map(TenantBO::getAddress)
                 .ifPresent(this::setAddress);
         Opt.ofNullable(tenantBO)
                 .map(TenantBO::getDesc)
                 .ifPresent(this::setDesc);
-        setCategory(fromValue(category, TenantCategory.class));
         setExtras(TenantExtras.create()
                 .setExtras(getExtras())
                 .addAbbr(abbr)

@@ -37,4 +37,9 @@ public enum TenantCategory implements EnumDict<String> {
     private Integer isDefault;
 
     private Integer style;
+
+    public static TenantCategory fromValue(String value) {
+        var enumClass = TenantCategory.class;
+        return EnumDict.fromValue(value, enumClass);
+    }
 }
