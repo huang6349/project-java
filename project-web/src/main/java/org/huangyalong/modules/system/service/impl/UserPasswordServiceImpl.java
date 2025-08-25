@@ -4,7 +4,6 @@ import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
-import lombok.AllArgsConstructor;
 import org.huangyalong.core.satoken.helper.UserHelper;
 import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.mapper.UserMapper;
@@ -17,7 +16,6 @@ import reactor.core.publisher.Mono;
 
 import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
 
-@AllArgsConstructor
 @Service
 public class UserPasswordServiceImpl extends ReactorServiceImpl<UserMapper, User> implements UserPasswordService {
 

@@ -5,7 +5,7 @@ import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.BooleanUtil;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.If;
-import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.huangyalong.core.satoken.helper.UserHelper;
 import org.huangyalong.modules.system.domain.TenantAssoc;
 import org.huangyalong.modules.system.domain.User;
@@ -19,6 +19,7 @@ import org.huangyalong.modules.system.service.TenantUserService;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
 import org.myframework.core.exception.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
@@ -33,13 +34,15 @@ import static org.myframework.core.constants.Constants.SYSTEM_RESERVED;
 import static org.myframework.core.exception.ErrorCode.ERR_RESERVED;
 import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
 
-@AllArgsConstructor
+@Getter
 @Service
 public class TenantUserServiceImpl extends ReactorServiceImpl<UserMapper, User> implements TenantUserService {
 
-    private final TenantAssocService tenantService;
+    @Autowired
+    private TenantAssocService tenantService;
 
-    private final RoleAssocService roleService;
+    @Autowired
+    private RoleAssocService roleService;
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> add(TenantUserBO userBO) {
@@ -58,7 +61,8 @@ public class TenantUserServiceImpl extends ReactorServiceImpl<UserMapper, User> 
                 .setAssoc(USER.getTableName())
                 .setAssocId(userId)
                 .setDesc(desc);
-        return tenantService.save(data)
+        return getTenantService()
+                .save(data)
                 .thenReturn(userBO)
                 .flatMap(this::roleAssoc);
     }
@@ -72,20 +76,24 @@ public class TenantUserServiceImpl extends ReactorServiceImpl<UserMapper, User> 
         var id = Opt.ofNullable(userBO)
                 .map(TenantUserBO::getId)
                 .get();
-        var data = tenantService.getBlockService()
+        var data = getTenantService()
+                .getBlockService()
                 .getByIdOpt(id)
                 .orElseThrow(() -> new BusinessException(NOT_FOUND))
                 .setDesc(desc);
-        return tenantService.updateById(data);
+        return getTenantService()
+                .updateById(data);
     }
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> delete(Serializable id) {
         validateDelete(id);
-        var data = tenantService.getBlockService()
+        var data = getTenantService()
+                .getBlockService()
                 .getByIdOpt(id)
                 .orElseThrow(() -> new BusinessException(NOT_FOUND));
-        return tenantService.removeById(data)
+        return getTenantService()
+                .removeById(data)
                 .thenReturn(data)
                 .flatMap(this::roleDissoc);
     }
@@ -129,7 +137,8 @@ public class TenantUserServiceImpl extends ReactorServiceImpl<UserMapper, User> 
         assocBO.setRoleIds(ListUtil.of(USER_ID));
         assocBO.setAssoc(USER.getTableName());
         assocBO.setId(userId);
-        return roleService.assoc(assocBO)
+        return getRoleService()
+                .assoc(assocBO)
                 .thenReturn(userId)
                 .doOnNext(UserHelper::load)
                 .thenReturn(Boolean.TRUE);
@@ -146,7 +155,8 @@ public class TenantUserServiceImpl extends ReactorServiceImpl<UserMapper, User> 
         dissocBO.setTenantId(tenantId);
         dissocBO.setAssoc(USER.getTableName());
         dissocBO.setId(userId);
-        return roleService.dissoc(dissocBO)
+        return getRoleService()
+                .dissoc(dissocBO)
                 .thenReturn(userId)
                 .doOnNext(UserHelper::load)
                 .thenReturn(Boolean.TRUE);

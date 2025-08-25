@@ -3,7 +3,6 @@ package org.huangyalong.modules.system.service.impl;
 import cn.hutool.core.lang.Opt;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.QueryWrapper;
-import lombok.AllArgsConstructor;
 import org.huangyalong.modules.system.domain.RoleAssoc;
 import org.huangyalong.modules.system.domain.RoleAssocsData;
 import org.huangyalong.modules.system.mapper.RoleAssocMapper;
@@ -18,7 +17,6 @@ import reactor.core.publisher.Mono;
 
 import static org.huangyalong.modules.system.domain.table.RoleAssocTableDef.ROLE_ASSOC;
 
-@AllArgsConstructor
 @Service
 public class RoleAssocServiceImpl extends ReactorServiceImpl<RoleAssocMapper, RoleAssoc> implements RoleAssocService {
 

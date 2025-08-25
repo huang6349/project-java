@@ -2,7 +2,6 @@ package org.huangyalong.modules.system.service.impl;
 
 import cn.hutool.core.lang.Opt;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
-import lombok.AllArgsConstructor;
 import org.huangyalong.modules.system.domain.Tenant;
 import org.huangyalong.modules.system.mapper.TenantMapper;
 import org.huangyalong.modules.system.request.TenantBO;
@@ -20,7 +19,6 @@ import static org.myframework.core.exception.ErrorCode.ERR_RESERVED;
 import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
 import static org.myframework.core.util.ServiceUtil.randomCode;
 
-@AllArgsConstructor
 @Service
 public class TenantServiceImpl extends ReactorServiceImpl<TenantMapper, Tenant> implements TenantService {
 

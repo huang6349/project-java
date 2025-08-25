@@ -3,7 +3,6 @@ package org.huangyalong.modules.system.service.impl;
 import cn.hutool.core.lang.Opt;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.QueryWrapper;
-import lombok.AllArgsConstructor;
 import org.huangyalong.modules.system.domain.PermAssoc;
 import org.huangyalong.modules.system.domain.PermAssocsData;
 import org.huangyalong.modules.system.mapper.PermAssocMapper;
@@ -18,7 +17,6 @@ import reactor.core.publisher.Mono;
 
 import static org.huangyalong.modules.system.domain.table.PermAssocTableDef.PERM_ASSOC;
 
-@AllArgsConstructor
 @Service
 public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, PermAssoc> implements PermAssocService {
 

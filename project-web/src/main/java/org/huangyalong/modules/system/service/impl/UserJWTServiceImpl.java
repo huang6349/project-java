@@ -4,7 +4,6 @@ import cn.hutool.core.lang.Opt;
 import cn.hutool.crypto.digest.BCrypt;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.If;
-import lombok.AllArgsConstructor;
 import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.mapper.UserMapper;
 import org.huangyalong.modules.system.request.LoginBO;
@@ -17,7 +16,6 @@ import reactor.core.publisher.Mono;
 
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
-@AllArgsConstructor
 @Service
 public class UserJWTServiceImpl extends ReactorServiceImpl<UserMapper, User> implements UserJWTService {
 

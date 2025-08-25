@@ -4,7 +4,6 @@ import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.BooleanUtil;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.If;
-import lombok.AllArgsConstructor;
 import org.huangyalong.modules.system.domain.Role;
 import org.huangyalong.modules.system.mapper.RoleMapper;
 import org.huangyalong.modules.system.request.RoleBO;
@@ -22,7 +21,6 @@ import static org.myframework.core.constants.Constants.SYSTEM_RESERVED;
 import static org.myframework.core.exception.ErrorCode.ERR_RESERVED;
 import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
 
-@AllArgsConstructor
 @Service
 public class RoleServiceImpl extends ReactorServiceImpl<RoleMapper, Role> implements RoleService {
 

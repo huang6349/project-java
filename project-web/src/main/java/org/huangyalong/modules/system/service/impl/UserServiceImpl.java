@@ -5,7 +5,6 @@ import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.If;
-import lombok.AllArgsConstructor;
 import org.huangyalong.core.satoken.helper.UserHelper;
 import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.mapper.UserMapper;
@@ -24,7 +23,6 @@ import static org.myframework.core.constants.Constants.SYSTEM_RESERVED;
 import static org.myframework.core.exception.ErrorCode.ERR_RESERVED;
 import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
 
-@AllArgsConstructor
 @Service
 public class UserServiceImpl extends ReactorServiceImpl<UserMapper, User> implements UserService {
 
