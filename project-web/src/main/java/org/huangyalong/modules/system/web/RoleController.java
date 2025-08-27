@@ -24,11 +24,10 @@ public class RoleController extends ReactorController<
         Role,
         RoleQueries,
         RoleBO,
-        RoleBO
-        > implements OptionController<
+        RoleBO>
+        implements OptionController<
         Role,
-        RoleQueries
-        > {
+        RoleQueries> {
 
     @Override
     public ApiResponse<QueryWrapper> handlerOption(RoleQueries queries) {

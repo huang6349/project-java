@@ -15,6 +15,9 @@ public class UserQueries extends BaseQueries {
     @Schema(description = "用户帐号")
     private String username;
 
+    @Schema(description = "用户昵称")
+    private String nickname;
+
     @Schema(description = "手机号码")
     private String mobile;
 }

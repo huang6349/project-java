@@ -24,12 +24,10 @@ public class PermController extends ReactorController<
         Perm,
         PermQueries,
         PermBO,
-        PermBO
-        >
+        PermBO>
         implements OptionController<
         Perm,
-        PermQueries
-        > {
+        PermQueries> {
 
     @Override
     public ApiResponse<QueryWrapper> handlerOption(PermQueries queries) {

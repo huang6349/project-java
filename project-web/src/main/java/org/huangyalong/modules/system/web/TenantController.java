@@ -23,8 +23,7 @@ public class TenantController extends ReactorController<
         Tenant,
         TenantQueries,
         TenantBO,
-        TenantBO
-        > {
+        TenantBO> {
 
     @Override
     public ApiResponse<QueryWrapper> handlerQuery(TenantQueries queries) {

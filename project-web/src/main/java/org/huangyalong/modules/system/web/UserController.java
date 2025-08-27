@@ -24,12 +24,10 @@ public class UserController extends ReactorController<
         User,
         UserQueries,
         UserBO,
-        UserBO
-        >
+        UserBO>
         implements OptionController<
         User,
-        UserQueries
-        > {
+        UserQueries> {
 
     @Override
     public ApiResponse<QueryWrapper> handlerOption(UserQueries queries) {

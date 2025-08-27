@@ -20,7 +20,8 @@ public interface UserService extends ReactorService<User> {
     default QueryWrapper getOptionWrapper(UserQueries queries) {
         var query = QueryWrapper.create()
                 .select(USER.USERNAME.as(OptionVO::getLabel),
-                        USER.ID.as(OptionVO::getValue))
+                        USER.ID.as(OptionVO::getValue),
+                        ue(USER.EXTRAS, NAME_NICKNAME).as(OptionVO::getDesc))
                 .from(USER);
         query.orderBy(USER.ID, Boolean.TRUE);
         return getQueryWrapper(queries, query);
@@ -29,6 +30,7 @@ public interface UserService extends ReactorService<User> {
     default QueryWrapper getQueryWrapper(UserQueries queries,
                                          QueryWrapper query) {
         query.where(USER.USERNAME.like(queries.getUsername(), If::hasText));
+        query.where(ue(USER.EXTRAS, NAME_NICKNAME).like(queries.getNickname(), If::hasText));
         query.where(USER.MOBILE.like(queries.getMobile(), If::hasText));
         return query;
     }
