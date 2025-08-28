@@ -9,13 +9,13 @@ import org.myframework.core.satoken.util.ContextUtil;
 public class ContextHelper {
 
     public static String getLoginIdAsString() {
-        return Opt.ofBlankAble(getLoginId())
+        return Opt.ofNullable(getLoginId())
                 .map(Convert::toStr)
                 .get();
     }
 
     public static Long getLoginIdAsLong() {
-        return Opt.ofBlankAble(getLoginId())
+        return Opt.ofNullable(getLoginId())
                 .map(Convert::toLong)
                 .get();
     }
