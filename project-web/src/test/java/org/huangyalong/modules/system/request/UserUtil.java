@@ -3,6 +3,7 @@ package org.huangyalong.modules.system.request;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import org.huangyalong.modules.system.domain.User;
@@ -23,6 +24,7 @@ public interface UserUtil {
     String DEFAULT_GENDER = UserGender.TYPE0.getValue();
     String DEFAULT_ADDRESS = RandomUtil.randomString(12);
     String DEFAULT_DESC = RandomUtil.randomString(12);
+    String DEFAULT_LABEL = StrUtil.format("{}（{}）", DEFAULT_USERNAME, DEFAULT_NICKNAME);
 
     String UPDATED_PASSWORD = "b123456";
     String UPDATED_NICKNAME = RandomUtil.randomString(12);

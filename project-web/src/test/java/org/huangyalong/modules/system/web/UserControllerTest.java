@@ -295,7 +295,7 @@ class UserControllerTest extends MyFrameworkTest {
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
                 .jsonPath("$.data.[*].label")
-                .value(hasItem(UserUtil.DEFAULT_USERNAME));
+                .value(hasItem(UserUtil.DEFAULT_LABEL));
         var afterSize = User.create()
                 .count();
         assertThat(beforeSize + 1)
