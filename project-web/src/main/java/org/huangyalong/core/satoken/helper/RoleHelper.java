@@ -21,8 +21,11 @@ import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 public final class RoleHelper {
 
     public static List<Long> load(Serializable tenantId,
-                                  Serializable id) {
-        if (ObjectUtil.isNotEmpty(tenantId) && ObjectUtil.isNotNull(id)) {
+                                  Serializable id,
+                                  String assoc) {
+        if (ObjectUtil.isNotEmpty(tenantId) &&
+                ObjectUtil.isNotEmpty(id) &&
+                ObjectUtil.isNotEmpty(assoc)) {
             return Role.create()
                     .select(ROLE.ID)
                     .leftJoin(ROLE_ASSOC)
@@ -31,10 +34,19 @@ public final class RoleHelper {
                             .or(ROLE_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE1)
                                     .and(ROLE_ASSOC.EFFECTIVE_TIME.ge(now()))))
                     .and(ROLE_ASSOC.CATEGORY.eq(AssocCategory.TYPE0))
-                    .and(ROLE_ASSOC.ASSOC.eq(USER.getTableName()))
+                    .and(ROLE_ASSOC.ASSOC.eq(assoc))
                     .and(ROLE_ASSOC.TENANT_ID.eq(tenantId))
                     .and(ROLE_ASSOC.ASSOC_ID.eq(id))
                     .listAs(Long.class);
+        } else return empty();
+    }
+
+    public static List<Long> load(Serializable tenantId,
+                                  Serializable id) {
+        if (ObjectUtil.isNotEmpty(tenantId) &&
+                ObjectUtil.isNotEmpty(id)) {
+            var assoc = USER.getTableName();
+            return load(tenantId, id, assoc);
         } else return empty();
     }
 

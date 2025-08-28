@@ -24,9 +24,12 @@ import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 public final class PermCodeHelper {
 
     public static List<String> load(Serializable tenantId,
-                                    Serializable id) {
-        if (ObjectUtil.isNotEmpty(tenantId) && ObjectUtil.isNotNull(id)) {
-            var roles = RoleHelper.load(tenantId, id);
+                                    Serializable id,
+                                    String assoc) {
+        if (ObjectUtil.isNotEmpty(tenantId) &&
+                ObjectUtil.isNotEmpty(id) &&
+                ObjectUtil.isNotEmpty(assoc)) {
+            var roles = RoleHelper.load(tenantId, id, assoc);
             var roleEffective = CollUtil.isNotEmpty(roles);
             return Perm.create()
                     .select(PERM.CODE)
@@ -36,12 +39,21 @@ public final class PermCodeHelper {
                             .or(PERM_ASSOC.EFFECTIVE.eq(TimeEffective.TYPE1)
                                     .and(PERM_ASSOC.EFFECTIVE_TIME.ge(now()))))
                     .and(PERM_ASSOC.CATEGORY.eq(AssocCategory.TYPE0))
-                    .and(PERM_ASSOC.ASSOC.eq(USER.getTableName())
+                    .and(PERM_ASSOC.ASSOC.eq(assoc)
                             .and(PERM_ASSOC.TENANT_ID.eq(tenantId))
                             .and(PERM_ASSOC.ASSOC_ID.eq(id)))
                     .or(PERM_ASSOC.ASSOC.eq(ROLE.getTableName(), roleEffective)
                             .and(PERM_ASSOC.ASSOC_ID.in(roles, roleEffective)))
                     .listAs(String.class);
+        } else return empty();
+    }
+
+    public static List<String> load(Serializable tenantId,
+                                    Serializable id) {
+        if (ObjectUtil.isNotEmpty(tenantId) &&
+                ObjectUtil.isNotEmpty(id)) {
+            var assoc = USER.getTableName();
+            return load(tenantId, id, assoc);
         } else return empty();
     }
 
