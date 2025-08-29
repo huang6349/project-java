@@ -2,11 +2,11 @@ package org.huangyalong.core.satoken.helper;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.mybatisflex.core.query.QueryChain;
 import org.huangyalong.modules.system.domain.User;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
 
-import java.io.Serializable;
 import java.util.List;
 
 import static cn.hutool.core.collection.ListUtil.empty;
@@ -17,13 +17,13 @@ import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 public class PermUserHelper {
 
-    public static List<Long> load(Serializable tenantId,
-                                  Serializable id) {
+    public static List<Long> fetch(Object tenantId,
+                                   Object id) {
         if (ObjectUtil.isNotEmpty(tenantId) &&
                 ObjectUtil.isNotEmpty(id)) {
-            var roles = PermRoleHelper.load(id);
+            var roles = PermRoleHelper.fetch(id);
             var roleEffective = CollUtil.isNotEmpty(roles);
-            return User.create()
+            return QueryChain.of(User.class)
                     .select(USER.ID)
                     .leftJoin(PERM_ASSOC)
                     .on(PERM_ASSOC.ASSOC_ID.eq(USER.ID))
