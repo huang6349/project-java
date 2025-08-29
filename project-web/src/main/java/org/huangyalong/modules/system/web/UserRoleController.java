@@ -3,6 +3,7 @@ package org.huangyalong.modules.system.web;
 import cn.hutool.core.lang.Opt;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.huangyalong.core.satoken.helper.RoleHelper;
 import org.huangyalong.modules.system.domain.Role;
 import org.huangyalong.modules.system.request.UserRoleBO;
 import org.huangyalong.modules.system.request.UserRoleQueries;
@@ -15,8 +16,6 @@ import org.myframework.core.satoken.annotation.PreMode;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
-import static org.huangyalong.core.satoken.helper.RoleHelper.load;
 
 @PreAuth(replace = "@user")
 @RestController
@@ -37,7 +36,7 @@ public class UserRoleController extends SuperSimpleController<UserRoleService, R
         var roleVO = new UserRoleVO();
         roleVO.setTenantId(tenantId);
         roleVO.setId(id);
-        roleVO.setRoleIds(load(tenantId, id));
+        roleVO.setRoleIds(RoleHelper.fetch(tenantId, id));
         return Mono.just(roleVO);
     }
 

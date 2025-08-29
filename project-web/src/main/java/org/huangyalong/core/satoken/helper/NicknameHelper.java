@@ -1,6 +1,7 @@
 package org.huangyalong.core.satoken.helper;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.mybatisflex.core.query.QueryChain;
 import org.huangyalong.modules.system.domain.User;
 import org.myframework.core.redis.RedisHelper;
 
@@ -12,19 +13,25 @@ import static org.myframework.core.mybatisflex.JsonMethods.ue;
 
 public final class NicknameHelper {
 
-    public static void load(Object message) {
-        if (ObjectUtil.isNotEmpty(message)) {
-            var key = format("user:nickname:{}", message);
-            RedisHelper.delete(key);
-            var username = User.create()
+    public static String fetch(Object id) {
+        if (ObjectUtil.isNotEmpty(id)) {
+            var username = QueryChain.of(User.class)
                     .select(USER.USERNAME)
-                    .where(USER.ID.eq(message))
+                    .where(USER.ID.eq(id))
                     .oneAs(String.class);
-            var nickname = User.create()
+            return QueryChain.of(User.class)
                     .select(ue(USER.EXTRAS, NAME_NICKNAME).as(User::getNickname))
-                    .where(USER.ID.eq(message))
+                    .where(USER.ID.eq(id))
                     .oneAsOpt(String.class)
                     .orElse(username);
+        } else return null;
+    }
+
+    public static void load(Object id) {
+        if (ObjectUtil.isNotEmpty(id)) {
+            var key = format("user:nickname:{}", id);
+            RedisHelper.delete(key);
+            var nickname = fetch(id);
             if (ObjectUtil.isNotEmpty(nickname))
                 RedisHelper.set(key, nickname);
             RedisHelper.expire(key, 30, MINUTES);
