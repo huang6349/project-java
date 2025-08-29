@@ -2,29 +2,30 @@ package org.huangyalong.core.satoken.helper;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
+import com.mybatisflex.core.query.QueryChain;
 import org.huangyalong.modules.system.domain.Role;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
 import org.myframework.core.redis.RedisHelper;
 
-import java.io.Serializable;
 import java.util.List;
 
 import static cn.hutool.core.collection.ListUtil.empty;
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static com.mybatisflex.core.query.QueryMethods.now;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static org.huangyalong.core.satoken.helper.UserHelper.getTenant;
 import static org.huangyalong.modules.system.domain.table.RoleAssocTableDef.ROLE_ASSOC;
 import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 public final class RoleHelper {
 
-    public static List<Long> load(Serializable tenantId,
-                                  Serializable id) {
+    public static List<Long> fetch(Object tenantId,
+                                   Object id) {
         if (ObjectUtil.isNotEmpty(tenantId) &&
                 ObjectUtil.isNotEmpty(id)) {
-            return Role.create()
+            return QueryChain.of(Role.class)
                     .select(ROLE.ID)
                     .leftJoin(ROLE_ASSOC)
                     .on(ROLE_ASSOC.ROLE_ID.eq(ROLE.ID))
@@ -39,12 +40,11 @@ public final class RoleHelper {
         } else return empty();
     }
 
-    public static void load(Object message) {
-        if (ObjectUtil.isNotEmpty(message)) {
-            var key = format("user:role:{}", message);
+    public static void load(Object id) {
+        if (ObjectUtil.isNotEmpty(id)) {
+            var key = format("user:role:{}", id);
             RedisHelper.delete(key);
-            var id = (Serializable) message;
-            var roles = load(UserHelper.getTenant(), id)
+            var roles = fetch(getTenant(), id)
                     .stream()
                     .map(Convert::toStr)
                     .toList();
