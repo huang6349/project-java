@@ -1,12 +1,13 @@
 package org.huangyalong.core.satoken.helper;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
+import com.mybatisflex.core.query.QueryChain;
 import org.huangyalong.modules.system.domain.Role;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
 import org.myframework.core.redis.RedisHelper;
 
-import java.io.Serializable;
 import java.util.List;
 
 import static cn.hutool.core.collection.ListUtil.empty;
@@ -15,17 +16,18 @@ import static cn.hutool.core.text.CharSequenceUtil.format;
 import static com.mybatisflex.core.query.QueryMethods.now;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.huangyalong.core.constants.Constants.SUPER_ADMIN_ID;
+import static org.huangyalong.core.satoken.helper.UserHelper.getTenant;
 import static org.huangyalong.modules.system.domain.table.RoleAssocTableDef.ROLE_ASSOC;
 import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 public final class RoleCodeHelper {
 
-    public static List<String> load(Serializable tenantId,
-                                    Serializable id) {
+    public static List<String> fetch(Object tenantId,
+                                     Object id) {
         if (ObjectUtil.isNotEmpty(tenantId) &&
                 ObjectUtil.isNotEmpty(id)) {
-            return Role.create()
+            return QueryChain.of(Role.class)
                     .select(ROLE.CODE)
                     .leftJoin(ROLE_ASSOC)
                     .on(ROLE_ASSOC.ROLE_ID.eq(ROLE.ID))
@@ -36,20 +38,20 @@ public final class RoleCodeHelper {
                     .and(ROLE_ASSOC.ASSOC.eq(USER.getTableName()))
                     .and(ROLE_ASSOC.TENANT_ID.eq(tenantId))
                     .and(ROLE_ASSOC.ASSOC_ID.eq(id))
+                    .and(ROLE.CODE.isNotNull())
                     .listAs(String.class);
         } else return empty();
     }
 
-    public static void load(Object message) {
-        if (ObjectUtil.isNotEmpty(message)) {
-            var key = format("user:role:code:{}", message);
+    public static void load(Object id) {
+        if (ObjectUtil.isNotEmpty(id)) {
+            var key = format("user:role:code:{}", id);
             RedisHelper.delete(key);
-            var id = (Serializable) message;
-            var roles = load(UserHelper.getTenant(), id)
+            var roles = fetch(getTenant(), id)
                     .stream()
-                    .filter(ObjectUtil::isNotEmpty)
+                    .map(Convert::toStr)
                     .toList();
-            if (ObjectUtil.equal(SUPER_ADMIN_ID, toLong(message)))
+            if (ObjectUtil.equal(SUPER_ADMIN_ID, toLong(id)))
                 RedisHelper.lLeftPushAll(key, "super-admin");
             if (ObjectUtil.isNotEmpty(roles))
                 RedisHelper.lLeftPushAll(key, roles);
