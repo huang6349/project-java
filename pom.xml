@@ -33,6 +33,8 @@
         <!-- 项目相关 -->
         <mybatis-flex-reactor.version>0.2.2</mybatis-flex-reactor.version>
         <mybatis-flex.version>1.10.9</mybatis-flex.version>
+        <mybatis-flex-ext.version>1.11.3.147</mybatis-flex-ext.version>
+        <auto-table.version>2.5.9</auto-table.version>
         <sa-token.version>1.41.0</sa-token.version>
         <hutool.version>5.8.38</hutool.version>
         <solon.version>3.3.3</solon.version>
@@ -81,9 +83,19 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <groupId>com.tangzc</groupId>
+                <artifactId>mybatis-flex-ext-spring-boot-starter</artifactId>
+                <version>${mybatis-flex-ext.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.juxest</groupId>
                 <artifactId>mybatis-flex-reactor-spring</artifactId>
                 <version>${mybatis-flex-reactor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.autotable</groupId>
+                <artifactId>auto-table-spring-boot-starter</artifactId>
+                <version>${auto-table.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.dromara.easy-es</groupId>
@@ -208,6 +220,17 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
+        <pluginRepository>
+            <id>xget</id>
+            <name>加速中央仓库</name>
+            <url>https://xget.xi-xu.me/maven/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
     </pluginRepositories>
     <repositories>
         <repository>
@@ -219,6 +242,17 @@
             </releases>
             <snapshots>
                 <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>xget</id>
+            <name>加速中央仓库</name>
+            <url>https://xget.xi-xu.me/maven/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
             </snapshots>
         </repository>
     </repositories>

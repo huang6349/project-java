@@ -54,6 +54,10 @@
             <artifactId>mybatis-flex-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.tangzc</groupId>
+            <artifactId>mybatis-flex-ext-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.juxest</groupId>
             <artifactId>mybatis-flex-reactor-spring</artifactId>
         </dependency>
