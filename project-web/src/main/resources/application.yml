@@ -26,14 +26,33 @@ spring.servlet.multipart:
   max-file-size: 1024MB # 单个文件大小
   max-request-size: 1024MB # 设置总上传的文件大小
 
+# 请求相关配置项
+spring.codec:
+  max-in-memory-size: 128MB
+
 # 监控端点配置
-management:
-  server:
-    port: 8085
+management.server:
+  port: 8085
 
 # 服务器配置
 server:
   port: 8088
+
+# 自动建表配置
+auto-table:
+  enable: true
+  show-banner: false
+  super-insert-position: after
+  index-prefix: idx_
+  mysql:
+    column-default-collation: utf8mb4_general_ci
+    column-default-charset: utf8mb4
+    table-default-collation: utf8mb4_general_ci
+    table-default-charset: utf8mb4
+  record-sql:
+    enable: true
+    record-type: db
+    version: 1.0.0
 
 # 文档生成配置
 springdoc:
@@ -49,8 +68,17 @@ easy-es:
   banner: false
   global-config:
     i-kun-mode: false
+    process-index-mode: smoothly
     print-dsl: true
 
 # 消息总线配置
 eventbus:
   type: redis
+
+# 其它配置
+# ===================================================================
+
+logging.level:
+  org.dromara.autotable.core.AutoTableBootstrap: warn
+  org.dromara.autotable.core.utils.DBHelper: warn
+  easy-es: warn

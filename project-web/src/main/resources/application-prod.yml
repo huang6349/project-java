@@ -1,24 +1,17 @@
 spring.datasource:
   driver-class-name: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://project-mysql:3306/project?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+  url: jdbc:mysql://project-mysql:3306/project?useSSL=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
   username: root
   password: pwd123456
   hikari:
     minimum-idle: 10
-    connection-test-query: SELECT 1 FROM DUAL
+    connection-test-query: SELECT 1
     maximum-pool-size: 20
     idle-timeout: 30000
     max-lifetime: 60000
     auto-commit: true
     pool-name: PrimaryHikariCP
     connection-timeout: 10000
-
-spring.flyway:
-  enabled: true
-  locations: classpath:db/migration
-  baseline-on-migrate: true
-  baseline-version: 0
-  clean-disabled: true
 
 spring.redis:
   database: 0
