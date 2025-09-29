@@ -59,4 +59,9 @@ public class UserAssoc extends SuperEntity<UserAssoc, Long> {
     @AutoColumn(comment = "备注", length = 512)
     @Schema(description = "备注")
     private String desc;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @AutoColumn(comment = "租户主键(所属租户)")
+    @Schema(description = "租户主键")
+    private Long tenantId;
 }

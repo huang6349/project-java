@@ -1,7 +1,6 @@
 package org.huangyalong.modules.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -61,7 +60,7 @@ public class PermAssoc extends SuperEntity<PermAssoc, Long> {
     @Schema(description = "备注")
     private String desc;
 
-    @Column(tenantId = true)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @AutoColumn(comment = "租户主键(所属租户)")
     @Schema(description = "租户主键")
     private Long tenantId;

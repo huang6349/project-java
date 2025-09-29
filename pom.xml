@@ -42,6 +42,7 @@
         <ee.version>2.1.0</ee.version>
         <x-file-storage.version>2.2.1</x-file-storage.version>
         <minio.version>8.5.17</minio.version>
+        <netty.version>4.1.127.Final</netty.version>
         <eventbus.version>2.5.1</eventbus.version>
         <openapi.version>1.8.0</openapi.version>
         <ttl.version>2.14.5</ttl.version>
@@ -126,6 +127,11 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver-dns-native-macos</artifactId>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.likavn</groupId>
