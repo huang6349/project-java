@@ -80,5 +80,6 @@ eventbus:
 
 logging.level:
   org.dromara.autotable.core.AutoTableBootstrap: warn
+  org.dromara.autotable.core.strategy.IStrategy: warn
   org.dromara.autotable.core.utils.DBHelper: warn
   easy-es: warn
