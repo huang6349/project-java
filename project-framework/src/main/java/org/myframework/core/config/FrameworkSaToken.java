@@ -14,6 +14,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import static cn.hutool.extra.spring.SpringUtil.getApplicationName;
+
 @Configuration
 public class FrameworkSaToken implements WebMvcConfigurer {
 
@@ -62,6 +64,7 @@ public class FrameworkSaToken implements WebMvcConfigurer {
         config.setIsConcurrent(Boolean.TRUE);
         config.setIsShare(Boolean.TRUE);
         config.setIsPrint(Boolean.FALSE);
+        config.setJwtSecretKey(getApplicationName());
         return config;
     }
 }

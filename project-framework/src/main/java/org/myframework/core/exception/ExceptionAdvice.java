@@ -5,6 +5,7 @@ import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
 import cn.dev33.satoken.exception.SaTokenException;
 import cn.hutool.core.lang.Opt;
+import cn.hutool.log.StaticLog;
 import org.myframework.base.response.ApiResponse;
 import org.myframework.base.response.ShowType;
 import org.springframework.http.HttpStatus;
@@ -126,6 +127,7 @@ public abstract class ExceptionAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
     protected ApiResponse<?> handleException(Exception ex) {
+        StaticLog.error(ex);
         return ApiResponse.fail(
                 ErrorCode.ERR_BUSINESS.getMessage(),
                 ErrorCode.ERR_BUSINESS.getCode(),
