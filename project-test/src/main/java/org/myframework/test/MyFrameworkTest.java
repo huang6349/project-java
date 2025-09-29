@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.springframework.test.context.ActiveProfiles;
 
-@ActiveProfiles("test")
+@ActiveProfiles("dev")
 public abstract class MyFrameworkTest {
 
     protected final Long DEFAULT_LOGIN = 10000000000000000L;

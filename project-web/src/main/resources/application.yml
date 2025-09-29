@@ -79,5 +79,5 @@ eventbus:
 # ===================================================================
 
 logging.level:
-  org.dromara.autotable.core: warn
+  org.dromara.autotable: warn
   easy-es: warn
