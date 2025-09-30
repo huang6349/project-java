@@ -62,6 +62,10 @@
             <artifactId>mybatis-flex-reactor-spring</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.dromara.autotable</groupId>
+            <artifactId>auto-table-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot-starter</artifactId>
         </dependency>
