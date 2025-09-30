@@ -126,8 +126,9 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-# Editor-based Rest Client
+# Editor-based HTTP Client
 .idea/httpRequests
+http-client.private.env.json
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
@@ -135,6 +136,9 @@ fabric.properties
 # Apifox Helper cache
 .idea/.cache/.Apifox_Helper
 .idea/ApifoxUploaderProjectSetting.xml
+
+# MarsCode Workspace App Settings
+.idea/MarsCodeWorkspaceAppSettings.xml
 
 ### VS Code ###
 .vscode/*
