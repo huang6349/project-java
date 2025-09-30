@@ -41,7 +41,7 @@
         <es.version>7.17.8</es.version>
         <ee.version>2.1.0</ee.version>
         <x-file-storage.version>2.2.1</x-file-storage.version>
-        <minio.version>8.5.17</minio.version>
+        <minio.version>8.6.0</minio.version>
         <netty.version>4.1.127.Final</netty.version>
         <eventbus.version>2.5.1</eventbus.version>
         <openapi.version>1.8.0</openapi.version>
