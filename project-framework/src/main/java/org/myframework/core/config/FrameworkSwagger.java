@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.myframework.base.response.ApiResponse;
+import org.myframework.base.response.ResponseAdvice;
 import org.myframework.core.swagger.SwaggerProperties;
 import org.reactivestreams.Publisher;
 import org.springdoc.core.ReturnTypeParser;
@@ -20,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ResolvableType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -49,15 +51,20 @@ public class FrameworkSwagger {
     }
 
     @Bean
-    ReturnTypeParser operationCustomizer() {
-        // 自定义文档的返回类型
+    ReturnTypeParser operationCustomizer(ResponseAdvice advice) {
+        // 自定义文档的返回类型，使用ResponseAdvice判断是否需要包装
         return new ReturnTypeParser() {
             @Override
             public Type getReturnType(MethodParameter methodParameter) {
+                var shouldWrap = advice.supports(methodParameter, MappingJackson2HttpMessageConverter.class);
                 var type = ReturnTypeParser.super.getReturnType(methodParameter);
+                if (!shouldWrap)
+                    return type;
+
                 var rawType = type instanceof ParameterizedType
                         ? ((ParameterizedType) type).getRawType()
                         : type;
+
                 if (rawType instanceof Class<?> rawClass) {
                     if (rawClass == ResponseEntity.class)
                         return type;
@@ -67,6 +74,7 @@ public class FrameworkSwagger {
                         return type;
                     if (rawClass == Void.TYPE)
                         return type;
+
                     var returnPublisher = Publisher.class.isAssignableFrom(rawClass);
                     var actualType = returnPublisher
                             ? ((type instanceof ParameterizedType)
@@ -75,6 +83,7 @@ public class FrameworkSwagger {
                             : type;
                     var resolvableType = ResolvableType.forType(actualType);
                     var returnList = Flux.class.isAssignableFrom(rawClass);
+
                     if (returnPublisher) {
                         return ResolvableType.forClassWithGenerics(
                                 Mono.class,
