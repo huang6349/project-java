@@ -3,6 +3,7 @@ package org.huangyalong.modules.system.service.impl;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.If;
 import org.huangyalong.core.satoken.helper.UserHelper;
@@ -116,6 +117,7 @@ public class UserServiceImpl extends ReactorServiceImpl<UserMapper, User> implem
         var mobile = Opt.ofNullable(userBO)
                 .map(UserBO::getMobile)
                 .get();
+        if (StrUtil.isBlank(mobile)) return;
         var id = Opt.ofNullable(userBO)
                 .map(UserBO::getId)
                 .get();
@@ -132,6 +134,7 @@ public class UserServiceImpl extends ReactorServiceImpl<UserMapper, User> implem
         var email = Opt.ofNullable(userBO)
                 .map(UserBO::getEmail)
                 .get();
+        if (StrUtil.isBlank(email)) return;
         var id = Opt.ofNullable(userBO)
                 .map(UserBO::getId)
                 .get();
