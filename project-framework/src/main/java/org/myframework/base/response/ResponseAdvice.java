@@ -20,6 +20,7 @@ import reactor.core.publisher.Mono;
 import java.util.Set;
 
 import static cn.hutool.core.collection.CollUtil.newHashSet;
+import static cn.hutool.core.text.CharSequenceUtil.trim;
 import static cn.hutool.core.util.BooleanUtil.negate;
 import static cn.hutool.json.JSONUtil.toJsonStr;
 import static reactor.core.publisher.Mono.fromSupplier;
@@ -48,23 +49,26 @@ public abstract class ResponseAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(@NotNull MethodParameter methodParameter,
                             @NotNull Class<? extends HttpMessageConverter<?>> aClass) {
-
         // 获取当前处理的方法对象
         var method = methodParameter.getMethod();
 
         // 如果方法对象为 null，默认需要增强
         if (ObjectUtil.isNull(method))
             return Boolean.TRUE;
+
         // 检查方法是否有 @IgnoreResponse 注解，如果有则不进行包装
         if (method.isAnnotationPresent(IgnoreResponse.class))
             return Boolean.FALSE;
+
         // 检查方法所在的类是否有 @IgnoreResponse 注解，如果有则不进行包装
         if (method.getDeclaringClass().isAnnotationPresent(IgnoreResponse.class))
             return Boolean.FALSE;
+
         // 检查方法是否有 @RequestMapping 注解(包括其派生注解如 @GetMapping)
         var mapping = methodParameter.getMethodAnnotation(RequestMapping.class);
         if (ObjectUtil.isNull(mapping))
             return Boolean.FALSE;
+
         // 检查响应类型是否为流式响应，如果是则不包装
         for (var produce : mapping.produces()) {
             var mimeType = MimeType.valueOf(produce);
@@ -87,20 +91,28 @@ public abstract class ResponseAdvice implements ResponseBodyAdvice<Object> {
             }
         }
 
-        // 处理响应式类型(Mono/Flux)，获取其泛型实际类型
+        // 处理响应式类型，获取其泛型实际类型
         var returnType = method.getReturnType();
         if (Publisher.class.isAssignableFrom(returnType)) {
-            var type = ResolvableType.forMethodParameter(methodParameter);
-            // 安全处理泛型解析，避免NPE
-            var genericType = type.resolveGeneric(0);
-            returnType = ObjectUtil.isNotNull(genericType) ? genericType : returnType;
+            try {
+                var type = ResolvableType.forMethodParameter(methodParameter);
+                // 安全处理泛型解析
+                if (type.hasGenerics()) {
+                    var genericType = type.resolveGeneric(0);
+                    if (ObjectUtil.isNotNull(genericType)) {
+                        returnType = genericType;
+                    }
+                }
+            } catch (Exception e) {
+                // 泛型解析失败时，保持原有返回类型
+            }
         }
 
         // 判断返回类型是否已经是包装类型，如果是则不再包装
         var isAlreadyResponse = returnType == ResponseEntity.class ||
                 returnType == ApiResponse.class;
 
-        // 返回是否需要包装的结果(取反，因为isAlreadyResponse为true时表示已包装)
+        // 返回是否需要包装的结果
         return negate(isAlreadyResponse);
     }
 
@@ -123,7 +135,6 @@ public abstract class ResponseAdvice implements ResponseBodyAdvice<Object> {
                                   @NotNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   @NotNull ServerHttpRequest request,
                                   @NotNull ServerHttpResponse response) {
-
         // 处理 Mono 类型响应
         if (body instanceof Mono<?> mono) {
             return mono.map(ApiResponse::ok)
@@ -139,8 +150,8 @@ public abstract class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
         // 处理 String 类型响应，需要手动序列化为JSON
         if (body instanceof String str) {
-            // 处理null或空字符串情况
-            var strBody = ObjectUtil.isEmpty(str) ? "" : str;
+            // 处理null、空字符串或仅包含空白字符的情况
+            var strBody = ObjectUtil.isEmpty(trim(str)) ? "" : str;
             return toJsonStr(ApiResponse.ok(strBody));
         }
 
