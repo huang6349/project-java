@@ -43,7 +43,7 @@ class DictControllerTest extends MyFrameworkTest {
     @Test
     void query() {
         testClient.get()
-                .uri("/dict/{category:.+}", "data-source")
+                .uri("/dict/{category:.+}", "user-gender")
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
                 .exchange()
                 .expectStatus()
@@ -54,6 +54,6 @@ class DictControllerTest extends MyFrameworkTest {
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
                 .jsonPath("$.data.name")
-                .value(is("数据来源"));
+                .value(is("用户性别"));
     }
 }
