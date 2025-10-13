@@ -34,7 +34,7 @@ public class File extends Entity<File, Long> {
     @Schema(description = "文件访问地址")
     private String url;
 
-    @AutoColumn(comment = "文件大小，单位字节", length = 20)
+    @AutoColumn(comment = "文件大小，单位字节")
     @Schema(description = "文件大小，单位字节")
     private Long size;
 
@@ -80,7 +80,7 @@ public class File extends Entity<File, Long> {
     private String thFilename;
 
     @JsonIgnore
-    @AutoColumn(comment = "缩略图大小，单位字节", length = 20)
+    @AutoColumn(comment = "缩略图大小，单位字节")
     @Schema(description = "缩略图大小，单位字节")
     private Long thSize;
 
@@ -151,7 +151,7 @@ public class File extends Entity<File, Long> {
     private String uploadId;
 
     @JsonIgnore
-    @AutoColumn(comment = "上传状态，仅在手动分片上传时使用，1：初始化完成，2：上传完成", length = 11)
+    @AutoColumn(comment = "上传状态，仅在手动分片上传时使用，1：初始化完成，2：上传完成")
     @Schema(description = "上传状态，仅在手动分片上传时使用，1：初始化完成，2：上传完成")
     private Integer uploadStatus;
 
