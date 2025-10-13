@@ -30,15 +30,15 @@ public class FilePart extends Entity<FilePart, Long> {
     @Schema(description = "存储平台")
     private String platform;
 
-    @AutoColumn(comment = "分片ETag")
+    @AutoColumn(comment = "分片ETag", length = 255)
     @Schema(description = "分片ETag")
     private String eTag;
 
-    @AutoColumn(comment = "分片号。每一个上传的分片都有一个分片号，一般情况下取值范围是1~10000")
+    @AutoColumn(comment = "分片号。每一个上传的分片都有一个分片号，一般情况下取值范围是1~10000", length = 11)
     @Schema(description = "分片号。每一个上传的分片都有一个分片号，一般情况下取值范围是1~10000")
     private Integer partNumber;
 
-    @AutoColumn(comment = "文件大小，单位字节")
+    @AutoColumn(comment = "文件大小，单位字节", length = 20)
     @Schema(description = "文件大小，单位字节")
     private Long partSize;
 

@@ -34,25 +34,25 @@ public class File extends Entity<File, Long> {
     @Schema(description = "文件访问地址")
     private String url;
 
-    @AutoColumn(comment = "文件大小，单位字节")
+    @AutoColumn(comment = "文件大小，单位字节", length = 20)
     @Schema(description = "文件大小，单位字节")
     private Long size;
 
-    @AutoColumn(comment = "文件名称")
+    @AutoColumn(comment = "文件名称", length = 256)
     @Schema(description = "文件名称")
     private String filename;
 
-    @AutoColumn(comment = "原始文件名")
+    @AutoColumn(comment = "原始文件名", length = 256)
     @Schema(description = "原始文件名")
     private String origFilename;
 
     @JsonIgnore
-    @AutoColumn(comment = "基础存储路径")
+    @AutoColumn(comment = "基础存储路径", length = 256)
     @Schema(description = "基础存储路径")
     private String basePath;
 
     @JsonIgnore
-    @AutoColumn(comment = "存储路径")
+    @AutoColumn(comment = "存储路径", length = 256)
     @Schema(description = "存储路径")
     private String path;
 
@@ -75,12 +75,12 @@ public class File extends Entity<File, Long> {
     private String thUrl;
 
     @JsonIgnore
-    @AutoColumn(comment = "缩略图名称")
+    @AutoColumn(comment = "缩略图名称", length = 256)
     @Schema(description = "缩略图名称")
     private String thFilename;
 
     @JsonIgnore
-    @AutoColumn(comment = "缩略图大小，单位字节")
+    @AutoColumn(comment = "缩略图大小，单位字节", length = 20)
     @Schema(description = "缩略图大小，单位字节")
     private Long thSize;
 
@@ -151,7 +151,7 @@ public class File extends Entity<File, Long> {
     private String uploadId;
 
     @JsonIgnore
-    @AutoColumn(comment = "上传状态，仅在手动分片上传时使用，1：初始化完成，2：上传完成")
+    @AutoColumn(comment = "上传状态，仅在手动分片上传时使用，1：初始化完成，2：上传完成", length = 11)
     @Schema(description = "上传状态，仅在手动分片上传时使用，1：初始化完成，2：上传完成")
     private Integer uploadStatus;
 
