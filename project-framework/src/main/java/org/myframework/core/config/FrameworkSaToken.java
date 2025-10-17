@@ -29,8 +29,7 @@ public class FrameworkSaToken implements WebMvcConfigurer {
                 // 是否启用浏览器默认XSS防护： 0=禁用 | 1=启用 | 1; mode=block 启用, 并在检查到XSS攻击时，停止渲染页面
                 .setHeader("X-XSS-Protection", "1; mode=block");
         // 如果是预检请求，则立即返回到前端
-        SaRouter.match(SaHttpMethod.OPTIONS)
-                .back();
+        SaRouter.match(SaHttpMethod.OPTIONS).back();
     };
 
     @Override

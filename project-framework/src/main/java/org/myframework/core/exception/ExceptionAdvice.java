@@ -67,6 +67,8 @@ public abstract class ExceptionAdvice {
                     case NotLoginException.TOKEN_TIMEOUT -> NotLoginException.TOKEN_TIMEOUT_MESSAGE;
                     case NotLoginException.BE_REPLACED -> NotLoginException.BE_REPLACED_MESSAGE;
                     case NotLoginException.KICK_OUT -> NotLoginException.KICK_OUT_MESSAGE;
+                    case NotLoginException.TOKEN_FREEZE -> NotLoginException.TOKEN_FREEZE_MESSAGE;
+                    case NotLoginException.NO_PREFIX -> NotLoginException.NO_PREFIX_MESSAGE;
                     default -> NotLoginException.DEFAULT_MESSAGE;
                 },
                 ErrorCode.UNAUTHORIZED.getCode(),
