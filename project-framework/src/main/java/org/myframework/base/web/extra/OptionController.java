@@ -14,7 +14,7 @@ public interface OptionController<Entity, Queries> extends BaseController<Entity
 
     @SaCheckLogin
     @GetMapping("/_items")
-    @Operation(summary = "选项查询")
+    @Operation(summary = "根据条件查询(选项查询)")
     default Flux<OptionVO> items(Queries queries) {
         var result = handlerOption(queries);
         var query = result.getData();
