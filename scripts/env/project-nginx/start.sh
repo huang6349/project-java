@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 WORKDIR=$PWD
+PROJECT=${1:-project}
 mkdir -p $WORKDIR/data
 chmod -R 777 $WORKDIR/.
-docker-compose -p project-nginx up -d --build
+docker-compose -p ${PROJECT}-nginx up -d --build
