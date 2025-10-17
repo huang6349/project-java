@@ -18,7 +18,7 @@ public interface UpdateController<Entity, UpdateBO> extends BaseController<Entit
 
     @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)
     @PutMapping
-    @Operation(summary = "修改")
+    @Operation(summary = "修改单个数据")
     default Mono<Boolean> update(@RequestBody @Validated(Update.class) UpdateBO updateBO) {
         var result = handlerUpdate(updateBO);
         if (BooleanUtil.isFalse(result.getDefExec()))

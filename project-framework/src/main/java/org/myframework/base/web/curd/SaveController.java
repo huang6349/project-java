@@ -18,7 +18,7 @@ public interface SaveController<Entity, SaveBO> extends BaseController<Entity> {
 
     @PreCheckPermission(value = {"{}:add", "{}:save"}, mode = PreMode.OR)
     @PostMapping
-    @Operation(summary = "新增")
+    @Operation(summary = "新增单个数据")
     default Mono<Boolean> save(@RequestBody @Validated(Save.class) SaveBO saveBO) {
         var result = handlerSave(saveBO);
         if (BooleanUtil.isFalse(result.getDefExec()))

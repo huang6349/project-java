@@ -28,7 +28,7 @@ public interface QueryController<Entity, Id extends Serializable, Queries> exten
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/_query/paging")
-    @Operation(summary = "分页查询")
+    @Operation(summary = "根据条件查询(分页查询)")
     default Mono<PageVO<Entity>> queryPage(PageQueries pageQueries,
                                            Queries queries) {
         var result = handlerQuery(queries);
@@ -51,7 +51,7 @@ public interface QueryController<Entity, Id extends Serializable, Queries> exten
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/_query")
-    @Operation(summary = "批量查询")
+    @Operation(summary = "根据条件查询(列表查询)")
     default Flux<Entity> query(Queries queries) {
         var result = handlerQuery(queries);
         var query = result.getData();
@@ -64,7 +64,7 @@ public interface QueryController<Entity, Id extends Serializable, Queries> exten
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/{id:.+}")
-    @Operation(summary = "单体查询")
+    @Operation(summary = "根据主键查询")
     default Mono<Entity> getById(@PathVariable Id id) {
         var result = handlerQuery(id);
         var query = result.getData();

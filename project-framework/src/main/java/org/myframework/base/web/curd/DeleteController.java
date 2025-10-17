@@ -17,7 +17,7 @@ public interface DeleteController<Entity, Id extends Serializable> extends BaseC
 
     @PreCheckPermission(value = {"{}:delete", "{}:remove"}, mode = PreMode.OR)
     @DeleteMapping("/{id:.+}")
-    @Operation(summary = "单体删除")
+    @Operation(summary = "根据主键删除")
     default Mono<Boolean> delete(@PathVariable Id id) {
         var result = handlerDelete(id);
         if (BooleanUtil.isFalse(result.getDefExec()))
