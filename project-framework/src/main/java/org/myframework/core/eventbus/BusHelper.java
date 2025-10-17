@@ -11,33 +11,33 @@ public class BusHelper extends AbstractBusHelper {
 
     public static void sendDelayMessage(MsgBody body, long delayTime) {
         StaticLog.trace("发送消息: {} ，并设置延迟时间: {}", body, delayTime);
-        sender.sendDelayMessage(body, delayTime);
+        getSender().sendDelayMessage(body, delayTime);
     }
 
     public static void sendDelayMessage(Class<? extends MsgDelayListener<?>> handlerClz, Object body, long delayTime) {
         StaticLog.trace("发送消息: {} ，并设置延迟时间: {}", body, delayTime);
-        sender.sendDelayMessage(handlerClz, body, delayTime);
+        getSender().sendDelayMessage(handlerClz, body, delayTime);
     }
 
     public static void sendDelayMessage(String code, Object body, long delayTime) {
         StaticLog.trace("发送消息: {} ，并设置延迟时间: {}", body, delayTime);
-        sender.sendDelayMessage(code, body, delayTime);
+        getSender().sendDelayMessage(code, body, delayTime);
     }
 
     /* --------------------实时消息------------------------ */
 
     public static void send(MsgBody body) {
         StaticLog.trace("发送消息: {}", body);
-        sender.send(body);
+        getSender().send(body);
     }
 
     public static void send(Class<? extends MsgListener<?>> handlerClz, Object body) {
         StaticLog.trace("发送消息: {}", body);
-        sender.send(handlerClz, body);
+        getSender().send(handlerClz, body);
     }
 
     public static void send(String code, Object body) {
         StaticLog.trace("发送消息: {}", body);
-        sender.send(code, body);
+        getSender().send(code, body);
     }
 }
