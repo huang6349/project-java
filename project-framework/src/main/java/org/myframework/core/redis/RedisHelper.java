@@ -13,40 +13,44 @@ public class RedisHelper extends AbstractRedisHelper {
 
     public static void delete(Collection<String> keys) {
         StaticLog.trace("批量删除key: {}", keys);
-        template.delete(keys);
+        getTemplate().delete(keys);
     }
 
     public static void delete(String key) {
         StaticLog.trace("删除key: {}", key);
-        template.delete(key);
+        getTemplate().delete(key);
     }
 
     public static Boolean hasKey(String key) {
         StaticLog.trace("是否存在key: {}", key);
-        return template.hasKey(key);
+        return getTemplate().hasKey(key);
     }
 
     public static Boolean expire(String key,
                                  long timeout,
                                  TimeUnit unit) {
         StaticLog.trace("设置key的过期时间: {}", key);
-        return template.expire(key, timeout, unit);
+        return getTemplate()
+                .expire(key, timeout, unit);
     }
 
     public static Set<String> keys(String pattern) {
         StaticLog.trace("获取匹配的key: {}", pattern);
-        return template.keys(pattern);
+        return getTemplate()
+                .keys(pattern);
     }
 
     public static Long getExpire(String key,
                                  TimeUnit unit) {
         StaticLog.trace("获取key的剩余时间: {}", key);
-        return template.getExpire(key, unit);
+        return getTemplate()
+                .getExpire(key, unit);
     }
 
     public static Long getExpire(String key) {
         StaticLog.trace("获取key的剩余时间: {}", key);
-        return template.getExpire(key);
+        return getTemplate()
+                .getExpire(key);
     }
 
     /* --------------------string相关操作------------------ */
@@ -56,19 +60,19 @@ public class RedisHelper extends AbstractRedisHelper {
                              long timeout,
                              TimeUnit unit) {
         StaticLog.trace("设置key的值: {} ，并设置过期时间: {}", key, timeout);
-        template.opsForValue()
-                .set(key, value, timeout, unit);
+        var ops = getTemplate().opsForValue();
+        ops.set(key, value, timeout, unit);
     }
 
     public static void set(String key, String value) {
         StaticLog.trace("设置key的值: {}", key);
-        template.opsForValue()
-                .set(key, value);
+        var ops = getTemplate().opsForValue();
+        ops.set(key, value);
     }
 
     public static String get(String key) {
         StaticLog.trace("获取key的值: {}", key);
-        return template.opsForValue()
+        return getTemplate().opsForValue()
                 .get(key);
     }
 
@@ -76,19 +80,20 @@ public class RedisHelper extends AbstractRedisHelper {
 
     public static void lLeftPushAll(String key, Collection<String> value) {
         StaticLog.trace("设置key的值: {}", key);
-        template.opsForList()
-                .leftPushAll(key, value);
+        var ops = getTemplate().opsForList();
+        ops.leftPushAll(key, value);
     }
 
     public static void lLeftPushAll(String key, String... value) {
         StaticLog.trace("设置key的值: {}", key);
-        template.opsForList()
-                .leftPushAll(key, value);
+        var ops = getTemplate().opsForList();
+        ops.leftPushAll(key, value);
     }
 
     public static List<String> lRange(String key, long start, long end) {
         StaticLog.trace("获取key的值: {}", key);
-        return template.opsForList()
+        return getTemplate()
+                .opsForList()
                 .range(key, start, end);
     }
 }
