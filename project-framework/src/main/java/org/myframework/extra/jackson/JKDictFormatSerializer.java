@@ -23,22 +23,23 @@ public class JKDictFormatSerializer extends StdSerializer<Object> {
     public void serialize(Object value,
                           JsonGenerator gen,
                           SerializerProvider provider) throws IOException {
-        if (!(value instanceof EnumDict<?> enumDict)) {
+        if (value == null || gen == null) {
+            provider.defaultSerializeValue(value, gen);
+        } else if (!(value instanceof EnumDict<?> enumDict)) {
             provider.defaultSerializeValue(value, gen);
         } else {
             var currentName = Opt.ofNullable(gen)
                     .map(JsonGenerator::getOutputContext)
                     .map(JsonStreamContext::getCurrentName)
                     .get();
+            // 先写入原始值
             gen.writeObject(enumDict.getValue());
+            // 写入标签对象
             gen.writeFieldName(format("{}Tag", currentName));
             gen.writeStartObject();
-            gen.writeFieldName("label");
-            gen.writeString(enumDict.getLabel());
-            gen.writeFieldName("value");
-            gen.writeObject(enumDict.getValue());
-            gen.writeFieldName("style");
-            gen.writeNumber(enumDict.getStyle());
+            gen.writeStringField("label", enumDict.getLabel());
+            gen.writeObjectField("value", enumDict.getValue());
+            gen.writeNumberField("style", enumDict.getStyle());
             gen.writeEndObject();
         }
     }
