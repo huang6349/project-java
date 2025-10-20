@@ -24,7 +24,7 @@ import java.util.List;
 public class DictController {
 
     @GetMapping("/{category:.+}/_items")
-    @Operation(summary = "选项查询")
+    @Operation(summary = "根据主键查询(选项查询)")
     public Mono<List<ItemDefine>> items(@PathVariable String category) {
         var define = DictCache.query(category);
         var items = Opt.ofNullable(define)
@@ -35,7 +35,7 @@ public class DictController {
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/{category:.+}")
-    @Operation(summary = "单体查询")
+    @Operation(summary = "根据主键查询")
     public Mono<DictDefine> query(@PathVariable String category) {
         var define = DictCache.query(category);
         return Mono.justOrEmpty(define);

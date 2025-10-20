@@ -22,7 +22,7 @@ public class RolePermController extends SuperSimpleController<RolePermService, P
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/{id:.+}")
-    @Operation(summary = "单体查询")
+    @Operation(summary = "根据主键查询")
     public Mono<RolePermVO> query(@PathVariable Long id) {
         var permVO = new RolePermVO();
         permVO.setId(id);
@@ -34,7 +34,7 @@ public class RolePermController extends SuperSimpleController<RolePermService, P
 
     @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)
     @PatchMapping
-    @Operation(summary = "修改")
+    @Operation(summary = "修改单个数据")
     public Mono<Boolean> update(@RequestBody @Validated RolePermBO permBO) {
         return getBaseService()
                 .assoc(permBO);

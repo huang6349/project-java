@@ -26,7 +26,7 @@ public class UserPermController extends SuperSimpleController<UserPermService, P
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping
-    @Operation(summary = "单体查询（用户权限）")
+    @Operation(summary = "根据主键查询（用户权限）")
     public Mono<UserPermVO> query(@Validated UserPermQueries queries) {
         var tenantId = Opt.ofNullable(queries)
                 .map(UserPermQueries::getTenantId)
@@ -45,7 +45,7 @@ public class UserPermController extends SuperSimpleController<UserPermService, P
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/_all")
-    @Operation(summary = "单体查询（全部权限）")
+    @Operation(summary = "根据主键查询（全部权限）")
     public Mono<UserPermVO> all(@Validated UserPermQueries queries) {
         var tenantId = Opt.ofNullable(queries)
                 .map(UserPermQueries::getTenantId)
@@ -62,7 +62,7 @@ public class UserPermController extends SuperSimpleController<UserPermService, P
 
     @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)
     @PatchMapping
-    @Operation(summary = "修改")
+    @Operation(summary = "修改单个数据")
     public Mono<Boolean> update(@RequestBody @Validated UserPermBO permBO) {
         return getBaseService()
                 .assoc(permBO);

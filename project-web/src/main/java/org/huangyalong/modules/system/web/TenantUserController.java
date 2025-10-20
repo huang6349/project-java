@@ -61,7 +61,7 @@ public class TenantUserController extends ReactorController<
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/{id:.+}/_assoc")
-    @Operation(summary = "单体查询（关联）")
+    @Operation(summary = "根据主键查询(关联查询)")
     public Mono<TenantUserVO> getAssocById(@PathVariable Long id) {
         return getBaseService()
                 .getAssocById(id);

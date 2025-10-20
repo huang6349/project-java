@@ -25,7 +25,7 @@ public class UserRoleController extends SuperSimpleController<UserRoleService, R
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping
-    @Operation(summary = "单体查询")
+    @Operation(summary = "根据主键查询")
     public Mono<UserRoleVO> query(@Validated UserRoleQueries queries) {
         var tenantId = Opt.ofNullable(queries)
                 .map(UserRoleQueries::getTenantId)
@@ -42,7 +42,7 @@ public class UserRoleController extends SuperSimpleController<UserRoleService, R
 
     @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)
     @PatchMapping
-    @Operation(summary = "修改")
+    @Operation(summary = "修改单个数据")
     public Mono<Boolean> update(@RequestBody @Validated UserRoleBO roleBO) {
         return getBaseService()
                 .assoc(roleBO);
