@@ -387,4 +387,57 @@ class UserControllerTest extends MyFrameworkTest {
         assertThat(beforeSize)
                 .isEqualTo(afterSize);
     }
+
+    @Order(8)
+    @Test
+    void current() {
+        var beforeSize = User.create()
+                .count();
+        testClient.post()
+                .uri("/user")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(UserUtil.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        StpUtil.login(UserUtil.getId());
+        testClient.get()
+                .uri("/user/_current")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE))
+                .jsonPath("$.data.username")
+                .value(is(UserUtil.DEFAULT_USERNAME))
+                .jsonPath("$.data.nickname")
+                .value(is(UserUtil.DEFAULT_NICKNAME))
+                .jsonPath("$.data.gender")
+                .value(is(UserUtil.DEFAULT_GENDER))
+                .jsonPath("$.data.mobile")
+                .value(is(UserUtil.DEFAULT_MOBILE))
+                .jsonPath("$.data.email")
+                .value(is(UserUtil.DEFAULT_EMAIL))
+                .jsonPath("$.data.address")
+                .value(is(UserUtil.DEFAULT_ADDRESS))
+                .jsonPath("$.data.desc")
+                .value(is(UserUtil.DEFAULT_DESC))
+                .jsonPath("$.data.status")
+                .value(is(UserStatus.TYPE0.getValue()));
+        StpUtil.login(DEFAULT_LOGIN);
+        var afterSize = User.create()
+                .count();
+        assertThat(beforeSize + 1)
+                .isEqualTo(afterSize);
+    }
 }
