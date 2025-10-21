@@ -1,10 +1,7 @@
 package org.huangyalong.modules.system.web;
 
-import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.mybatisflex.core.query.QueryWrapper;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.huangyalong.core.satoken.helper.UserHelper;
 import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.request.UserBO;
 import org.huangyalong.modules.system.request.UserQueries;
@@ -13,7 +10,6 @@ import org.myframework.base.response.ApiResponse;
 import org.myframework.base.web.ReactorController;
 import org.myframework.base.web.extra.OptionController;
 import org.myframework.core.satoken.annotation.PreAuth;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -66,14 +62,5 @@ public class UserController extends ReactorController<
         var data = getBaseService()
                 .delete(id);
         return ApiResponse.ok(data);
-    }
-
-    @SaCheckLogin
-    @GetMapping("/_current")
-    @Operation(summary = "获取当前用户信息")
-    public Mono<User> current() {
-        var id = UserHelper.getLoginIdAsLong();
-        return getBaseService()
-                .getById(id);
     }
 }

@@ -1,7 +1,5 @@
 package org.huangyalong.modules.system.web;
 
-import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Opt;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,8 +16,6 @@ import org.myframework.core.satoken.annotation.PreMode;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 @PreAuth(replace = "@user")
 @RestController
@@ -42,16 +38,6 @@ public class UserRoleController extends SuperSimpleController<UserRoleService, R
         roleVO.setId(id);
         roleVO.setRoleIds(RoleHelper.fetch(tenantId, id));
         return Mono.just(roleVO);
-    }
-
-    @SaCheckLogin
-    @GetMapping("/_current")
-    @Operation(summary = "获取当前用户角色")
-    public Mono<List<String>> current() {
-        var data = StpUtil.getRoleList();
-        return Opt.ofNullable(data)
-                .map(Mono::just)
-                .orElseGet(Mono::empty);
     }
 
     @PreCheckPermission(value = {"{}:edit", "{}:update"}, mode = PreMode.OR)
