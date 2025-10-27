@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Data
 @Configuration
-@ConfigurationProperties("solon.ai.qdrant")
+@ConfigurationProperties("app.ai.qdrant")
 @ToString(callSuper = true)
 public class QdrantProperties implements Serializable {
 

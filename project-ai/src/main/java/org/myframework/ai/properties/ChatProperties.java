@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Data
 @Configuration
-@ConfigurationProperties("solon.ai.chat")
+@ConfigurationProperties("app.ai.chat")
 @ToString(callSuper = true)
 public class ChatProperties implements Serializable {
 

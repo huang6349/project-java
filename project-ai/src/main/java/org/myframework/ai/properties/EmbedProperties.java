@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Data
 @Configuration
-@ConfigurationProperties("solon.ai.embed")
+@ConfigurationProperties("app.ai.embed")
 @ToString(callSuper = true)
 public class EmbedProperties implements Serializable {
 
