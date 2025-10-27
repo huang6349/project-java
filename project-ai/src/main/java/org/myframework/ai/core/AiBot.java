@@ -42,7 +42,7 @@ public class AiBot {
         var documents = AiLoader.getInstance()
                 .split(source);
         AiRepository.getRepository()
-                .insert(documents);
+                .save(documents);
         return documents;
     }
 
@@ -52,7 +52,7 @@ public class AiBot {
                 .map(Document::getId)
                 .toArray(String[]::new);
         AiRepository.getRepository()
-                .delete(ids);
+                .deleteById(ids);
     }
 
     @SneakyThrows
