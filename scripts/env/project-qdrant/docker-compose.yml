@@ -1,0 +1,21 @@
+version: "3.3"
+
+networks:
+  default:
+    external:
+      name: qwerty
+
+services:
+
+  qdrant:
+    image: registry.cn-hangzhou.aliyuncs.com/huang6349/qdrant:v1.14.1
+    container_name: project-qdrant
+    ports:
+      - "3233:6333"
+      - "3234:6334"
+    environment:
+      - "TZ=Asia/Shanghai"
+    volumes:
+      - "$PWD/snapshots:/qdrant/snapshots"
+      - "$PWD/data:/qdrant/storage"
+    restart: unless-stopped
