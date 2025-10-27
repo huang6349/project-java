@@ -37,7 +37,7 @@
         <auto-table.version>2.5.10</auto-table.version>
         <sa-token.version>1.41.0</sa-token.version>
         <hutool.version>5.8.38</hutool.version>
-        <solon.version>3.3.3</solon.version>
+        <solon.version>3.6.2</solon.version>
         <es.version>7.17.8</es.version>
         <ee.version>2.1.0</ee.version>
         <x-file-storage.version>2.2.1</x-file-storage.version>
