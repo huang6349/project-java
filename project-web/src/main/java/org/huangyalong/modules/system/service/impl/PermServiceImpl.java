@@ -24,7 +24,7 @@ import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
 @Service
 public class PermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> implements PermService {
 
-    @Override
+    @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> add(PermBO permBO) {
         validateAddOrUpdate(permBO);
         var data = Perm.create()
@@ -32,7 +32,7 @@ public class PermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> implem
         return save(data);
     }
 
-    @Override
+    @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> update(PermBO permBO) {
         validateAddOrUpdate(permBO);
         var id = Opt.ofNullable(permBO)
