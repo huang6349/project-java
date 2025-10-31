@@ -28,9 +28,9 @@ spring.redis:
     shutdown-timeout: 3s
 
 dromara.x-file-storage:
-  default-platform: default-minio
+  default-platform: minio
   minio:
-    - platform: default-minio
+    - platform: minio
       enable-storage: true
       access-key: minio
       secret-key: pwd123456
@@ -43,3 +43,7 @@ easy-es:
   address: 127.0.0.1:3202
   username: elastic
   password: pwd123456
+
+app.ai.qdrant:
+  host: 127.0.0.1
+  port: 3234

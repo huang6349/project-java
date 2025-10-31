@@ -29,6 +29,13 @@ public interface FileUtil {
         return builder.build();
     }
 
+    static String getFilename() {
+        var entity = getEntity();
+        return Opt.ofNullable(entity)
+                .map(File::getFilename)
+                .get();
+    }
+
     static File getEntity() {
         return File.create()
                 .orderBy(FILE.ID, Boolean.FALSE)

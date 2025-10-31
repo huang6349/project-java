@@ -1,5 +1,6 @@
 package org.huangyalong.modules.ai.domain;
 
+import cn.hutool.core.lang.Opt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
@@ -12,6 +13,8 @@ import lombok.experimental.Accessors;
 import org.dromara.autotable.annotation.AutoColumn;
 import org.dromara.autotable.annotation.AutoTable;
 import org.huangyalong.modules.ai.enums.AiDocumentStatus;
+import org.huangyalong.modules.ai.request.AiDocumentBO;
+import org.huangyalong.modules.file.domain.File;
 import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
 
@@ -71,4 +74,36 @@ public class AiDocument extends Entity<AiDocument, Long> {
     @Column(ignore = true)
     @Schema(description = "MIME类型")
     private String contentType;
+
+    /****************** with ******************/
+
+    public AiDocument with(AiDocumentBO documentBO) {
+        Opt.ofNullable(documentBO)
+                .map(AiDocumentBO::getName)
+                .ifPresent(this::setName);
+        Opt.ofNullable(documentBO)
+                .map(AiDocumentBO::getDesc)
+                .ifPresent(this::setDesc);
+        return this;
+    }
+
+    public AiDocument with(File file) {
+        var filename = Opt.ofNullable(file)
+                .map(File::getFilename)
+                .get();
+        var ext = Opt.ofNullable(file)
+                .map(File::getExt)
+                .get();
+        var contentType = Opt.ofNullable(file)
+                .map(File::getContentType)
+                .get();
+        setExtras(AiDocumentExtras.create()
+                .setExtras(getExtras())
+                .addFilename(filename)
+                .addExt(ext)
+                .addContentType(contentType)
+                .addVersion()
+                .getExtras());
+        return this;
+    }
 }

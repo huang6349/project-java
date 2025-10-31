@@ -1,5 +1,6 @@
 package org.huangyalong.modules.ai.domain;
 
+import cn.hutool.core.lang.Opt;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
@@ -13,6 +14,7 @@ import lombok.experimental.Accessors;
 import org.dromara.autotable.annotation.AutoColumn;
 import org.dromara.autotable.annotation.AutoTable;
 import org.myframework.base.domain.SuperEntity;
+import org.noear.solon.ai.rag.Document;
 
 import java.util.Map;
 
@@ -51,4 +53,27 @@ public class AiChunk extends SuperEntity<AiChunk, Long> {
     @AutoColumn(comment = "额外信息", type = TEXT)
     @Schema(description = "额外信息")
     private Map<String, Object> extras;
+
+    /****************** view ******************/
+
+    @Column(ignore = true)
+    @Schema(description = "存储主键")
+    private String origId;
+
+    /****************** with ******************/
+
+    public AiChunk with(Document document) {
+        Opt.ofNullable(document)
+                .map(Document::getContent)
+                .ifPresent(this::setContent);
+        var origId = Opt.ofNullable(document)
+                .map(Document::getId)
+                .get();
+        setExtras(AiChunkExtras.create()
+                .setExtras(getExtras())
+                .addOrigId(origId)
+                .addVersion()
+                .getExtras());
+        return this;
+    }
 }

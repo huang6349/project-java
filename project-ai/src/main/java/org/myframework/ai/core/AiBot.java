@@ -2,6 +2,7 @@ package org.myframework.ai.core;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.SneakyThrows;
 import org.noear.solon.ai.chat.message.ChatMessage;
@@ -9,6 +10,8 @@ import org.noear.solon.ai.rag.Document;
 
 import java.io.File;
 import java.util.List;
+
+import static cn.hutool.core.convert.Convert.toStrArray;
 
 public class AiBot {
 
@@ -47,12 +50,12 @@ public class AiBot {
     }
 
     @SneakyThrows
-    public void delete(List<Document> documents) {
-        var ids = documents.stream()
-                .map(Document::getId)
-                .toArray(String[]::new);
-        AiRepository.getRepository()
-                .deleteById(ids);
+    public void delete(List<String> ids) {
+        if (ObjectUtil.isNotEmpty(ids)) {
+            var array = toStrArray(ids);
+            AiRepository.getRepository()
+                    .deleteById(array);
+        }
     }
 
     @SneakyThrows
