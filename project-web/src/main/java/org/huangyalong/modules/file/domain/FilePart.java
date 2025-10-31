@@ -1,5 +1,6 @@
 package org.huangyalong.modules.file.domain;
 
+import cn.hutool.core.lang.Opt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
@@ -12,6 +13,7 @@ import lombok.experimental.Accessors;
 import org.dromara.autotable.annotation.AutoColumn;
 import org.dromara.autotable.annotation.AutoTable;
 import org.dromara.x.file.storage.core.hash.HashInfo;
+import org.dromara.x.file.storage.core.upload.FilePartInfo;
 import org.myframework.base.domain.Entity;
 
 import static org.dromara.autotable.annotation.mysql.MysqlTypeConstant.TEXT;
@@ -52,4 +54,28 @@ public class FilePart extends Entity<FilePart, Long> {
     @AutoColumn(comment = "上传ID，仅在手动分片上传时使用", length = 128)
     @Schema(description = "上传ID，仅在手动分片上传时使用")
     private String uploadId;
+
+    /****************** with ******************/
+
+    public FilePart with(FilePartInfo partInfo) {
+        Opt.ofNullable(partInfo)
+                .map(FilePartInfo::getPlatform)
+                .ifPresent(this::setPlatform);
+        Opt.ofNullable(partInfo)
+                .map(FilePartInfo::getETag)
+                .ifPresent(this::setETag);
+        Opt.ofNullable(partInfo)
+                .map(FilePartInfo::getPartNumber)
+                .ifPresent(this::setPartNumber);
+        Opt.ofNullable(partInfo)
+                .map(FilePartInfo::getPartSize)
+                .ifPresent(this::setPartSize);
+        Opt.ofNullable(partInfo)
+                .map(FilePartInfo::getHashInfo)
+                .ifPresent(this::setHashInfo);
+        Opt.ofNullable(partInfo)
+                .map(FilePartInfo::getUploadId)
+                .ifPresent(this::setUploadId);
+        return this;
+    }
 }

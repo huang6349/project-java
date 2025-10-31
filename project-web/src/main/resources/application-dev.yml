@@ -27,6 +27,18 @@ spring.redis:
       min-idle: 10
     shutdown-timeout: 3s
 
+dromara.x-file-storage:
+  default-platform: default-minio
+  minio:
+    - platform: default-minio
+      enable-storage: true
+      access-key: minio
+      secret-key: pwd123456
+      end-point: http://100.100.100.252:3200
+      bucket-name: project
+      domain: http://100.100.100.252:3201/browser/project/
+      base-path: dev/
+
 easy-es:
   address: 100.100.100.252:3202
   username: elastic
