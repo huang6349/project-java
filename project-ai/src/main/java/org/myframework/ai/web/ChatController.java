@@ -1,5 +1,6 @@
 package org.myframework.ai.web;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.myframework.ai.core.AiBot;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatController {
 
     @IgnoreResponse
+    @SaCheckLogin
     @GetMapping
     @Operation(summary = "文字聊天")
     public String chat(String message) {

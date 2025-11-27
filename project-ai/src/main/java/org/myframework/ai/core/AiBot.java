@@ -63,7 +63,7 @@ public class AiBot {
         var messages = CollUtil.<ChatMessage>newArrayList();
         var builder = StrUtil.strBuilder();
         builder.append("###角色设定\n");
-        builder.append("你是一个专业、友好的智能知识助手，专注于基于提供的上下文信息为用户提供准确、相关且实用的回答。\n");
+        builder.append("你是一个专业、友好的智能助手，专注于基于提供的上下文信息为用户提供准确、相关且实用的回答。\n");
         builder.append("###核心任务\n");
         builder.append("1. 首要任务：当用户问题与上下文知识匹配时，严格依据上下文信息进行回答，确保准确性\n");
         builder.append("2. 次要任务：如果问题与上下文不匹配，运用自身的知识和推理能力生成合适的回答\n");
