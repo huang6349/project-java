@@ -1,5 +1,6 @@
 package org.huangyalong.modules.notify.domain;
 
+import cn.hutool.core.lang.Opt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
@@ -12,6 +13,8 @@ import lombok.experimental.Accessors;
 import org.dromara.autotable.annotation.AutoColumn;
 import org.dromara.autotable.annotation.AutoTable;
 import org.huangyalong.modules.notify.enums.CategoryStatus;
+import org.huangyalong.modules.notify.enums.NotifyFreq;
+import org.huangyalong.modules.notify.request.CategoryBO;
 import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
 
@@ -63,4 +66,31 @@ public class NotifyCategory extends Entity<NotifyCategory, Long> {
     @AutoColumn(comment = "类别状态", type = TINYINT, defaultValue = "0")
     @Schema(description = "类别状态")
     private CategoryStatus status;
+
+    /****************** view ******************/
+
+    @Column(ignore = true)
+    @JKDictFormat
+    @Schema(description = "消息频率")
+    private NotifyFreq freq;
+
+    /****************** with ******************/
+
+    public NotifyCategory with(CategoryBO categoryBO) {
+        Opt.ofNullable(categoryBO)
+                .map(CategoryBO::getName)
+                .ifPresent(this::setName);
+        Opt.ofNullable(categoryBO)
+                .map(CategoryBO::getCode)
+                .ifPresent(this::setCode);
+        Opt.ofNullable(categoryBO)
+                .map(CategoryBO::getDesc)
+                .ifPresent(this::setDesc);
+        setConfigs(CategoryConfigs.create()
+                .setConfigs(getConfigs())
+                .addFreq(categoryBO.getFreq())
+                .addVersion()
+                .getConfigs());
+        return this;
+    }
 }
