@@ -15,6 +15,8 @@ import static cn.hutool.core.convert.Convert.toStrArray;
 import static cn.hutool.core.date.DateUtil.now;
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static cn.hutool.extra.spring.SpringUtil.getBean;
+import static org.noear.solon.ai.chat.message.ChatMessage.ofSystem;
+import static org.noear.solon.ai.chat.message.ChatMessage.ofUserAugment;
 
 public class AiBot {
 
@@ -72,7 +74,7 @@ public class AiBot {
     public String chat(String message) {
         if (isDisabled()) return "智能助手功能已禁用，请联系管理员开启";
         var messages = CollUtil.<ChatMessage>newArrayList();
-        String promptTemplate = """
+        String prompt = """
                 # 角色设定
                 你是一个专业的智能助手，具备以下核心能力：
                 
@@ -98,8 +100,8 @@ public class AiBot {
                 
                 请根据以上原则，为用户提供最佳的服务体验。
                 """.formatted(now());
-        messages.add(ChatMessage.ofSystem(promptTemplate));
-        messages.add(ChatMessage.ofUserAugment(message, search(message)));
+        messages.add(ofSystem(prompt));
+        messages.add(ofUserAugment(message, search(message)));
         return AiChat.getModel()
                 .prompt(messages)
                 .call()
