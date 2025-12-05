@@ -4,7 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.log.StaticLog;
 import lombok.SneakyThrows;
+import org.myframework.ai.properties.AiProperties;
 import org.noear.solon.ai.chat.message.ChatMessage;
 import org.noear.solon.ai.rag.Document;
 
@@ -12,6 +14,8 @@ import java.io.File;
 import java.util.List;
 
 import static cn.hutool.core.convert.Convert.toStrArray;
+import static cn.hutool.core.lang.Opt.ofNullable;
+import static cn.hutool.extra.spring.SpringUtil.getBean;
 
 public class AiBot {
 
@@ -19,11 +23,14 @@ public class AiBot {
 
     private static volatile AiBot instance;
 
+    private static volatile AiProperties aiProperties;
+
     public static AiBot getInstance() {
         if (!initialized) {
             synchronized (AiBot.class) {
                 if (!initialized) {
                     instance = new AiBot();
+                    aiProperties = getBean(AiProperties.class);
                     initialized = Boolean.TRUE;
                 }
             }
@@ -33,6 +40,7 @@ public class AiBot {
 
     @SneakyThrows
     public List<Document> search(String message) {
+        if (isDisabled()) return CollUtil.newArrayList();
         return AiRepository.getRepository()
                 .search(message)
                 .stream()
@@ -42,6 +50,7 @@ public class AiBot {
 
     @SneakyThrows
     public List<Document> insert(File source) {
+        if (isDisabled()) return CollUtil.newArrayList();
         var documents = AiLoader.getInstance()
                 .split(source);
         AiRepository.getRepository()
@@ -51,6 +60,7 @@ public class AiBot {
 
     @SneakyThrows
     public void delete(List<String> ids) {
+        if (isDisabled()) return;
         if (ObjectUtil.isNotEmpty(ids)) {
             var array = toStrArray(ids);
             AiRepository.getRepository()
@@ -60,6 +70,7 @@ public class AiBot {
 
     @SneakyThrows
     public String chat(String message) {
+        if (isDisabled()) return "智能助手功能已禁用，请联系管理员开启";
         var messages = CollUtil.<ChatMessage>newArrayList();
         var builder = StrUtil.strBuilder();
         builder.append("###角色设定\n");
@@ -81,5 +92,15 @@ public class AiBot {
                 .call()
                 .getMessage()
                 .getContent();
+    }
+
+    boolean isDisabled() {
+        var enabled = ofNullable(aiProperties)
+                .map(AiProperties::isEnabled)
+                .orElse(Boolean.FALSE);
+        if (!enabled) {
+            StaticLog.warn("智能助手功能已禁用，相关操作将被阻止");
+            return Boolean.TRUE;
+        } else return Boolean.FALSE;
     }
 }

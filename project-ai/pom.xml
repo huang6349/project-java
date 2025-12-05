@@ -11,7 +11,7 @@
     </parent>
     <artifactId>project-ai</artifactId>
     <name>${project.artifactId}</name>
-    <description>人工智能</description>
+    <description>智能助手</description>
     <dependencies>
         <!-- Ai 相关 -->
         <dependency>

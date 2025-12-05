@@ -23,7 +23,7 @@ public class FrameworkMcp {
 
     @Bean("startFrameworkMcp")
     FrameworkMcp frameworkMcp(ObjectProvider<IMcpServerEndpoint> serverEndpoints) {
-        StaticLog.trace("启动人工智能");
+        StaticLog.trace("启动智能助手");
         Solon.start(FrameworkMcp.class, new String[]{"--cfg=mcpserver.yml"});
         serverEndpoints.forEach(serverEndpoint -> {
             var anno = findAnnotation(serverEndpoint.getClass(), McpServerEndpoint.class);
@@ -51,7 +51,7 @@ public class FrameworkMcp {
 
     @PreDestroy
     void destroy() {
-        StaticLog.trace("停止人工智能");
+        StaticLog.trace("停止智能助手");
         if (Solon.app() != null) {
             var delay = Solon.cfg().stopDelay();
             Solon.stopBlock(Boolean.FALSE, delay);

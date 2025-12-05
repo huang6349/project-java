@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/chat")
-@Tag(name = "人工智能")
+@Tag(name = "智能助手")
 public class ChatController {
 
     @IgnoreResponse
