@@ -1,16 +1,19 @@
 package org.myframework.ai.core;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import org.myframework.ai.properties.ChatProperties;
 import org.noear.solon.ai.chat.ChatModel;
 import org.noear.solon.ai.chat.tool.FunctionTool;
 
 import java.util.List;
 
+import static cn.hutool.extra.spring.SpringUtil.getBean;
+
 public class AiChat {
 
     private static volatile Boolean initialized = Boolean.FALSE;
+
+    private static volatile ChatProperties chatProperties;
 
     private static volatile ChatModel model;
 
@@ -19,6 +22,7 @@ public class AiChat {
             synchronized (AiChat.class) {
                 if (!initialized) {
                     refresh();
+                    chatProperties = getBean(ChatProperties.class);
                     initialized = Boolean.TRUE;
                 }
             }
@@ -27,14 +31,13 @@ public class AiChat {
     }
 
     public static synchronized void refresh() {
-        var properties = SpringUtil.getBean(ChatProperties.class);
         var tools = CollUtil.<FunctionTool>newArrayList();
         appendPluginTools(tools);
         appendNativeTools(tools);
-        model = ChatModel.of(properties.getApiUrl())
-                .apiKey(properties.getApiKey())
-                .provider(properties.getProvider())
-                .model(properties.getModel())
+        model = ChatModel.of(chatProperties.getApiUrl())
+                .apiKey(chatProperties.getApiKey())
+                .provider(chatProperties.getProvider())
+                .model(chatProperties.getModel())
                 .defaultToolsAdd(tools)
                 .build();
     }

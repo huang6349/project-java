@@ -21,16 +21,16 @@ public class AiBot {
 
     private static volatile Boolean initialized = Boolean.FALSE;
 
-    private static volatile AiBot instance;
-
     private static volatile AiProperties aiProperties;
+
+    private static volatile AiBot instance;
 
     public static AiBot getInstance() {
         if (!initialized) {
             synchronized (AiBot.class) {
                 if (!initialized) {
-                    instance = new AiBot();
                     aiProperties = getBean(AiProperties.class);
+                    instance = new AiBot();
                     initialized = Boolean.TRUE;
                 }
             }
