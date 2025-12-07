@@ -43,7 +43,3 @@ easy-es:
   address: project-es:9200
   username: elastic
   password: pwd123456
-
-app.ai.qdrant:
-  host: project-qdrant
-  port: 6334

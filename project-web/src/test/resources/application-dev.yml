@@ -43,7 +43,3 @@ easy-es:
   address: 100.100.100.252:3202
   username: elastic
   password: pwd123456
-
-app.ai.qdrant:
-  host: 100.100.100.252
-  port: 3234
