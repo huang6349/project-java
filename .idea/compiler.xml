@@ -10,8 +10,8 @@
         <module name="project-framework" />
         <module name="project-es" />
         <module name="project-web" />
-        <module name="project-test" />
         <module name="project-webhook" />
+        <module name="project-test" />
         <module name="project-ai" />
       </profile>
     </annotationProcessing>
