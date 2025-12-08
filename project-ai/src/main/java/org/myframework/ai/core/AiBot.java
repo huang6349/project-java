@@ -1,6 +1,7 @@
 package org.myframework.ai.core;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.log.StaticLog;
 import lombok.SneakyThrows;
@@ -113,7 +114,7 @@ public class AiBot {
         var enabled = ofNullable(aiProperties)
                 .map(AiProperties::isEnabled)
                 .orElse(Boolean.FALSE);
-        if (!enabled) {
+        if (BooleanUtil.isFalse(enabled)) {
             StaticLog.warn("智能助手功能已禁用，相关操作将被阻止");
             return Boolean.TRUE;
         } else return Boolean.FALSE;
