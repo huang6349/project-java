@@ -17,8 +17,8 @@ public class AiEmbed {
         if (!initialized) {
             synchronized (AiEmbed.class) {
                 if (!initialized) {
-                    refresh();
                     embedProperties = getBean(EmbedProperties.class);
+                    refresh();
                     initialized = Boolean.TRUE;
                 }
             }

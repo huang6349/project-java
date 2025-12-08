@@ -21,8 +21,8 @@ public class AiRepository {
         if (!initialized) {
             synchronized (AiRepository.class) {
                 if (!initialized) {
-                    refresh();
                     qdrantProperties = getBean(QdrantProperties.class);
+                    refresh();
                     initialized = Boolean.TRUE;
                 }
             }

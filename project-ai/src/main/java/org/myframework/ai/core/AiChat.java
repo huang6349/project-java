@@ -21,8 +21,8 @@ public class AiChat {
         if (!initialized) {
             synchronized (AiChat.class) {
                 if (!initialized) {
-                    refresh();
                     chatProperties = getBean(ChatProperties.class);
+                    refresh();
                     initialized = Boolean.TRUE;
                 }
             }
