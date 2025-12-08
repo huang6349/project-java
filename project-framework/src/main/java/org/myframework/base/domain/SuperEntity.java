@@ -40,6 +40,7 @@ public class SuperEntity<E extends SuperEntity<E, T>, T> extends Model<E> {
 
     @JsonIgnore
     @AutoColumn(comment = "更新版本", defaultValue = "0")
+    @Column(version = true)
     @Schema(description = "更新版本")
     protected Long version;
 }
