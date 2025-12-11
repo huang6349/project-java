@@ -56,7 +56,7 @@ public class WebhookUtil {
     }
 
     public static Webhook getEntity() {
-        return new Webhook()
+        return Webhook.create()
                 .orderBy(WEBHOOK.ID, Boolean.FALSE)
                 .one();
     }
