@@ -13,5 +13,5 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 public class AiProperties implements Serializable {
 
-    private boolean enabled = Boolean.FALSE;
+    private boolean enabled = Boolean.TRUE;
 }
