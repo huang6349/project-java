@@ -24,7 +24,7 @@ import static cn.hutool.core.lang.Opt.ofNullable;
 import static org.dromara.autotable.annotation.mysql.MysqlTypeConstant.TEXT;
 import static org.dromara.autotable.annotation.mysql.MysqlTypeConstant.TINYINT;
 
-@Data
+@Data(staticConstructor = "create")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)

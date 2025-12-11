@@ -27,7 +27,7 @@ class WebhookControllerTest extends MyFrameworkTest {
     @Order(1)
     @Test
     void add() {
-        var beforeSize = new Webhook()
+        var beforeSize = Webhook.create()
                 .count();
         testClient.post()
                 .uri("/webhook")
@@ -42,7 +42,7 @@ class WebhookControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var afterSize = new Webhook()
+        var afterSize = Webhook.create()
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
@@ -76,7 +76,7 @@ class WebhookControllerTest extends MyFrameworkTest {
     @Order(2)
     @Test
     void update() {
-        var beforeSize = new Webhook()
+        var beforeSize = Webhook.create()
                 .count();
         testClient.post()
                 .uri("/webhook")
@@ -104,7 +104,7 @@ class WebhookControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var afterSize = new Webhook()
+        var afterSize = Webhook.create()
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
@@ -138,7 +138,7 @@ class WebhookControllerTest extends MyFrameworkTest {
     @Order(3)
     @Test
     void queryPage() {
-        var beforeSize = new Webhook()
+        var beforeSize = Webhook.create()
                 .count();
         testClient.post()
                 .uri("/webhook")
@@ -176,7 +176,7 @@ class WebhookControllerTest extends MyFrameworkTest {
                 .value(is(WebhookUtil.DEFAULT_DESC))
                 .jsonPath("$.data.list.[0].status")
                 .value(is(WebhookStatus.TYPE0.getValue()));
-        var afterSize = new Webhook()
+        var afterSize = Webhook.create()
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
@@ -185,7 +185,7 @@ class WebhookControllerTest extends MyFrameworkTest {
     @Order(4)
     @Test
     void query() {
-        var beforeSize = new Webhook()
+        var beforeSize = Webhook.create()
                 .count();
         testClient.post()
                 .uri("/webhook")
@@ -223,7 +223,7 @@ class WebhookControllerTest extends MyFrameworkTest {
                 .value(is(WebhookUtil.DEFAULT_DESC))
                 .jsonPath("$.data.[0].status")
                 .value(is(WebhookStatus.TYPE0.getValue()));
-        var afterSize = new Webhook()
+        var afterSize = Webhook.create()
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
@@ -232,7 +232,7 @@ class WebhookControllerTest extends MyFrameworkTest {
     @Order(5)
     @Test
     void getById() {
-        var beforeSize = new Webhook()
+        var beforeSize = Webhook.create()
                 .count();
         testClient.post()
                 .uri("/webhook")
@@ -270,7 +270,7 @@ class WebhookControllerTest extends MyFrameworkTest {
                 .value(is(WebhookUtil.DEFAULT_DESC))
                 .jsonPath("$.data.status")
                 .value(is(WebhookStatus.TYPE0.getValue()));
-        var afterSize = new Webhook()
+        var afterSize = Webhook.create()
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
@@ -279,7 +279,7 @@ class WebhookControllerTest extends MyFrameworkTest {
     @Order(6)
     @Test
     void test() {
-        var beforeSize = new Webhook()
+        var beforeSize = Webhook.create()
                 .count();
         testClient.post()
                 .uri("/webhook")
@@ -307,7 +307,7 @@ class WebhookControllerTest extends MyFrameworkTest {
                 .value(is(Boolean.TRUE))
                 .jsonPath("$.data")
                 .value(is(Boolean.TRUE));
-        var afterSize = new Webhook()
+        var afterSize = Webhook.create()
                 .count();
         assertThat(beforeSize + 1)
                 .isEqualTo(afterSize);
@@ -316,7 +316,7 @@ class WebhookControllerTest extends MyFrameworkTest {
     @Order(7)
     @Test
     void delete() {
-        var beforeSize = new Webhook()
+        var beforeSize = Webhook.create()
                 .count();
         testClient.post()
                 .uri("/webhook")
@@ -342,7 +342,7 @@ class WebhookControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
-        var afterSize = new Webhook()
+        var afterSize = Webhook.create()
                 .count();
         assertThat(beforeSize)
                 .isEqualTo(afterSize);
