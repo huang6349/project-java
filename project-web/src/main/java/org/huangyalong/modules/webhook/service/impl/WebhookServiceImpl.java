@@ -30,7 +30,7 @@ public class WebhookServiceImpl extends ReactorServiceImpl<WebhookMapper, Webhoo
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> add(WebhookBO webhookBO) {
         validateAddOrUpdate(webhookBO);
-        var data = new Webhook()
+        var data = Webhook.create()
                 .with(webhookBO);
         return save(data);
     }

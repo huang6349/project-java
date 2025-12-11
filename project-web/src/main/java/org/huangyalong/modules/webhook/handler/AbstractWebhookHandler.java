@@ -23,7 +23,7 @@ public abstract class AbstractWebhookHandler implements WebhookHandler {
                 .map(WebhookMessage::getEventType)
                 .orElseThrow(() -> new BusinessException("Webhook 触发事件不能为空"));
         // 查询匹配的webhook配置
-        var webhooks = new Webhook()
+        var webhooks = Webhook.create()
                 .where(ue(WEBHOOK.EXTRAS, NAME_TRIGGER).eq(eventType))
                 .and(ue(WEBHOOK.EXTRAS, NAME_TRIGGER).isNotNull())
                 .and(WEBHOOK.URL.isNotNull())
