@@ -25,6 +25,11 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- Web 相关 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+        </dependency>
         <!-- 工具类相关 -->
         <dependency>
             <groupId>org.projectlombok</groupId>

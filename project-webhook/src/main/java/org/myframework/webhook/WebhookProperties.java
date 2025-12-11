@@ -1,4 +1,4 @@
-package org.myframework.webhook.properties;
+package org.myframework.webhook;
 
 import lombok.Data;
 import lombok.ToString;
