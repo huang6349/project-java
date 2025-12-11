@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
 import org.huangyalong.core.IntegrationTest;
 import org.huangyalong.modules.webhook.domain.Webhook;
+import org.huangyalong.modules.webhook.domain.WebhookExtras;
 import org.huangyalong.modules.webhook.enums.WebhookStatus;
 import org.huangyalong.modules.webhook.request.WebhookUtil;
 import org.junit.jupiter.api.Order;
@@ -63,13 +64,13 @@ class WebhookControllerTest extends MyFrameworkTest {
                 .isNotNull();
         assertThat(testExtras.getRaw())
                 .hasSize(4);
-        assertThat(testExtras.getByPath("format"))
+        assertThat(testExtras.getByPath(WebhookExtras.NAME_FORMAT))
                 .isEqualTo(WebhookUtil.DEFAULT_FORMAT);
-        assertThat(testExtras.getByPath("secret"))
+        assertThat(testExtras.getByPath(WebhookExtras.NAME_SECRET))
                 .isEqualTo(WebhookUtil.DEFAULT_SECRET);
-        assertThat(testExtras.getByPath("trigger"))
+        assertThat(testExtras.getByPath(WebhookExtras.NAME_TRIGGER))
                 .isEqualTo(WebhookUtil.DEFAULT_TRIGGER);
-        assertThat(testExtras.getByPath("version"))
+        assertThat(testExtras.getByPath(WebhookExtras.NAME_VERSION))
                 .isNotNull();
     }
 
@@ -125,13 +126,13 @@ class WebhookControllerTest extends MyFrameworkTest {
                 .isNotNull();
         assertThat(testExtras.getRaw())
                 .hasSize(4);
-        assertThat(testExtras.getByPath("format"))
+        assertThat(testExtras.getByPath(WebhookExtras.NAME_FORMAT))
                 .isEqualTo(WebhookUtil.UPDATED_FORMAT);
-        assertThat(testExtras.getByPath("secret"))
+        assertThat(testExtras.getByPath(WebhookExtras.NAME_SECRET))
                 .isEqualTo(WebhookUtil.UPDATED_SECRET);
-        assertThat(testExtras.getByPath("trigger"))
+        assertThat(testExtras.getByPath(WebhookExtras.NAME_TRIGGER))
                 .isEqualTo(WebhookUtil.UPDATED_TRIGGER);
-        assertThat(testExtras.getByPath("version"))
+        assertThat(testExtras.getByPath(WebhookExtras.NAME_VERSION))
                 .isNotNull();
     }
 
