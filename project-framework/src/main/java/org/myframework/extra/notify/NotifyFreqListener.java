@@ -1,4 +1,4 @@
-package org.myframework.core.notify;
+package org.myframework.extra.notify;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.github.likavn.eventbus.core.annotation.EventbusListener;

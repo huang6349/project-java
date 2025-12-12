@@ -9,7 +9,7 @@ import org.huangyalong.modules.notify.domain.NotifyCategory;
 import org.huangyalong.modules.notify.mapper.NotifyCategoryMapper;
 import org.huangyalong.modules.notify.request.CategoryBO;
 import org.huangyalong.modules.notify.service.NotifyCategoryService;
-import org.myframework.core.eventbus.BusHelper;
+import org.myframework.extra.eventbus.BusHelper;
 import org.myframework.core.exception.BusinessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

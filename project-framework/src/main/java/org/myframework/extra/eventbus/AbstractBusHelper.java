@@ -1,4 +1,4 @@
-package org.myframework.core.eventbus;
+package org.myframework.extra.eventbus;
 
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.log.StaticLog;

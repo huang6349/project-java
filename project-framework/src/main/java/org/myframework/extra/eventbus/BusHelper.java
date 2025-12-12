@@ -1,4 +1,4 @@
-package org.myframework.core.eventbus;
+package org.myframework.extra.eventbus;
 
 import cn.hutool.log.StaticLog;
 import com.github.likavn.eventbus.core.api.MsgDelayListener;

@@ -1,6 +1,6 @@
 package org.myframework.core.config;
 
-import org.myframework.core.eventbus.BusHelper;
+import org.myframework.extra.eventbus.BusHelper;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
