@@ -1,19 +1,19 @@
-package org.myframework.webhook.helper;
+package org.myframework.extra.webhook.helper;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import org.myframework.core.exception.BusinessException;
 import org.myframework.core.exception.ErrorCode;
 import org.myframework.extra.dict.EnumDict;
-import org.myframework.webhook.*;
+import org.myframework.extra.webhook.*;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static cn.hutool.core.thread.GlobalThreadPool.execute;
 import static cn.hutool.core.util.ObjectUtil.equal;
-import static org.myframework.webhook.helper.WebhookHandlerHelper.getHandlers;
-import static org.myframework.webhook.util.SignatureUtil.generateSignature;
-import static org.myframework.webhook.util.WebhookUtil.sendFormWebhook;
-import static org.myframework.webhook.util.WebhookUtil.sendJsonWebhook;
+import static org.myframework.extra.webhook.helper.WebhookHandlerHelper.getHandlers;
+import static org.myframework.extra.webhook.util.SignatureUtil.generateSignature;
+import static org.myframework.extra.webhook.util.WebhookUtil.sendFormWebhook;
+import static org.myframework.extra.webhook.util.WebhookUtil.sendJsonWebhook;
 
 public class WebhookHelper extends AbstractWebhookHelper {
 

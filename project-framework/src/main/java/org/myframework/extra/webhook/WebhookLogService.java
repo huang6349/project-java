@@ -1,4 +1,4 @@
-package org.myframework.webhook;
+package org.myframework.extra.webhook;
 
 public interface WebhookLogService {
 

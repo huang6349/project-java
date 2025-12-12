@@ -1,4 +1,4 @@
-package org.myframework.webhook;
+package org.myframework.extra.webhook;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.mybatisflex.annotation.EnumValue;

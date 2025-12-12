@@ -1,10 +1,10 @@
-package org.myframework.webhook.helper;
+package org.myframework.extra.webhook.helper;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import org.myframework.webhook.Webhook;
-import org.myframework.webhook.WebhookHandler;
+import org.myframework.extra.webhook.Webhook;
+import org.myframework.extra.webhook.WebhookHandler;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;

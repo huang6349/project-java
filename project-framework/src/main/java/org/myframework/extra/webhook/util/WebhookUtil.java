@@ -1,4 +1,4 @@
-package org.myframework.webhook.util;
+package org.myframework.extra.webhook.util;
 
 import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpRequest;
@@ -14,7 +14,7 @@ import static cn.hutool.http.ContentType.FORM_URLENCODED;
 import static cn.hutool.http.ContentType.JSON;
 import static cn.hutool.json.JSONUtil.parseObj;
 import static cn.hutool.json.JSONUtil.toJsonStr;
-import static org.myframework.webhook.WebhookConstants.*;
+import static org.myframework.extra.webhook.WebhookConstants.*;
 
 public class WebhookUtil {
 

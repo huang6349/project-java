@@ -6,7 +6,7 @@ import cn.hutool.json.JSONUtil;
 import lombok.experimental.UtilityClass;
 import org.huangyalong.modules.webhook.domain.Webhook;
 import org.huangyalong.modules.webhook.enums.WebhookTrigger;
-import org.myframework.webhook.WebhookFormat;
+import org.myframework.extra.webhook.WebhookFormat;
 
 import java.io.Serializable;
 

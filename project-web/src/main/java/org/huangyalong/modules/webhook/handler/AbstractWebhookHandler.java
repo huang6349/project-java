@@ -3,9 +3,9 @@ package org.huangyalong.modules.webhook.handler;
 import cn.hutool.core.collection.CollUtil;
 import org.huangyalong.modules.webhook.domain.Webhook;
 import org.myframework.core.exception.BusinessException;
-import org.myframework.webhook.WebhookHandler;
-import org.myframework.webhook.WebhookMessage;
-import org.myframework.webhook.WebhookRequest;
+import org.myframework.extra.webhook.WebhookHandler;
+import org.myframework.extra.webhook.WebhookMessage;
+import org.myframework.extra.webhook.WebhookRequest;
 
 import java.util.List;
 

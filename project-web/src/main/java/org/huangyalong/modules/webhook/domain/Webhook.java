@@ -16,7 +16,7 @@ import org.huangyalong.modules.webhook.enums.WebhookTrigger;
 import org.huangyalong.modules.webhook.request.WebhookBO;
 import org.myframework.base.domain.Entity;
 import org.myframework.extra.jackson.JKDictFormat;
-import org.myframework.webhook.WebhookFormat;
+import org.myframework.extra.webhook.WebhookFormat;
 
 import java.util.Map;
 

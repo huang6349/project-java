@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import org.huangyalong.modules.webhook.enums.WebhookTrigger;
 import org.myframework.core.exception.BusinessException;
-import org.myframework.webhook.Webhook;
+import org.myframework.extra.webhook.Webhook;
 
 import static cn.hutool.core.date.DateUtil.current;
 

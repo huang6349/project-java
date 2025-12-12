@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.myframework.extra.dict.Dict;
 import org.myframework.extra.dict.EnumDict;
-import org.myframework.webhook.WebhookEvent;
+import org.myframework.extra.webhook.WebhookEvent;
 
 import static org.myframework.extra.dict.IsDefault.YES;
 import static org.myframework.extra.dict.Style.DEFAULT;

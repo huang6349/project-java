@@ -1,8 +1,8 @@
-package org.myframework.webhook.util;
+package org.myframework.extra.webhook.util;
 
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.StrUtil;
-import org.myframework.webhook.WebhookRequest;
+import org.myframework.extra.webhook.WebhookRequest;
 
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static cn.hutool.crypto.SecureUtil.hmacSha256;

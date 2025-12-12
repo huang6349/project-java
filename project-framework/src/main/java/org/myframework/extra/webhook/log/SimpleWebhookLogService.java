@@ -1,8 +1,8 @@
-package org.myframework.webhook.log;
+package org.myframework.extra.webhook.log;
 
 import cn.hutool.log.StaticLog;
-import org.myframework.webhook.WebhookLogService;
-import org.myframework.webhook.WebhookRequest;
+import org.myframework.extra.webhook.WebhookLogService;
+import org.myframework.extra.webhook.WebhookRequest;
 
 public class SimpleWebhookLogService implements WebhookLogService {
 

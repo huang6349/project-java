@@ -10,7 +10,6 @@
         <module name="project-framework" />
         <module name="project-es" />
         <module name="project-web" />
-        <module name="project-webhook" />
         <module name="project-test" />
         <module name="project-ai" />
       </profile>
@@ -23,7 +22,6 @@
       <module name="project-framework" options="-parameters" />
       <module name="project-test" options="-parameters" />
       <module name="project-web" options="-parameters" />
-      <module name="project-webhook" options="-parameters" />
     </option>
   </component>
 </project>

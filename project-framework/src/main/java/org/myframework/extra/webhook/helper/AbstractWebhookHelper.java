@@ -1,11 +1,11 @@
-package org.myframework.webhook.helper;
+package org.myframework.extra.webhook.helper;
 
 import cn.hutool.http.HttpResponse;
 import cn.hutool.log.StaticLog;
-import org.myframework.webhook.WebhookLogService;
-import org.myframework.webhook.WebhookRequest;
-import org.myframework.webhook.WebhookResponse;
-import org.myframework.webhook.log.SimpleWebhookLogService;
+import org.myframework.extra.webhook.WebhookLogService;
+import org.myframework.extra.webhook.WebhookRequest;
+import org.myframework.extra.webhook.WebhookResponse;
+import org.myframework.extra.webhook.log.SimpleWebhookLogService;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import static cn.hutool.core.util.BooleanUtil.isFalse;

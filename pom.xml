@@ -7,7 +7,6 @@
     <modules>
         <module>project-framework</module>
         <module>project-es</module>
-        <module>project-webhook</module>
         <module>project-ai</module>
         <module>project-test</module>
         <module>project-web</module>
@@ -147,11 +146,6 @@
             <dependency>
                 <groupId>org.huangyalong</groupId>
                 <artifactId>project-es</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.huangyalong</groupId>
-                <artifactId>project-webhook</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>

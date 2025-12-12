@@ -6,7 +6,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.huangyalong.modules.webhook.enums.WebhookTrigger;
 import org.myframework.base.domain.BaseExtras;
-import org.myframework.webhook.WebhookFormat;
+import org.myframework.extra.webhook.WebhookFormat;
 
 import static cn.hutool.core.lang.Opt.ofBlankAble;
 
