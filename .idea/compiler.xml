@@ -8,10 +8,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="project-framework" />
-        <module name="project-es" />
-        <module name="project-web" />
         <module name="project-test" />
+        <module name="project-es" />
         <module name="project-ai" />
+        <module name="project-web" />
       </profile>
     </annotationProcessing>
   </component>
