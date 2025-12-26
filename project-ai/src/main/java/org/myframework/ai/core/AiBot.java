@@ -53,9 +53,9 @@ public class AiBot {
 
     @SneakyThrows
     public List<Document> insert(File source) {
-        if (isDisabled()) return CollUtil.newArrayList();
         var documents = AiLoader.getInstance()
                 .split(source);
+        if (isDisabled()) return documents;
         AiRepository.getRepository()
                 .save(documents);
         return documents;

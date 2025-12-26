@@ -32,7 +32,7 @@
         <project.build.jdk>${java.version}</project.build.jdk>
         <!-- 项目相关 -->
         <mybatis-flex-reactor.version>0.2.2</mybatis-flex-reactor.version>
-        <mybatis-flex.version>1.11.3</mybatis-flex.version>
+        <mybatis-flex.version>1.11.5</mybatis-flex.version>
         <mybatis-flex-ext.version>1.11.3.148</mybatis-flex-ext.version>
         <auto-table.version>2.5.11</auto-table.version>
         <sa-token.version>1.41.0</sa-token.version>
