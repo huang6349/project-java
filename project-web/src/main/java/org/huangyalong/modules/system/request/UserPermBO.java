@@ -21,7 +21,6 @@ public class UserPermBO extends BaseBO<Long> {
     @Schema(description = "权限主键", requiredMode = REQUIRED)
     private List<Long> permIds;
 
-    @NotNull(message = "租户不能为空")
-    @Schema(description = "租户主键", requiredMode = REQUIRED)
+    @Schema(description = "租户主键")
     private Long tenantId;
 }

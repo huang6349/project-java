@@ -21,7 +21,6 @@ public class UserRoleBO extends BaseBO<Long> {
     @Schema(description = "角色主键", requiredMode = REQUIRED)
     private List<Long> roleIds;
 
-    @NotNull(message = "租户不能为空")
-    @Schema(description = "租户主键", requiredMode = REQUIRED)
+    @Schema(description = "租户主键")
     private Long tenantId;
 }

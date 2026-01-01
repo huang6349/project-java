@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import static org.huangyalong.core.constants.TenantConstants.INVALID;
 import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
 
 @Getter
@@ -32,6 +33,7 @@ public class RolePermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> im
                 .map(RolePermBO::getId)
                 .get();
         var assocBO = new PermAssocBO();
+        assocBO.setTenantId(INVALID);
         assocBO.setPermIds(permIds);
         assocBO.setAssoc(ROLE.getTableName());
         assocBO.setId(id);

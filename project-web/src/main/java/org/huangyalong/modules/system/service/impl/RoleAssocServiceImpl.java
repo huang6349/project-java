@@ -1,6 +1,5 @@
 package org.huangyalong.modules.system.service.impl;
 
-import cn.hutool.core.lang.Opt;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.QueryWrapper;
 import lombok.Getter;
@@ -13,13 +12,13 @@ import org.huangyalong.modules.system.request.RoleDissocBO;
 import org.huangyalong.modules.system.service.RoleAssocService;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
+import org.myframework.core.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
-import static cn.hutool.core.util.BooleanUtil.isTrue;
 import static org.huangyalong.core.constants.TenantConstants.INVALID;
 import static org.huangyalong.modules.system.domain.table.RoleAssocTableDef.ROLE_ASSOC;
 
@@ -33,10 +32,10 @@ public class RoleAssocServiceImpl extends ReactorServiceImpl<RoleAssocMapper, Ro
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> dissoc(RoleDissocBO dissocBO) {
         var tenantId = getTenantId(dissocBO);
-        var assoc = Opt.ofNullable(dissocBO)
+        var assoc = ofNullable(dissocBO)
                 .map(RoleDissocBO::getAssoc)
                 .get();
-        var id = Opt.ofNullable(dissocBO)
+        var id = ofNullable(dissocBO)
                 .map(RoleDissocBO::getId)
                 .get();
         var query = QueryWrapper.create()
@@ -51,13 +50,13 @@ public class RoleAssocServiceImpl extends ReactorServiceImpl<RoleAssocMapper, Ro
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> assoc(RoleAssocBO assocBO) {
         var tenantId = getTenantId(assocBO);
-        var roleIds = Opt.ofNullable(assocBO)
+        var roleIds = ofNullable(assocBO)
                 .map(RoleAssocBO::getRoleIds)
                 .get();
-        var assoc = Opt.ofNullable(assocBO)
+        var assoc = ofNullable(assocBO)
                 .map(RoleAssocBO::getAssoc)
                 .get();
-        var id = Opt.ofNullable(assocBO)
+        var id = ofNullable(assocBO)
                 .map(RoleAssocBO::getId)
                 .get();
         var data = RoleAssocsData.create()
@@ -75,10 +74,10 @@ public class RoleAssocServiceImpl extends ReactorServiceImpl<RoleAssocMapper, Ro
         var enabled = ofNullable(getProperties())
                 .map(TenantProperties::isEnabled)
                 .orElse(Boolean.TRUE);
-        if (isTrue(enabled)) {
+        if (enabled) {
             return ofNullable(dissocBO)
                     .map(RoleDissocBO::getTenantId)
-                    .get();
+                    .orElseThrow(() -> new BusinessException("租户不能为空"));
         } else return INVALID;
     }
 
@@ -86,10 +85,10 @@ public class RoleAssocServiceImpl extends ReactorServiceImpl<RoleAssocMapper, Ro
         var enabled = ofNullable(getProperties())
                 .map(TenantProperties::isEnabled)
                 .orElse(Boolean.TRUE);
-        if (isTrue(enabled)) {
+        if (enabled) {
             return ofNullable(assocBO)
                     .map(RoleAssocBO::getTenantId)
-                    .get();
+                    .orElseThrow(() -> new BusinessException("租户不能为空"));
         } else return INVALID;
     }
 }
