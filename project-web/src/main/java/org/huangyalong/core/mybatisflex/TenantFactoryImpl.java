@@ -1,23 +1,34 @@
 package org.huangyalong.core.mybatisflex;
 
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.lang.Opt;
 import com.mybatisflex.core.tenant.TenantFactory;
-import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.huangyalong.modules.system.properties.TenantProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static cn.hutool.core.lang.Opt.ofNullable;
+import static cn.hutool.core.util.BooleanUtil.isTrue;
 import static org.huangyalong.core.satoken.helper.UserHelper.getTenant;
 
-@AllArgsConstructor
+@Getter
 @Service
 public class TenantFactoryImpl implements TenantFactory {
 
-    private final static Long[] EMPTY = new Long[]{0L};
+    private final static Long[] NOT_FOUND = new Long[]{-1L};
+
+    @Autowired
+    private TenantProperties properties;
 
     @Override
     public Object[] getTenantIds() {
-        return Opt.ofNullable(getTenant())
-                .map(Convert::toLongArray)
-                .orElse(EMPTY);
+        var enabled = ofNullable(getProperties())
+                .map(TenantProperties::isEnabled)
+                .orElse(Boolean.TRUE);
+        if (isTrue(enabled)) {
+            return ofNullable(getTenant())
+                    .map(Convert::toLongArray)
+                    .orElse(NOT_FOUND);
+        } else return null;
     }
 }
