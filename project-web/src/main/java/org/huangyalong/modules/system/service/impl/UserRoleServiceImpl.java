@@ -3,17 +3,24 @@ package org.huangyalong.modules.system.service.impl;
 import cn.hutool.core.lang.Opt;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import lombok.Getter;
+import org.huangyalong.core.satoken.helper.RoleHelper;
 import org.huangyalong.modules.system.domain.Role;
 import org.huangyalong.modules.system.mapper.RoleMapper;
+import org.huangyalong.modules.system.properties.TenantProperties;
 import org.huangyalong.modules.system.request.RoleAssocBO;
 import org.huangyalong.modules.system.request.UserRoleBO;
+import org.huangyalong.modules.system.request.UserRoleQueries;
+import org.huangyalong.modules.system.response.UserRoleVO;
 import org.huangyalong.modules.system.service.RoleAssocService;
 import org.huangyalong.modules.system.service.UserRoleService;
+import org.myframework.core.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import static cn.hutool.core.lang.Opt.ofNullable;
+import static org.huangyalong.core.constants.TenantConstants.INVALID;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 @Getter
@@ -22,6 +29,22 @@ public class UserRoleServiceImpl extends ReactorServiceImpl<RoleMapper, Role> im
 
     @Autowired
     private RoleAssocService assocService;
+
+    @Autowired
+    private TenantProperties properties;
+
+    @Override
+    public Mono<UserRoleVO> query(UserRoleQueries queries) {
+        var tenantId = getTenantId(queries);
+        var id = Opt.ofNullable(queries)
+                .map(UserRoleQueries::getId)
+                .orElseThrow(() -> new BusinessException("主键不能为空"));
+        var roleVO = new UserRoleVO();
+        roleVO.setTenantId(tenantId);
+        roleVO.setId(id);
+        roleVO.setRoleIds(RoleHelper.fetch(tenantId, id));
+        return Mono.just(roleVO);
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> assoc(UserRoleBO roleBO) {
@@ -41,5 +64,16 @@ public class UserRoleServiceImpl extends ReactorServiceImpl<RoleMapper, Role> im
         assocBO.setId(id);
         return getAssocService()
                 .assoc(assocBO);
+    }
+
+    Long getTenantId(UserRoleQueries queries) {
+        var enabled = ofNullable(getProperties())
+                .map(TenantProperties::isEnabled)
+                .orElse(Boolean.TRUE);
+        if (enabled) {
+            return ofNullable(queries)
+                    .map(UserRoleQueries::getTenantId)
+                    .orElseThrow(() -> new BusinessException("租户不能为空"));
+        } else return INVALID;
     }
 }

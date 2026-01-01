@@ -4,6 +4,8 @@ import com.mybatis.flex.reactor.core.ReactorService;
 import com.mybatisflex.core.query.QueryWrapper;
 import org.huangyalong.modules.system.domain.Perm;
 import org.huangyalong.modules.system.request.UserPermBO;
+import org.huangyalong.modules.system.request.UserPermQueries;
+import org.huangyalong.modules.system.response.UserPermVO;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
 import reactor.core.publisher.Flux;
@@ -34,6 +36,10 @@ public interface UserPermService extends ReactorService<Perm> {
                 .and(PERM_ASSOC.ASSOC_ID.eq(id));
         return list(query);
     }
+
+    Mono<UserPermVO> query(UserPermQueries queries);
+
+    Mono<UserPermVO> all(UserPermQueries queries);
 
     Mono<Boolean> assoc(UserPermBO permBO);
 }
