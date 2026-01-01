@@ -9,13 +9,14 @@ import org.springframework.stereotype.Service;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static cn.hutool.core.util.BooleanUtil.isTrue;
+import static org.huangyalong.core.constants.TenantConstants.INVALID;
 import static org.huangyalong.core.satoken.helper.UserHelper.getTenant;
 
 @Getter
 @Service
 public class TenantFactoryImpl implements TenantFactory {
 
-    private final static Long[] NOT_FOUND = new Long[]{-1L};
+    private static final Long[] EMPTY = new Long[]{INVALID};
 
     @Autowired
     private TenantProperties properties;
@@ -28,7 +29,7 @@ public class TenantFactoryImpl implements TenantFactory {
         if (isTrue(enabled)) {
             return ofNullable(getTenant())
                     .map(Convert::toLongArray)
-                    .orElse(NOT_FOUND);
+                    .orElse(EMPTY);
         } else return null;
     }
 }

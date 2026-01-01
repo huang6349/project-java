@@ -13,5 +13,8 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 public class TenantProperties implements Serializable {
 
+    /**
+     * 租户功能是否开启
+     */
     private boolean enabled = Boolean.TRUE;
 }
