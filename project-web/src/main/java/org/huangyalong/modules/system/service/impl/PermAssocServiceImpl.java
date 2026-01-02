@@ -6,28 +6,24 @@ import lombok.Getter;
 import org.huangyalong.modules.system.domain.PermAssoc;
 import org.huangyalong.modules.system.domain.PermAssocsData;
 import org.huangyalong.modules.system.mapper.PermAssocMapper;
-import org.huangyalong.modules.system.properties.TenantProperties;
 import org.huangyalong.modules.system.request.PermAssocBO;
 import org.huangyalong.modules.system.request.PermDissocBO;
 import org.huangyalong.modules.system.service.PermAssocService;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
 import org.myframework.core.exception.BusinessException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static org.huangyalong.core.constants.TenantConstants.INVALID;
+import static org.huangyalong.core.satoken.helper.SystemHelper.isTenantEnabled;
 import static org.huangyalong.modules.system.domain.table.PermAssocTableDef.PERM_ASSOC;
 
 @Getter
 @Service
 public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, PermAssoc> implements PermAssocService {
-
-    @Autowired
-    private TenantProperties properties;
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> dissoc(PermDissocBO dissocBO) {
@@ -71,10 +67,7 @@ public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, Pe
     }
 
     Long getTenantId(PermDissocBO dissocBO) {
-        var enabled = ofNullable(getProperties())
-                .map(TenantProperties::isEnabled)
-                .orElse(Boolean.TRUE);
-        if (enabled) {
+        if (isTenantEnabled()) {
             return ofNullable(dissocBO)
                     .map(PermDissocBO::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));
@@ -82,10 +75,7 @@ public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, Pe
     }
 
     Long getTenantId(PermAssocBO assocBO) {
-        var enabled = ofNullable(getProperties())
-                .map(TenantProperties::isEnabled)
-                .orElse(Boolean.TRUE);
-        if (enabled) {
+        if (isTenantEnabled()) {
             return ofNullable(assocBO)
                     .map(PermAssocBO::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));

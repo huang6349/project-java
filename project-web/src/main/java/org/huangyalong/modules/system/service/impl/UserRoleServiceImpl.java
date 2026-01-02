@@ -6,7 +6,6 @@ import lombok.Getter;
 import org.huangyalong.core.satoken.helper.RoleHelper;
 import org.huangyalong.modules.system.domain.Role;
 import org.huangyalong.modules.system.mapper.RoleMapper;
-import org.huangyalong.modules.system.properties.TenantProperties;
 import org.huangyalong.modules.system.request.RoleAssocBO;
 import org.huangyalong.modules.system.request.UserRoleBO;
 import org.huangyalong.modules.system.request.UserRoleQueries;
@@ -21,6 +20,7 @@ import reactor.core.publisher.Mono;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static org.huangyalong.core.constants.TenantConstants.INVALID;
+import static org.huangyalong.core.satoken.helper.SystemHelper.isTenantEnabled;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 @Getter
@@ -29,9 +29,6 @@ public class UserRoleServiceImpl extends ReactorServiceImpl<RoleMapper, Role> im
 
     @Autowired
     private RoleAssocService assocService;
-
-    @Autowired
-    private TenantProperties properties;
 
     @Override
     public Mono<UserRoleVO> query(UserRoleQueries queries) {
@@ -67,10 +64,7 @@ public class UserRoleServiceImpl extends ReactorServiceImpl<RoleMapper, Role> im
     }
 
     Long getTenantId(UserRoleQueries queries) {
-        var enabled = ofNullable(getProperties())
-                .map(TenantProperties::isEnabled)
-                .orElse(Boolean.TRUE);
-        if (enabled) {
+        if (isTenantEnabled()) {
             return ofNullable(queries)
                     .map(UserRoleQueries::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));

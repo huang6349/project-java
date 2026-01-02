@@ -5,7 +5,6 @@ import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import lombok.Getter;
 import org.huangyalong.modules.system.domain.Perm;
 import org.huangyalong.modules.system.mapper.PermMapper;
-import org.huangyalong.modules.system.properties.TenantProperties;
 import org.huangyalong.modules.system.request.PermAssocBO;
 import org.huangyalong.modules.system.request.UserPermBO;
 import org.huangyalong.modules.system.request.UserPermQueries;
@@ -21,6 +20,7 @@ import reactor.core.publisher.Mono;
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static org.huangyalong.core.constants.TenantConstants.INVALID;
 import static org.huangyalong.core.satoken.helper.PermHelper.fetch;
+import static org.huangyalong.core.satoken.helper.SystemHelper.isTenantEnabled;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 @Getter
@@ -29,9 +29,6 @@ public class UserPermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> im
 
     @Autowired
     private PermAssocService assocService;
-
-    @Autowired
-    private TenantProperties properties;
 
     @Override
     public Mono<UserPermVO> query(UserPermQueries queries) {
@@ -81,10 +78,7 @@ public class UserPermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> im
     }
 
     Long getTenantId(UserPermQueries queries) {
-        var enabled = ofNullable(getProperties())
-                .map(TenantProperties::isEnabled)
-                .orElse(Boolean.TRUE);
-        if (enabled) {
+        if (isTenantEnabled()) {
             return ofNullable(queries)
                     .map(UserPermQueries::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));

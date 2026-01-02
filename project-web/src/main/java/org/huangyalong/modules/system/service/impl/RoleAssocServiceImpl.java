@@ -6,28 +6,24 @@ import lombok.Getter;
 import org.huangyalong.modules.system.domain.RoleAssoc;
 import org.huangyalong.modules.system.domain.RoleAssocsData;
 import org.huangyalong.modules.system.mapper.RoleAssocMapper;
-import org.huangyalong.modules.system.properties.TenantProperties;
 import org.huangyalong.modules.system.request.RoleAssocBO;
 import org.huangyalong.modules.system.request.RoleDissocBO;
 import org.huangyalong.modules.system.service.RoleAssocService;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
 import org.myframework.core.exception.BusinessException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static org.huangyalong.core.constants.TenantConstants.INVALID;
+import static org.huangyalong.core.satoken.helper.SystemHelper.isTenantEnabled;
 import static org.huangyalong.modules.system.domain.table.RoleAssocTableDef.ROLE_ASSOC;
 
 @Getter
 @Service
 public class RoleAssocServiceImpl extends ReactorServiceImpl<RoleAssocMapper, RoleAssoc> implements RoleAssocService {
-
-    @Autowired
-    private TenantProperties properties;
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> dissoc(RoleDissocBO dissocBO) {
@@ -71,10 +67,7 @@ public class RoleAssocServiceImpl extends ReactorServiceImpl<RoleAssocMapper, Ro
     }
 
     Long getTenantId(RoleDissocBO dissocBO) {
-        var enabled = ofNullable(getProperties())
-                .map(TenantProperties::isEnabled)
-                .orElse(Boolean.TRUE);
-        if (enabled) {
+        if (isTenantEnabled()) {
             return ofNullable(dissocBO)
                     .map(RoleDissocBO::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));
@@ -82,10 +75,7 @@ public class RoleAssocServiceImpl extends ReactorServiceImpl<RoleAssocMapper, Ro
     }
 
     Long getTenantId(RoleAssocBO assocBO) {
-        var enabled = ofNullable(getProperties())
-                .map(TenantProperties::isEnabled)
-                .orElse(Boolean.TRUE);
-        if (enabled) {
+        if (isTenantEnabled()) {
             return ofNullable(assocBO)
                     .map(RoleAssocBO::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));
