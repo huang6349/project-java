@@ -6,7 +6,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Opt;
 import org.myframework.core.satoken.util.ContextUtil;
 
-public class ContextHelper {
+public abstract class ContextHelper {
 
     public static String getLoginIdAsString() {
         return Opt.ofNullable(getLoginId())

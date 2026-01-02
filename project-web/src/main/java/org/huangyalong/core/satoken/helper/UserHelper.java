@@ -2,6 +2,7 @@ package org.huangyalong.core.satoken.helper;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Opt;
+import lombok.experimental.UtilityClass;
 import org.myframework.core.redis.RedisHelper;
 import org.myframework.core.satoken.helper.ContextHelper;
 
@@ -9,7 +10,8 @@ import java.util.List;
 
 import static cn.hutool.core.text.CharSequenceUtil.format;
 
-public final class UserHelper extends ContextHelper {
+@UtilityClass
+public class UserHelper extends ContextHelper {
 
     public static List<String> getPermCode(Object message) {
         var key = format("user:perm:code:{}", message);
