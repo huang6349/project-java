@@ -4,6 +4,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.ObjectUtil;
 import com.mybatisflex.core.query.QueryChain;
+import lombok.experimental.UtilityClass;
 import org.huangyalong.modules.system.domain.User;
 import org.myframework.core.redis.RedisHelper;
 
@@ -11,7 +12,8 @@ import static cn.hutool.core.text.CharSequenceUtil.format;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
-public final class TenantHelper {
+@UtilityClass
+public class TenantHelper {
 
     public static Long fetch(Object id) {
         if (ObjectUtil.isNotEmpty(id)) {

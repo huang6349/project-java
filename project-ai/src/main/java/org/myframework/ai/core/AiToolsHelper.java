@@ -1,6 +1,7 @@
 package org.myframework.ai.core;
 
 import cn.hutool.extra.spring.SpringUtil;
+import lombok.experimental.UtilityClass;
 import org.myframework.ai.annotation.FunctionTools;
 import org.noear.solon.ai.chat.tool.FunctionTool;
 import org.noear.solon.ai.chat.tool.MethodToolProvider;
@@ -8,6 +9,7 @@ import org.noear.solon.ai.chat.tool.MethodToolProvider;
 import java.util.Collection;
 import java.util.List;
 
+@UtilityClass
 public class AiToolsHelper {
 
     private static volatile Boolean initialized = Boolean.FALSE;

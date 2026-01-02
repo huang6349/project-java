@@ -9,6 +9,7 @@ import org.huangyalong.modules.system.domain.System;
 import org.myframework.core.redis.RedisHelper;
 
 import static cn.hutool.core.lang.Opt.ofBlankAble;
+import static cn.hutool.core.lang.Opt.ofNullable;
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static org.huangyalong.core.constants.SystemConstants.CONFIG_ID;
@@ -23,10 +24,12 @@ public class SystemHelper {
 
     public static boolean isTenantEnabled() {
         var path = format("{}.{}", NAME_TENANT, NAME_ENABLED);
-        return ofBlankAble(getConfigs())
+        var enabled = ofBlankAble(getConfigs())
                 .map(JSONUtil::parseObj)
                 .orElseGet(JSONUtil::createObj)
                 .getByPath(path, Boolean.class);
+        return ofNullable(enabled)
+                .orElse(Boolean.TRUE);
     }
 
     private static String getConfigs() {

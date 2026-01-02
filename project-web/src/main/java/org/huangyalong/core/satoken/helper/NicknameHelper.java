@@ -2,6 +2,7 @@ package org.huangyalong.core.satoken.helper;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.mybatisflex.core.query.QueryChain;
+import lombok.experimental.UtilityClass;
 import org.huangyalong.modules.system.domain.User;
 import org.myframework.core.redis.RedisHelper;
 
@@ -11,7 +12,8 @@ import static org.huangyalong.modules.system.domain.UserExtras.NAME_NICKNAME;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 import static org.myframework.core.mybatisflex.JsonMethods.ue;
 
-public final class NicknameHelper {
+@UtilityClass
+public class NicknameHelper {
 
     public static String fetch(Object id) {
         if (ObjectUtil.isNotEmpty(id)) {

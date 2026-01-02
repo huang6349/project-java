@@ -3,6 +3,7 @@ package org.huangyalong.modules.notify.helper;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import com.mybatisflex.core.query.QueryChain;
+import lombok.experimental.UtilityClass;
 import org.huangyalong.modules.notify.domain.NotifyCategory;
 import org.myframework.core.redis.RedisHelper;
 
@@ -13,7 +14,8 @@ import static org.huangyalong.modules.notify.domain.CategoryConfigs.NAME_FREQ;
 import static org.huangyalong.modules.notify.domain.table.NotifyCategoryTableDef.NOTIFY_CATEGORY;
 import static org.myframework.core.mybatisflex.JsonMethods.ue;
 
-public final class NotifyFreqHelper {
+@UtilityClass
+public class NotifyFreqHelper {
 
     static final Integer EMPTY = null;
 

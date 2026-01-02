@@ -1,10 +1,12 @@
 package org.myframework.ai.core;
 
 import cn.hutool.core.collection.CollUtil;
+import lombok.experimental.UtilityClass;
 import org.noear.solon.ai.chat.tool.FunctionTool;
 
 import java.util.List;
 
+@UtilityClass
 public class AiPluginsHelper {
 
     private static volatile Boolean initialized = Boolean.FALSE;

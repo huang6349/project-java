@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import com.mybatisflex.core.query.QueryChain;
+import lombok.experimental.UtilityClass;
 import org.huangyalong.modules.system.domain.Perm;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
@@ -21,7 +22,8 @@ import static org.huangyalong.modules.system.domain.table.PermTableDef.PERM;
 import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
-public final class PermHelper {
+@UtilityClass
+public class PermHelper {
 
     public static List<Long> fetch(Object tenantId,
                                    Object id) {

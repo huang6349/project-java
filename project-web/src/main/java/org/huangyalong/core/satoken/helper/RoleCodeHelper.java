@@ -3,6 +3,7 @@ package org.huangyalong.core.satoken.helper;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import com.mybatisflex.core.query.QueryChain;
+import lombok.experimental.UtilityClass;
 import org.huangyalong.modules.system.domain.Role;
 import org.myframework.core.enums.AssocCategory;
 import org.myframework.core.enums.TimeEffective;
@@ -21,7 +22,8 @@ import static org.huangyalong.modules.system.domain.table.RoleAssocTableDef.ROLE
 import static org.huangyalong.modules.system.domain.table.RoleTableDef.ROLE;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
-public final class RoleCodeHelper {
+@UtilityClass
+public class RoleCodeHelper {
 
     public static List<String> fetch(Object tenantId,
                                      Object id) {
