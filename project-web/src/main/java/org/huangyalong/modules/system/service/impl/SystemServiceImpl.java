@@ -1,17 +1,18 @@
 package org.huangyalong.modules.system.service.impl;
 
-import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.log.StaticLog;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import lombok.Getter;
-import org.huangyalong.modules.system.configs.SystemConfigs;
+import org.huangyalong.modules.system.configs.AiConfigs;
 import org.huangyalong.modules.system.configs.TenantConfigs;
 import org.huangyalong.modules.system.domain.System;
 import org.huangyalong.modules.system.mapper.SystemMapper;
 import org.huangyalong.modules.system.properties.TenantProperties;
 import org.huangyalong.modules.system.service.SystemService;
+import org.myframework.ai.properties.AiProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -19,7 +20,6 @@ import org.springframework.context.event.EventListener;
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static com.mybatis.flex.reactor.core.utils.ReactorUtils.runBlock;
 import static org.huangyalong.core.constants.SystemConstants.CONFIG_ID;
-import static org.huangyalong.modules.system.domain.table.SystemTableDef.SYSTEM;
 
 @Getter
 @Service
@@ -28,19 +28,34 @@ public class SystemServiceImpl extends ReactorServiceImpl<SystemMapper, System> 
     @Autowired
     private TenantProperties tenantProperties;
 
+    @Autowired
+    private AiProperties aiProperties;
+
     /**
      * 初始化系统配置
-     * 系统启动后读取 TenantProperties 并初始化到 System 表
+     * 应用启动后读取配置并初始化到 System 表
      */
     @EventListener(ApplicationReadyEvent.class)
-    public void initSystemConfigs() {
-        // 检查是否已存在系统配置
-        var exists = queryChain()
-                .where(SYSTEM.ID.eq(CONFIG_ID))
-                .exists();
-        if (BooleanUtil.isTrue(exists)) {
-            StaticLog.info("系统配置已存在，跳过租户配置初始化");
-            return;
+    void initSystemConfigs() {
+        StaticLog.trace("系统配置初始化启动");
+        runBlock(getById(CONFIG_ID)
+                .flatMap(this::initTenantConfigs)
+                .flatMap(this::initAiConfigs)
+                .flatMap(this::saveOrUpdate));
+        StaticLog.trace("系统配置初始化完成");
+    }
+
+    /**
+     * 初始化租户配置
+     * 如果系统配置已存在则跳过，否则创建新的系统配置
+     *
+     * @param system 现有的系统配置，可能为 null
+     * @return 包含租户配置的系统对象
+     */
+    Mono<System> initTenantConfigs(System system) {
+        if (system != null) {
+            StaticLog.trace("系统配置已存在，跳过租户配置初始化");
+            return Mono.just(system);
         }
 
         // 获取租户功能是否开启
@@ -49,21 +64,36 @@ public class SystemServiceImpl extends ReactorServiceImpl<SystemMapper, System> 
                 .orElse(Boolean.TRUE);
 
         // 构建租户配置
-        var tenantConfigs = TenantConfigs.create()
+        var configs = TenantConfigs.create()
                 .addEnabled(enabled)
-                .addVersion()
-                .getConfigs();
+                .addVersion();
 
-        // 构建系统配置（包含租户配置和系统版本）
-        var configs = SystemConfigs.create()
-                .addTenant(tenantConfigs)
-                .addVersion()
-                .getConfigs();
+        StaticLog.trace("租户配置初始化完成");
+        return Mono.just(System.create()
+                .with(configs));
+    }
 
-        // 创建系统配置
-        var system = System.create()
-                .setConfigs(configs);
-        system.setId(CONFIG_ID);
-        runBlock(save(system));
+    /**
+     * 初始化智能助手配置
+     * 每次启动都会更新智能助手配置到系统对象中
+     *
+     * @param system 现有的系统配置
+     * @return 合并了智能助手配置的系统对象
+     */
+    Mono<System> initAiConfigs(System system) {
+        // 获取智能助手功能是否开启
+        var enabled = ofNullable(getAiProperties())
+                .map(AiProperties::isEnabled)
+                .orElse(Boolean.TRUE);
+
+        // 构建智能助手配置
+        var configs = AiConfigs.create()
+                .addEnabled(enabled)
+                .addVersion();
+
+        StaticLog.trace("智能助手配置初始化完成: {}", enabled);
+        return Mono.just(ofNullable(system)
+                .orElseGet(System::create)
+                .with(configs));
     }
 }

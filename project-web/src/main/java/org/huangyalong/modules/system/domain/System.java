@@ -11,11 +11,15 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.dromara.autotable.annotation.AutoColumn;
 import org.dromara.autotable.annotation.AutoTable;
+import org.huangyalong.modules.system.configs.AiConfigs;
+import org.huangyalong.modules.system.configs.SystemConfigs;
+import org.huangyalong.modules.system.configs.TenantConfigs;
 import org.myframework.base.domain.SuperEntity;
 
 import java.util.Map;
 
 import static org.dromara.autotable.annotation.mysql.MysqlTypeConstant.TEXT;
+import static org.huangyalong.core.constants.SystemConstants.CONFIG_ID;
 
 @Data(staticConstructor = "create")
 @ToString(callSuper = true)
@@ -41,4 +45,24 @@ public class System extends SuperEntity<System, Long> {
     @AutoColumn(comment = "备注", length = 512)
     @Schema(description = "备注")
     private String desc;
+
+    /****************** with ******************/
+
+    public System with(TenantConfigs configs) {
+        setConfigs(SystemConfigs.create()
+                .setConfigs(getConfigs())
+                .addTenant(configs)
+                .getConfigs());
+        setId(CONFIG_ID);
+        return this;
+    }
+
+    public System with(AiConfigs configs) {
+        setConfigs(SystemConfigs.create()
+                .setConfigs(getConfigs())
+                .addAi(configs)
+                .getConfigs());
+        setId(CONFIG_ID);
+        return this;
+    }
 }
