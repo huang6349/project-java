@@ -1,5 +1,6 @@
 package org.huangyalong.modules.system.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.log.StaticLog;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import lombok.Getter;
@@ -37,12 +38,11 @@ public class SystemServiceImpl extends ReactorServiceImpl<SystemMapper, System> 
      */
     @EventListener(ApplicationReadyEvent.class)
     void initSystemConfigs() {
-        StaticLog.trace("系统配置初始化启动");
+        StaticLog.trace("初始化系统配置");
         runBlock(getById(CONFIG_ID)
                 .flatMap(this::initTenantConfigs)
                 .flatMap(this::initAiConfigs)
                 .flatMap(this::saveOrUpdate));
-        StaticLog.trace("系统配置初始化完成");
     }
 
     /**
@@ -53,22 +53,16 @@ public class SystemServiceImpl extends ReactorServiceImpl<SystemMapper, System> 
      * @return 包含租户配置的系统对象
      */
     Mono<System> initTenantConfigs(System system) {
-        if (system != null) {
-            StaticLog.trace("系统配置已存在，跳过租户配置初始化");
+        if (ObjectUtil.isNotNull(system))
             return Mono.just(system);
-        }
-
         // 获取租户功能是否开启
         var enabled = ofNullable(getTenantProperties())
                 .map(TenantProperties::isEnabled)
                 .orElse(Boolean.TRUE);
-
         // 构建租户配置
         var configs = TenantConfigs.create()
                 .addEnabled(enabled)
                 .addVersion();
-
-        StaticLog.trace("租户配置初始化完成");
         return Mono.just(System.create()
                 .with(configs));
     }
@@ -85,13 +79,10 @@ public class SystemServiceImpl extends ReactorServiceImpl<SystemMapper, System> 
         var enabled = ofNullable(getAiProperties())
                 .map(AiProperties::isEnabled)
                 .orElse(Boolean.TRUE);
-
         // 构建智能助手配置
         var configs = AiConfigs.create()
                 .addEnabled(enabled)
                 .addVersion();
-
-        StaticLog.trace("智能助手配置初始化完成: {}", enabled);
         return Mono.just(ofNullable(system)
                 .orElseGet(System::create)
                 .with(configs));
