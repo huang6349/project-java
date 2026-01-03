@@ -12,6 +12,7 @@ public interface SystemService extends ReactorService<System> {
 
     default Mono<Map<String, Object>> configs() {
         return getById(CONFIG_ID)
-                .map(System::getConfigs);
+                .map(System::getConfigs)
+                .defaultIfEmpty(Map.of());
     }
 }
