@@ -29,12 +29,12 @@ public class TenantHelper extends FetchLoadHelper<Long> {
     @Override
     protected Long fetch(Dict dict) {
         var id = dict.getLong("id");
-        if (ObjectUtil.isNull(id))
-            return null;
-        return QueryChain.of(User.class)
-                .select(USER.TENANT_ID)
-                .where(USER.ID.eq(id))
-                .oneAs(Long.class);
+        if (ObjectUtil.isNotEmpty(id)) {
+            return QueryChain.of(User.class)
+                    .select(USER.TENANT_ID)
+                    .where(USER.ID.eq(id))
+                    .oneAs(Long.class);
+        } else return null;
     }
 
     /**
