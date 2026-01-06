@@ -1,6 +1,7 @@
 package org.myframework.base.domain;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 
@@ -26,11 +27,26 @@ public abstract class BaseExtras<T extends BaseExtras<T>> implements Serializabl
         return self();
     }
 
+    public T add(Map<String, Object> extras) {
+        if (MapUtil.isEmpty(extras))
+            return self();
+        if (MapUtil.isEmpty(object))
+            object = JSONUtil.parseObj(this.extras);
+        extras.forEach(object::putByPath);
+        return self();
+    }
+
     public T add(String expression, Object value) {
         if (MapUtil.isEmpty(object))
             object = JSONUtil.parseObj(extras);
         object.putByPath(expression, value);
         return self();
+    }
+
+    public T add(BaseExtras<?> extras) {
+        if (ObjectUtil.isNull(extras))
+            return self();
+        return add(extras.getExtras());
     }
 
     public T self() {
