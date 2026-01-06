@@ -1,6 +1,5 @@
 package org.huangyalong.modules.system.configs;
 
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.log.StaticLog;
 import lombok.Getter;
 import org.huangyalong.modules.system.domain.System;
@@ -41,17 +40,17 @@ public class SystemConfigsLoader {
         StaticLog.trace("初始化系统配置");
         runAsync(getSystemService()
                 .getById(CONFIG_ID)
+                .defaultIfEmpty(System.create())
                 .flatMap(this::initTenantConfigs)
                 .flatMap(this::initAiConfigs)
-                .flatMap(this::saveOrUpdate));
+                .flatMap(this::remove)
+                .flatMap(this::save));
     }
 
     /**
-     * 初始化租户配置（已存在则跳过）
+     * 初始化租户配置（每次启动更新）
      */
     Mono<System> initTenantConfigs(System system) {
-        if (ObjectUtil.isNotNull(system))
-            return Mono.just(system);
         // 获取租户功能是否开启
         var enabled = ofNullable(getTenantProperties())
                 .map(TenantProperties::isEnabled)
@@ -60,7 +59,8 @@ public class SystemConfigsLoader {
         var configs = TenantConfigs.create()
                 .addEnabled(enabled)
                 .addVersion();
-        return Mono.just(System.create()
+        return Mono.just(ofNullable(system)
+                .orElseGet(System::create)
                 .with(configs));
     }
 
@@ -82,10 +82,19 @@ public class SystemConfigsLoader {
     }
 
     /**
-     * 保存或更新系统配置
+     * 删除旧配置（确保重新保存）
      */
-    Mono<Boolean> saveOrUpdate(System system) {
+    Mono<System> remove(System system) {
         return getSystemService()
-                .saveOrUpdate(system);
+                .removeById(CONFIG_ID)
+                .thenReturn(system);
+    }
+
+    /**
+     * 保存系统配置
+     */
+    Mono<Boolean> save(System system) {
+        return getSystemService()
+                .save(system);
     }
 }
