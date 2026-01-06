@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
+import static cn.hutool.core.text.CharSequenceUtil.toSymbolCase;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
@@ -37,8 +38,9 @@ public abstract class FetchLoadHelper<T> {
      * @return 缓存键前缀
      */
     protected String getCacheKeyPrefix() {
-        // 子类覆盖此方法以自定义缓存键前缀
-        return getClass().getSimpleName();
+        // 使用驼峰转短横线格式
+        var name = getClass().getSimpleName();
+        return toSymbolCase(name, '-');
     }
 
     /**
