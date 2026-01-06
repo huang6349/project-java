@@ -7,7 +7,7 @@ import org.huangyalong.modules.system.domain.System;
 import org.huangyalong.modules.system.properties.TenantProperties;
 import org.huangyalong.modules.system.service.SystemService;
 import org.myframework.ai.properties.AiProperties;
-import org.myframework.core.config.FrameworkFlyway;
+import org.myframework.core.config.FrameworkAutoTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -21,7 +21,7 @@ import static org.huangyalong.core.constants.SystemConstants.CONFIG_ID;
 
 @Getter
 @Configuration
-@AutoConfigureAfter(FrameworkFlyway.class)
+@AutoConfigureAfter(FrameworkAutoTable.class)
 public class SystemConfigsLoader {
 
     @Autowired

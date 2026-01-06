@@ -1,6 +1,7 @@
 package org.myframework.core.config;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.log.StaticLog;
 import org.flywaydb.core.Flyway;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -16,6 +17,7 @@ public class FrameworkFlyway {
     private final Flyway flyway;
 
     public FrameworkFlyway(DataSource dataSource) {
+        StaticLog.trace("初始化 Flyway 配置");
         flyway = Flyway.configure()
                 .dataSource(dataSource)
                 .baselineOnMigrate(Boolean.TRUE)
