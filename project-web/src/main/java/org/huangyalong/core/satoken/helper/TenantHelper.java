@@ -1,39 +1,62 @@
 package org.huangyalong.core.satoken.helper;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.lang.Opt;
+import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ObjectUtil;
 import com.mybatisflex.core.query.QueryChain;
-import lombok.experimental.UtilityClass;
 import org.huangyalong.modules.system.domain.User;
-import org.myframework.core.redis.RedisHelper;
+import org.myframework.core.helper.FetchLoadHelper;
 
-import static cn.hutool.core.text.CharSequenceUtil.format;
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
-@UtilityClass
-public class TenantHelper {
+public class TenantHelper extends FetchLoadHelper<Long> {
 
-    public static Long fetch(Object id) {
-        if (ObjectUtil.isNotEmpty(id)) {
-            return QueryChain.of(User.class)
-                    .select(USER.TENANT_ID)
-                    .where(USER.ID.eq(id))
-                    .oneAs(Long.class);
-        } else return null;
+    private static volatile Boolean initialized = Boolean.FALSE;
+
+    private static volatile TenantHelper instance;
+
+    public static TenantHelper getInstance() {
+        if (!initialized) {
+            synchronized (TenantHelper.class) {
+                if (!initialized) {
+                    instance = new TenantHelper();
+                    initialized = Boolean.TRUE;
+                }
+            }
+        }
+        return instance;
     }
 
+    @Override
+    protected Long fetch(Dict dict) {
+        var id = dict.getLong("id");
+        if (ObjectUtil.isNull(id))
+            return null;
+        return QueryChain.of(User.class)
+                .select(USER.TENANT_ID)
+                .where(USER.ID.eq(id))
+                .oneAs(Long.class);
+    }
+
+    /**
+     * 根据用户编号获取租户编号
+     *
+     * @param id 用户编号
+     * @return 租户编号
+     */
+    public static Long getTenant(Object id) {
+        var dict = Dict.create()
+                .set("id", id);
+        return getInstance().get(dict);
+    }
+
+    /**
+     * 加载指定用户的租户信息到缓存
+     *
+     * @param id 用户编号
+     */
     public static void load(Object id) {
-        if (ObjectUtil.isNotEmpty(id)) {
-            var key = format("user:tenant:{}", id);
-            RedisHelper.delete(key);
-            var tenant = Opt.ofNullable(fetch(id))
-                    .map(Convert::toStr)
-                    .get();
-            if (ObjectUtil.isNotEmpty(tenant))
-                RedisHelper.set(key, tenant);
-            RedisHelper.expire(key, 30, MINUTES);
-        }
+        var dict = Dict.create()
+                .set("id", id);
+        getInstance().load(dict);
     }
 }

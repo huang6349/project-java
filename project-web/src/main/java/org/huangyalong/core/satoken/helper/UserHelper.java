@@ -71,16 +71,9 @@ public class UserHelper extends ContextHelper {
                 .get();
     }
 
-    public static String getTenant(Object message) {
-        var key = format("user:tenant:{}", message);
-        if (!RedisHelper.hasKey(key))
-            TenantHelper.load(message);
-        return RedisHelper.get(key);
-    }
-
-    public static String getTenant() {
+    public static Long getTenant() {
         return Opt.ofNullable(getLoginId())
-                .map(UserHelper::getTenant)
+                .map(TenantHelper::getTenant)
                 .get();
     }
 
