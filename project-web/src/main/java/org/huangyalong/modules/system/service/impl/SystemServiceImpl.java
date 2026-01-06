@@ -37,7 +37,7 @@ public class SystemServiceImpl extends ReactorServiceImpl<SystemMapper, System> 
      * 应用启动后读取配置并初始化到 System 表
      */
     @EventListener(ApplicationReadyEvent.class)
-    void initSystemConfigs() {
+    void onApplicationReady() {
         StaticLog.trace("初始化系统配置");
         runBlock(getById(CONFIG_ID)
                 .flatMap(this::initTenantConfigs)

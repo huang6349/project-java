@@ -38,6 +38,13 @@ management.server:
 server:
   port: 8088
 
+# Flyway 配置
+spring.flyway:
+  enabled: false  # 禁用自动执行，由 FrameworkFlyway 手动控制
+  baseline-on-migrate: true
+  baseline-version: 2026.01.01
+  clean-disabled: false
+
 # 自动建表配置
 auto-table:
   enable: true
@@ -53,6 +60,8 @@ auto-table:
     enable: true
     record-type: db
     version: 1.0.0
+  init-data:
+    enable: false
 
 # 文档生成配置
 springdoc:
