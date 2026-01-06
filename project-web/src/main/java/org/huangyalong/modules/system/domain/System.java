@@ -51,7 +51,8 @@ public class System extends SuperEntity<System, Long> {
     public System with(TenantConfigs configs) {
         setConfigs(SystemConfigs.create()
                 .setConfigs(getConfigs())
-                .addTenant(configs)
+                .add(configs)
+                .addVersion()
                 .getConfigs());
         setId(CONFIG_ID);
         return this;
@@ -60,7 +61,8 @@ public class System extends SuperEntity<System, Long> {
     public System with(AiConfigs configs) {
         setConfigs(SystemConfigs.create()
                 .setConfigs(getConfigs())
-                .addAi(configs)
+                .add(configs)
+                .addVersion()
                 .getConfigs());
         setId(CONFIG_ID);
         return this;

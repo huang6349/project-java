@@ -1,6 +1,7 @@
 package org.myframework.base.domain;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 
@@ -26,11 +27,26 @@ public abstract class BaseConfigs<T extends BaseConfigs<T>> implements Serializa
         return self();
     }
 
+    public T add(Map<String, Object> configs) {
+        if (MapUtil.isEmpty(configs))
+            return self();
+        if (MapUtil.isEmpty(object))
+            object = JSONUtil.parseObj(this.configs);
+        configs.forEach(object::putByPath);
+        return self();
+    }
+
     public T add(String expression, Object value) {
         if (MapUtil.isEmpty(object))
             object = JSONUtil.parseObj(configs);
         object.putByPath(expression, value);
         return self();
+    }
+
+    public T add(BaseConfigs<?> configs) {
+        if (ObjectUtil.isNull(configs))
+            return self();
+        return add(configs.getConfigs());
     }
 
     public T self() {

@@ -13,7 +13,6 @@ import static cn.hutool.core.lang.Opt.ofNullable;
 import static cn.hutool.core.text.CharSequenceUtil.format;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static org.huangyalong.core.constants.SystemConstants.CONFIG_ID;
-import static org.huangyalong.modules.system.configs.SystemConfigs.NAME_TENANT;
 import static org.huangyalong.modules.system.configs.TenantConfigs.NAME_ENABLED;
 import static org.huangyalong.modules.system.domain.table.SystemTableDef.SYSTEM;
 
@@ -23,11 +22,10 @@ public class SystemHelper {
     private static final String KEY = format("system:configs:{}", CONFIG_ID);
 
     public static boolean isTenantEnabled() {
-        var path = format("{}.{}", NAME_TENANT, NAME_ENABLED);
         var enabled = ofBlankAble(getConfigs())
                 .map(JSONUtil::parseObj)
                 .orElseGet(JSONUtil::createObj)
-                .getByPath(path, Boolean.class);
+                .getByPath(NAME_ENABLED, Boolean.class);
         return ofNullable(enabled)
                 .orElse(Boolean.TRUE);
     }
