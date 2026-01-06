@@ -30,6 +30,10 @@ spring.servlet.multipart:
 spring.codec:
   max-in-memory-size: 128MB
 
+# Flyway 配置
+spring.flyway:
+  enabled: false  # 禁用自动执行，由 FrameworkFlyway 手动控制
+
 # 监控端点配置
 management.server:
   port: 8085
@@ -37,13 +41,6 @@ management.server:
 # 服务器配置
 server:
   port: 8088
-
-# Flyway 配置
-spring.flyway:
-  enabled: false  # 禁用自动执行，由 FrameworkFlyway 手动控制
-  baseline-on-migrate: true
-  baseline-version: 2026.01.01
-  clean-disabled: false
 
 # 自动建表配置
 auto-table:
@@ -86,6 +83,7 @@ eventbus:
 
 # 日志配置
 logging.level:
+  org.flywaydb: warn
   org.dromara.autotable: warn
   easy-es: warn
 

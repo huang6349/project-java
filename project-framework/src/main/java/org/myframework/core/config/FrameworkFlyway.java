@@ -1,5 +1,6 @@
 package org.myframework.core.config;
 
+import cn.hutool.core.util.ObjectUtil;
 import org.flywaydb.core.Flyway;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -19,12 +20,15 @@ public class FrameworkFlyway {
                 .dataSource(dataSource)
                 .baselineOnMigrate(Boolean.TRUE)
                 .baselineVersion("2026.01.01")
+                .validateOnMigrate(Boolean.TRUE)
                 .cleanDisabled(Boolean.FALSE)
                 .load();
     }
 
     @EventListener(ApplicationReadyEvent.class)
     void onApplicationReady() {
-        flyway.migrate();
+        if (ObjectUtil.isNotNull(flyway)) {
+            flyway.migrate();
+        }
     }
 }
