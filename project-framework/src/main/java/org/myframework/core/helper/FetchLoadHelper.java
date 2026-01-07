@@ -24,9 +24,9 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 public abstract class FetchLoadHelper<T> {
 
     /**
-     * 默认缓存过期时间：30分钟
+     * 默认缓存过期时间：5分钟
      */
-    protected static final long DEFAULT_EXPIRE_MINUTES = 30;
+    protected static final long DEFAULT_EXPIRE_MINUTES = 5;
 
     /**
      * 获取缓存键前缀
