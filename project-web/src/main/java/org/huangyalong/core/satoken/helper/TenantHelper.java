@@ -45,7 +45,8 @@ public class TenantHelper extends FetchLoadHelper<Long> {
      */
     public static Long getTenant(Object id) {
         if (ObjectUtil.isNotNull(id)) {
-            return getInstance().get((Serializable) id);
+            var sId = (Serializable) id;
+            return getInstance().get(sId);
         } else return null;
     }
 
@@ -56,6 +57,7 @@ public class TenantHelper extends FetchLoadHelper<Long> {
      */
     public static void load(Object id) {
         if (ObjectUtil.isNull(id)) return;
-        getInstance().load((Serializable) id);
+        var sId = (Serializable) id;
+        getInstance().load(sId);
     }
 }
