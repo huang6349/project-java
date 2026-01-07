@@ -118,7 +118,7 @@ public abstract class FetchLoadHelper<T> {
      * @return 数据结果
      */
     private T fetch(String cacheKey) {
-        var prefix = getCacheKeyPrefix() + "-";
+        var prefix = format("{}-", getCacheKeyPrefix());
         var id = removePrefix(cacheKey, prefix);
         // 强转为 Serializable，确保调用子类的 fetch(Serializable) 而非自身
         return fetch((Serializable) id);
