@@ -1,16 +1,13 @@
 package org.myframework.core.helper;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
-import java.util.List;
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
-import static cn.hutool.core.lang.Opt.ofNullable;
-import static cn.hutool.core.text.CharSequenceUtil.toSymbolCase;
+import static cn.hutool.core.text.CharSequenceUtil.*;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
@@ -33,28 +30,33 @@ public abstract class FetchLoadHelper<T> {
 
     /**
      * 获取缓存键前缀
-     * 子类可覆盖以自定义缓存键
+     * <p>
+     * 子类可覆盖以自定义缓存键前缀。
+     * </p>
      *
      * @return 缓存键前缀
      */
     protected String getCacheKeyPrefix() {
-        // 使用驼峰转短横线格式
-        var name = getClass().getSimpleName();
+        // 去掉 Helper 后缀，驼峰转短横线格式
+        var simpleName = getClass().getSimpleName();
+        var name = removeSuffix(simpleName, "Helper");
         return toSymbolCase(name, '-');
     }
 
     /**
      * 获取缓存实例
-     * 子类可覆盖以自定义缓存配置
+     * <p>
+     * 子类可覆盖以自定义缓存配置。
+     * </p>
      *
      * @return Caffeine Cache 实例
      */
-    protected Cache<Dict, T> getCache() {
-        // 双重检查锁实现延迟初始化
+    protected Cache<String, T> getCache() {
+        // 双重检查锁：首次访问时延迟初始化，保证线程安全
         if (ObjectUtil.isNull(cache)) {
             synchronized (this) {
                 if (ObjectUtil.isNull(cache)) {
-                    // 获取过期配置并构建缓存
+                    // 获取子类定义的过期策略并构建缓存
                     var expireMinutes = getExpireMinutes();
                     var expireUnit = getExpireUnit();
                     cache = Caffeine.newBuilder()
@@ -67,53 +69,87 @@ public abstract class FetchLoadHelper<T> {
     }
 
     // 缓存实例，使用 volatile 保证可见性
-    private volatile Cache<Dict, T> cache;
+    private volatile Cache<String, T> cache;
 
     /**
      * 获取缓存过期时间
-     * 子类可覆盖以自定义过期时间
+     * <p>
+     * 子类可覆盖以自定义过期时间。
+     * </p>
      *
      * @return 过期时间值
      */
     protected long getExpireMinutes() {
-        // 子类覆盖此方法以自定义过期时间
+        // 返回默认过期时间
         return DEFAULT_EXPIRE_MINUTES;
     }
 
     /**
      * 获取过期时间单位
-     * 子类可覆盖以自定义过期单位
+     * <p>
+     * 子类可覆盖以自定义过期单位。
+     * </p>
      *
      * @return 时间单位
      */
     protected TimeUnit getExpireUnit() {
-        // 子类覆盖此方法以自定义过期单位
+        // 返回默认时间单位：分钟
         return MINUTES;
     }
 
     /**
      * 从数据源获取数据
-     * 子类必须实现此方法定义数据加载逻辑
+     * <p>
+     * 子类必须实现此方法定义数据加载逻辑（如从数据库查询）。
+     * </p>
      *
-     * @param dict 查询参数
+     * @param id 查询参数（通常为数据编号）
+     * @return 数据结果，未找到返回 null
+     */
+    protected abstract T fetch(Serializable id);
+
+    /**
+     * 根据缓存键获取数据
+     * <p>
+     * 内部方法：解析缓存键，去掉 prefix- 前缀后调用子类的 {@link #fetch(Serializable)}。
+     * </p>
+     *
+     * @param cacheKey 缓存键
      * @return 数据结果
      */
-    protected abstract T fetch(Dict dict);
+    private T fetch(String cacheKey) {
+        var prefix = getCacheKeyPrefix() + "-";
+        var id = removePrefix(cacheKey, prefix);
+        // 强转为 Serializable，确保调用子类的 fetch(Serializable) 而非自身
+        return fetch((Serializable) id);
+    }
+
+    /**
+     * 构建缓存键
+     *
+     * @param id 查询参数
+     * @return 缓存键，格式：prefix-id
+     */
+    protected String buildCacheKey(Serializable id) {
+        var prefix = getCacheKeyPrefix();
+        return format("{}-{}", prefix, id);
+    }
 
     /**
      * 加载数据到缓存
+     * <p>
+     * 主动将数据加载到缓存中，适用于缓存预热或刷新场景。
+     * </p>
      *
-     * @param dict 查询参数
+     * @param id 查询参数
      */
-    public void load(Dict dict) {
-        // 非空检查
-        if (ObjectUtil.isNotEmpty(dict)) {
-            // 构建缓存键
-            var cacheKey = buildCacheKey(dict);
-            // 从数据源获取数据
-            var data = fetch(dict);
-            // 写入缓存
-            if (ObjectUtil.isNotEmpty(data)) {
+    public void load(Serializable id) {
+        // 非空校验：id 为空时跳过
+        if (ObjectUtil.isNotNull(id)) {
+            var cacheKey = buildCacheKey(id);
+            var data = fetch(id);
+            // 只有数据非空时才写入缓存
+            if (ObjectUtil.isNotNull(data)) {
                 getCache().put(cacheKey, data);
             }
         }
@@ -121,54 +157,31 @@ public abstract class FetchLoadHelper<T> {
 
     /**
      * 获取缓存数据
+     * <p>
+     * 先从缓存获取，缓存未命中时自动调用 {@link #fetch(Serializable)} 回源加载。
+     * </p>
      *
-     * @param dict 查询参数
-     * @return 缓存数据或加载的数据
+     * @param id 查询参数
+     * @return 缓存数据或回源数据，id 为空返回 null
      */
-    public T get(Dict dict) {
-        // 空值检查
-        if (ObjectUtil.isEmpty(dict))
+    public T get(Serializable id) {
+        // 空值检查：id 为空直接返回，避免无意义查询
+        if (ObjectUtil.isNull(id))
             return null;
-        // 构建缓存键
-        var cacheKey = buildCacheKey(dict);
-        // Caffeine 的 get 方法会自动调用 fetch 回源
+        var cacheKey = buildCacheKey(id);
+        // Caffeine 的 get 方法在缓存未命中时自动调用 fetch 回源
         return getCache().get(cacheKey, this::fetch);
     }
 
     /**
-     * 构建缓存键
+     * 删除指定缓存
      *
-     * @param dict 查询参数
-     * @return 缓存键
+     * @param id 查询参数
      */
-    protected Dict buildCacheKey(Dict dict) {
-        // 缓存键由前缀和参数组成
-        return Dict.create()
-                .set("prefix", getCacheKeyPrefix())
-                .set("params", dict);
-    }
-
-    /**
-     * 获取缓存中的列表数据
-     *
-     * @param dict 查询参数
-     * @return 缓存的数据列表
-     */
-    public List<T> getList(Dict dict) {
-        // 强制转换为 List 类型
-        return (List<T>) get(dict);
-    }
-
-    /**
-     * 删除指定参数的缓存
-     *
-     * @param dict 查询参数
-     */
-    public void delete(Dict dict) {
-        // 非空检查
-        if (ObjectUtil.isNotEmpty(dict)) {
-            // 构建缓存键并移除
-            var cacheKey = buildCacheKey(dict);
+    public void delete(Serializable id) {
+        // 非空校验：id 为空时跳过
+        if (ObjectUtil.isNotNull(id)) {
+            var cacheKey = buildCacheKey(id);
             getCache().invalidate(cacheKey);
         }
     }
@@ -177,23 +190,7 @@ public abstract class FetchLoadHelper<T> {
      * 清除所有缓存
      */
     public void clear() {
-        // 清除所有缓存条目
+        // 清除当前 Helper 实例的所有缓存条目
         getCache().invalidateAll();
-    }
-
-    /**
-     * 将字符串列表转换为指定类型的列表
-     *
-     * @param data   原始数据
-     * @param target 目标类型类
-     * @return 转换后的列表
-     */
-    protected <R> List<R> convertToList(List<String> data,
-                                        Class<R> target) {
-        // 使用 Optional 处理空值，流式转换
-        return ofNullable(data)
-                .stream()
-                .map(str -> Convert.convert(target, str))
-                .toList();
     }
 }

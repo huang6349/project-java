@@ -1,10 +1,11 @@
 package org.huangyalong.core.satoken.helper;
 
-import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ObjectUtil;
 import com.mybatisflex.core.query.QueryChain;
 import org.huangyalong.modules.system.domain.User;
 import org.myframework.core.helper.FetchLoadHelper;
+
+import java.io.Serializable;
 
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
@@ -27,9 +28,8 @@ public class TenantHelper extends FetchLoadHelper<Long> {
     }
 
     @Override
-    protected Long fetch(Dict dict) {
-        var id = dict.getLong("id");
-        if (ObjectUtil.isNotEmpty(id)) {
+    protected Long fetch(Serializable id) {
+        if (ObjectUtil.isNotNull(id)) {
             return QueryChain.of(User.class)
                     .select(USER.TENANT_ID)
                     .where(USER.ID.eq(id))
@@ -44,9 +44,9 @@ public class TenantHelper extends FetchLoadHelper<Long> {
      * @return 租户编号
      */
     public static Long getTenant(Object id) {
-        var dict = Dict.create()
-                .set("id", id);
-        return getInstance().get(dict);
+        if (ObjectUtil.isNotNull(id)) {
+            return getInstance().get((Serializable) id);
+        } else return null;
     }
 
     /**
@@ -55,8 +55,7 @@ public class TenantHelper extends FetchLoadHelper<Long> {
      * @param id 用户编号
      */
     public static void load(Object id) {
-        var dict = Dict.create()
-                .set("id", id);
-        getInstance().load(dict);
+        if (ObjectUtil.isNull(id)) return;
+        getInstance().load((Serializable) id);
     }
 }
