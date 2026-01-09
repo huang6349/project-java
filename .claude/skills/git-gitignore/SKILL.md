@@ -26,7 +26,7 @@ description: |
 | 顺序 | 模板名称                              | 用户定义标题                   | 说明     |
 |:--:|-----------------------------------|--------------------------|--------|
 | 1  | Global/Windows.gitignore          | ### Windows ###          | 系统级忽略  |
-| 2  | Global/macOS.gitignore            | ### macOS ###            | 系统级忽略  |
+| 2  | Global/macOS.gitignore            | ### MacOS ###            | 系统级忽略  |
 | 3  | Global/JetBrains.gitignore        | ### JetBrains ###        | IDE 忽略 |
 | 4  | Global/VisualStudioCode.gitignore | ### VisualStudioCode ### | IDE 忽略 |
 | 5  | Java.gitignore                    | ### Java ###             | 语言模板   |
