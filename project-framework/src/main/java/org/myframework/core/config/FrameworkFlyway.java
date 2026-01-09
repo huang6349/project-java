@@ -2,17 +2,15 @@ package org.myframework.core.config;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.log.StaticLog;
+import org.dromara.autotable.core.callback.AutoTableFinishCallback;
 import org.flywaydb.core.Flyway;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.event.EventListener;
 
 import javax.sql.DataSource;
+import java.util.Set;
 
 @Configuration
-@AutoConfigureAfter(FrameworkAutoTable.class)
-public class FrameworkFlyway {
+public class FrameworkFlyway implements AutoTableFinishCallback {
 
     private final Flyway flyway;
 
@@ -27,8 +25,8 @@ public class FrameworkFlyway {
                 .load();
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    void onApplicationReady() {
+    @Override
+    public void finish(Set<Class<?>> tableClasses) {
         if (ObjectUtil.isNotNull(flyway)) {
             flyway.migrate();
         }
