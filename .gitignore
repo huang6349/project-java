@@ -27,11 +27,10 @@ $RECYCLE.BIN/
 ### MacOS ###
 # General
 .DS_Store
+__MACOSX/
 .AppleDouble
 .LSOverride
-
-# Icon must end with two \r
-Icon
+Icon*
 
 # Thumbnails
 ._*
@@ -82,6 +81,19 @@ Temporary Items
 .idea/**/gradle.xml
 .idea/**/libraries
 
+# Gradle and Maven with auto-import
+# When using Gradle or Maven with auto-import, you should exclude module files,
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
+# .idea/artifacts
+# .idea/compiler.xml
+# .idea/jarRepositories.xml
+# .idea/modules.xml
+# .idea/*.iml
+# .idea/modules
+# *.iml
+# *.ipr
+
 # CMake
 cmake-build-*/
 
@@ -105,7 +117,7 @@ atlassian-ide-plugin.xml
 
 # SonarLint plugin
 .idea/sonarlint/
-.idea/sonarlint.xml
+.idea/sonarlint.xml # see https://community.sonarsource.com/t/is-the-file-idea-idea-idea-sonarlint-xml-intended-to-be-under-source-control/121119
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
@@ -124,19 +136,18 @@ http-client.private.env.json
 .idea/.cache/.Apifox_Helper
 .idea/ApifoxUploaderProjectSetting.xml
 
-# MarsCode Workspace App Settings
-.idea/MarsCodeWorkspaceAppSettings.xml
+# Github Copilot persisted session migrations, see: https://github.com/microsoft/copilot-intellij-feedback/issues/712#issuecomment-3322062215
+.idea/**/copilot.data.migration.*.xml
 
-### VisualStudioCode ###
+### VSCode ###
+# General
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/*.code-snippets
-
-# Local History for Visual Studio Code
-.history/
+!*.code-workspace
 
 # Built Visual Studio Code Extensions
 *.vsix
@@ -163,11 +174,12 @@ http-client.private.env.json
 *.tar.gz
 *.rar
 
-# virtual machine crash logs
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
 
 ### Kotlin ###
+# Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
 .kotlin/
 
 ### Gradle ###
@@ -181,11 +193,17 @@ gradle-app.setting
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
-# Avoid ignore Gradle wrapper properties
+# Avoid ignore Gradle wrappper properties
 !gradle-wrapper.properties
 
 # Cache of project
 .gradletasknamecache
+
+# Eclipse Gradle plugin generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
 
 ### Maven ###
 target/
@@ -197,6 +215,7 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+# https://maven.apache.org/wrapper/#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
 ### Project ###
