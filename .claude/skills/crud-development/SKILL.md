@@ -1,7 +1,7 @@
 ---
 name: crud-development
 description: |
-  自动生成 CRUD 模块的代码文件。
+  CRUD 开发技能，提供标准化的增删改查代码生成能力。
 
   适用场景：
   - 创建新的业务模块

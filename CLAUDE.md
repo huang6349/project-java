@@ -8,29 +8,10 @@
 
 ## Skills 索引
 
-| Skill            | 触发词            | 说明                        |
-|------------------|----------------|---------------------------|
-| crud-development | 创建模块、CRUD、开发功能 | 自动生成 CRUD 模块的代码文件         |
-| git-gitignore    | gitignore      | 自动生成符合此代码库的 .gitignore 文件 |
-
-## 常用命令
-
-```bash
-# 清理并构建所有模块
-./mvnw clean install -DskipTests
-
-# 构建指定模块
-./mvnw clean install -DskipTests -pl project-web
-
-# 运行测试
-./mvnw test
-
-# 以 dev 配置启动应用
-./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
-
-# 打包为 JAR
-./mvnw clean package -DskipTests
-```
+| Skill         | 触发词            | 触发条件                | 说明                        |
+|---------------|----------------|---------------------|---------------------------|
+| CRUD 开发技能     | 创建模块、CRUD、开发功能 | `/crud-development` | 提供标准化的增删改查代码生成能力          |
+| Git-ignore 技能 | gitignore      | `/git-gitignore`    | 自动生成符合此代码库的 .gitignore 文件 |
 
 ## 技术栈
 
