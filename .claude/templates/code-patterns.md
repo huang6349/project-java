@@ -57,6 +57,7 @@ public class {Module}Controller extends ReactorController<
         return ApiResponse.ok(data);
     }
 }
+\n
 ```
 
 ### 服务层
@@ -122,6 +123,7 @@ public interface {Module}Service extends ReactorService<Module> {
 
     Mono<Boolean> delete(Serializable id);
 }
+\n
 ```
 
 ```text
@@ -182,6 +184,7 @@ public class {Module}ServiceImpl extends ReactorServiceImpl<{Module}Mapper, {Mod
         throw new BusinessException(ERR_RESERVED);
     }
 }
+\n
 ```
 
 ### 实体层
@@ -232,6 +235,7 @@ public class {Module} extends Entity<{Module}, Long> {
         return this;
     }
 }
+\n
 ```
 
 ```text
@@ -253,6 +257,7 @@ public class {Module}Queries extends BaseQueries {
     @Schema(description = "备注")
     private String desc;
 }
+\n
 ```
 
 ```text
@@ -274,6 +279,7 @@ public class {Module}BO extends BaseBO<Long> {
     @Schema(description = "备注")
     private String desc;
 }
+\n
 ```
 
 ### 测试层
@@ -525,6 +531,7 @@ class {Module}ControllerTest extends MyFrameworkTest {
                 .isEqualTo(afterSize);
     }
 }
+\n
 ```
 
 ```text
@@ -579,6 +586,7 @@ public interface {Module}Util {
                 .get();
     }
 }
+\n
 ```
 
 ---
