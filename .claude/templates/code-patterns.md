@@ -146,7 +146,6 @@ import static cn.hutool.core.convert.Convert.toLong;
 import static org.myframework.core.constants.Constants.SYSTEM_RESERVED;
 import static org.myframework.core.exception.ErrorCode.ERR_RESERVED;
 import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
-import static org.myframework.core.util.ServiceUtil.randomCode;
 
 @Service
 public class {Module}ServiceImpl extends ReactorServiceImpl<{Module}Mapper, {Module}> implements {Module}Service {
@@ -154,7 +153,6 @@ public class {Module}ServiceImpl extends ReactorServiceImpl<{Module}Mapper, {Mod
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> add({Module}BO {module}BO) {
         var data = {Module}.create()
-                .setCode(randomCode())
                 .with({module}BO);
         return save(data);
     }
