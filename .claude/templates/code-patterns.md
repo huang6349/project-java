@@ -34,8 +34,7 @@ public class {Module}Controller extends ReactorController<
         {Module},
         {Module}Queries,
         {Module}BO,
-        {Module}BO
-        > {
+        {Module}BO> {
 
     @Override
     public ApiResponse<Mono<Boolean>> handlerSave({Module}BO {module}BO) {
