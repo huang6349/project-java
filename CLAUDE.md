@@ -6,6 +6,12 @@
 
 **project-java** - 基于 Spring Boot 2.7.12 + Java 17 的多模块企业级项目模板。
 
+## Skills 索引
+
+| Skill         | 触发词       | 说明                        |
+|---------------|-----------|---------------------------|
+| git-gitignore | gitignore | 自动生成符合此代码库的 .gitignore 文件 |
+
 ## 常用命令
 
 ```bash
