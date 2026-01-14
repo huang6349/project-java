@@ -283,10 +283,10 @@ public class {Module}BO extends BaseBO<Long> {
 
 ## 变量替换速查表
 
-| 变量          | 使用场景                                | 示例                |
-|-------------|-------------------------------------|-------------------|
-| `{package}` | 包路径，用于 import 和 package 声明          | `org.huangyalong` |
-| `{module}`  | 模块名称，用于类名小驼峰、包路径目录名、URL 路径          | `example`         |
-| `{Module}`  | 模块名称，用于类名大驼峰                        | `Example`         |
-| `{MODULE}`  | `{Module}` 的大写形式，用于引用 TableDef 静态常量 | `EXAMPLE`         |
-| `{name}`    | 中文功能名称，用于 Swagger 文档注释              | `示例`              |
+| 变量          | 使用场景                                          | 示例                |
+|-------------|-----------------------------------------------|-------------------|
+| `{package}` | 包路径：`package` 声明、import 语句                    | `org.huangyalong` |
+| `{Module}`  | 类名大驼峰：Controller、Service、Entity 等类名           | `Example`         |
+| `{module}`  | 模块名：`@RequestMapping`、`@Table` 表名前缀、类名小驼峰     | `example`         |
+| `{MODULE}`  | TableDef 静态常量：`import static`、查询条件字段引用        | `EXAMPLE`         |
+| `{name}`    | 中文名称：Swagger `@Tag`、`@AutoTable`、`@Schema` 注释 | `示例`              |
