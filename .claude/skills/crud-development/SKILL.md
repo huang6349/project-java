@@ -8,7 +8,7 @@ description: |
   - 编写 Controller、Service、Entity 等代码
   - 快速生成 DDD 分层架构代码
 
-  触发词：创建模块、CRUD、开发功能、生成实体
+  触发词：创建模块、CRUD、开发功能
 ---
 
 # CRUD 开发技能
@@ -46,21 +46,15 @@ description: |
 
 **Q2 收集 name 时**：
 
-- 如果用户输入的名称以"管理"或"信息"结尾，自动去掉相应后缀
-- 例如：输入"用户管理" → 存储为"用户"
-- 例如：输入"用户信息" → 存储为"用户"
+- 如果用户输入的中文名称以"管理"或"信息"结尾，自动去掉相应后缀
+- 例如：输入"示例管理" → 存储为"示例"
+- 例如：输入"示例信息" → 存储为"示例"
 
 **Q3 收集 package 时**：
 
 - 直接使用用户输入的包路径，无需转换
 
-**处理后的值用于**：
-
-- 包路径：`{package}.web`、`{package}.domain`、`{package}.service`
-- 类名：`{Module}Controller`、`{Module}Service`、`{Module}`
-- 模块名：`@RequestMapping("/{module}")`、`@Table(value = "tb_{module}")`
-- 表常量：`import static {package}.domain.table.{Module}TableDef.{MODULE}`
-- 中文名：`@Tag(name = "{name}管理")`、`@AutoTable(comment = "{name}信息")`
+**变量将用于模板替换**，详见变量替换速查表
 
 ### 第二步：生成代码文件
 
