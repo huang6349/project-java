@@ -279,6 +279,311 @@ public class {Module}BO extends BaseBO<Long> {
 }
 ```
 
+### 测试层
+
+```text
+// {Module}ControllerTest.java
+package {package}.web;
+
+import cn.dev33.satoken.stp.StpUtil;
+import org.huangyalong.core.IntegrationTest;
+import {package}.domain.{Module};
+import {package}.request.{Module}Util;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.myframework.test.MyFrameworkTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.reactive.server.WebTestClient;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.is;
+
+@AutoConfigureMockMvc
+@IntegrationTest
+class {Module}ControllerTest extends MyFrameworkTest {
+
+    @Autowired
+    WebTestClient testClient;
+
+    @Order(1)
+    @Test
+    void add() {
+        var beforeSize = {Module}.create()
+                .count();
+        testClient.post()
+                .uri("/{module}")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue({Module}Util.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        var afterSize = {Module}.create()
+                .count();
+        assertThat(beforeSize + 1)
+                .isEqualTo(afterSize);
+        var testEntity = {Module}Util.getEntity();
+        assertThat(testEntity)
+                .isNotNull();
+        assertThat(testEntity.getId())
+                .isNotNull();
+        assertThat(testEntity.getDesc())
+                .isEqualTo({Module}Util.DEFAULT_DESC);
+    }
+
+    @Order(2)
+    @Test
+    void update() {
+        var beforeSize = {Module}.create()
+                .count();
+        testClient.post()
+                .uri("/{module}")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue({Module}Util.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        testClient.put()
+                .uri("/{module}")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue({Module}Util.createBO({Module}Util.getId()))
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        var afterSize = {Module}.create()
+                .count();
+        assertThat(beforeSize + 1)
+                .isEqualTo(afterSize);
+        var testEntity = {Module}Util.getEntity();
+        assertThat(testEntity)
+                .isNotNull();
+        assertThat(testEntity.getId())
+                .isNotNull();
+        assertThat(testEntity.getDesc())
+                .isEqualTo({Module}Util.UPDATED_DESC);
+    }
+
+    @Order(3)
+    @Test
+    void queryPage() {
+        var beforeSize = {Module}.create()
+                .count();
+        testClient.post()
+                .uri("/{module}")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue({Module}Util.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        testClient.get()
+                .uri("/{module}/_query/paging?pageSize={pageSize}", Long.MAX_VALUE)
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE))
+                .jsonPath("$.data.list.[0].desc")
+                .value(is({Module}Util.DEFAULT_DESC));
+        var afterSize = {Module}.create()
+                .count();
+        assertThat(beforeSize + 1)
+                .isEqualTo(afterSize);
+    }
+
+    @Order(4)
+    @Test
+    void query() {
+        var beforeSize = {Module}.create()
+                .count();
+        testClient.post()
+                .uri("/{module}")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue({Module}Util.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        testClient.get()
+                .uri("/{module}/_query")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE))
+                .jsonPath("$.data.[0].desc")
+                .value(is({Module}Util.DEFAULT_DESC));
+        var afterSize = {Module}.create()
+                .count();
+        assertThat(beforeSize + 1)
+                .isEqualTo(afterSize);
+    }
+
+    @Order(5)
+    @Test
+    void getById() {
+        var beforeSize = {Module}.create()
+                .count();
+        testClient.post()
+                .uri("/{module}")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue({Module}Util.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        testClient.get()
+                .uri("/{module}/{id:.+}", {Module}Util.getId())
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE))
+                .jsonPath("$.data.desc")
+                .value(is({Module}Util.DEFAULT_DESC));
+        var afterSize = {Module}.create()
+                .count();
+        assertThat(beforeSize + 1)
+                .isEqualTo(afterSize);
+    }
+
+    @Order(6)
+    @Test
+    void delete() {
+        var beforeSize = {Module}.create()
+                .count();
+        testClient.post()
+                .uri("/{module}")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue({Module}Util.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        testClient.delete()
+                .uri("/{module}/{id:.+}", {Module}Util.getId())
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        var afterSize = {Module}.create()
+                .count();
+        assertThat(beforeSize)
+                .isEqualTo(afterSize);
+    }
+}
+```
+
+```text
+// {Module}Util.java
+package {package}.request;
+
+import cn.hutool.core.lang.Opt;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import {package}.domain.{Module};
+
+import java.io.Serializable;
+
+import static {package}.domain.table.{Module}TableDef.{MODULE};
+
+public interface {Module}Util {
+
+    String DEFAULT_DESC = RandomUtil.randomString(12);
+
+    String UPDATED_DESC = RandomUtil.randomString(12);
+
+    static {Module}BO createBO(JSONObject object) {
+        var {module}BO = new {Module}BO();
+        {module}BO.setId(object.getLong("id"));
+        {module}BO.setDesc(object.getStr("desc", DEFAULT_DESC));
+        return {module}BO;
+    }
+
+    static {Module}BO createBO(Serializable id) {
+        var obj = JSONUtil.createObj()
+                .set("id", id)
+                .set("desc", UPDATED_DESC);
+        return createBO(obj);
+    }
+
+    static {Module}BO createBO() {
+        var obj = JSONUtil.createObj();
+        return createBO(obj);
+    }
+
+    static {Module} getEntity() {
+        return {Module}.create()
+                .orderBy({MODULE}.ID, Boolean.FALSE)
+                .one();
+    }
+
+    static Long getId() {
+        var entity = getEntity();
+        return Opt.ofNullable(entity)
+                .map({Module}::getId)
+                .get();
+    }
+}
+```
+
 ---
 
 ## 变量替换速查表
