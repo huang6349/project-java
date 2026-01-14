@@ -37,7 +37,7 @@ description: |
 
 - `{Module}` = 首字母大写（`module` → `Example`）
 - `{MODULE}` = 全大写加下划线（`module` → `EXAMPLE`）
-- `{name}` = 用户输入的中文名称
+- `{name}` = 用户输入的中文名称（自动去除后缀：xx管理 → xx、xx信息 → xx）
 - `{package}` = 用户输入的包路径
 
 ### 第二步：生成代码文件
