@@ -37,47 +37,39 @@ description: |
 
 - `{Module}` = 首字母大写（`module` → `Example`）
 - `{MODULE}` = 全大写加下划线（`module` → `EXAMPLE`）
+- `{name}` = 用户输入的中文名称
+- `{package}` = 用户输入的包路径
 
-### 第二步：确认生成文件
+### 第二步：生成代码文件
 
-**必问**：请选择需要生成的文件（使用 AskUserQuestion，可多选）：
+**自动生成所有文件**（无需选择）：
 
-- Entity（实体类）
-- Queries（查询参数类）
-- BO（业务对象类）
-- Service（服务接口）
-- ServiceImpl（服务实现）
-- Controller（控制器）
-
-### 第三步：生成代码文件
-
-**模板来源**：`.claude/templates/code-patterns.md`
-
-根据用户选择生成以下文件：
-
-| 文件                         | 包路径                      | 条件             |
-|----------------------------|--------------------------|----------------|
-| `{Module}.java`            | `{package}.domain`       | 必选             |
-| `{Module}Queries.java`     | `{package}.request`      | 必选             |
-| `{Module}BO.java`          | `{package}.request`      | 必选             |
-| `{Module}Service.java`     | `{package}.service`      | 选中 Service     |
-| `{Module}ServiceImpl.java` | `{package}.service.impl` | 选中 ServiceImpl |
-| `{Module}Controller.java`  | `{package}.web`          | 选中 Controller  |
+| 文件                            | 包路径                      | 目录            |
+|-------------------------------|--------------------------|---------------|
+| `{Module}.java`               | `{package}.domain`       | src/main/java |
+| `{Module}Queries.java`        | `{package}.request`      | src/main/java |
+| `{Module}BO.java`             | `{package}.request`      | src/main/java |
+| `{Module}Service.java`        | `{package}.service`      | src/main/java |
+| `{Module}ServiceImpl.java`    | `{package}.service.impl` | src/main/java |
+| `{Module}Controller.java`     | `{package}.web`          | src/main/java |
+| `{Module}ControllerTest.java` | `{package}.web`          | src/test/java |
+| `{Module}Util.java`           | `{package}.request`      | src/test/java |
 
 **生成规则**：
 
+- 模板来源：`.claude/templates/code-patterns.md`
 - 文件写入到 `project-web` 模块
 - 替换模板中所有变量占位符
 - 保持代码格式和注释完整
 
-### 第四步：展示生成报告
+### 第三步：展示生成报告
 
 代码生成完成后，向用户展示以下格式的完成报告：
 
 ```text
 ✅ {Module} 模块生成完成
 
-📁 文件位置（{package}/）
+📁 src/main/java/{package}/
 ├── domain/
 │   └── {Module}.java          实体类
 ├── request/
@@ -88,7 +80,13 @@ description: |
 │   └── impl/
 │       └── {Module}ServiceImpl.java 服务实现
 └── web/
-    └── {Module}Controller.java 控制器
+    └── {Module}Controller.java      控制器
+
+📁 src/test/java/{package}/
+├── request/
+│   └── {Module}Util.java      测试工具类
+└── web/
+    └── {Module}ControllerTest.java  控制器测试类
 
 ⚙️  变量说明
    {package}  包路径
