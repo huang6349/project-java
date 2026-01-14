@@ -8,10 +8,10 @@
 
 ## Skills 索引
 
-| Skill        | 触发词            | 触发条件                | 说明                        |
-|--------------|----------------|---------------------|---------------------------|
-| CRUD 开发技能    | 创建模块、CRUD、开发功能 | `/crud-development` | 提供标准化的增删改查代码生成能力          |
-| gitignore 技能 | gitignore      | `/git-gitignore`    | 自动生成符合此代码库的 .gitignore 文件 |
+| Skill            | 触发词            | 触发条件                | 说明                        |
+|------------------|----------------|---------------------|---------------------------|
+| crud-development | 创建模块、CRUD、开发功能 | `/crud-development` | 提供标准化的增删改查代码生成能力          |
+| git-gitignore    | gitignore      | `/git-gitignore`    | 自动生成符合此代码库的 .gitignore 文件 |
 
 ## Agents 索引
 
