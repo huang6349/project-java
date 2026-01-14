@@ -33,12 +33,34 @@ description: |
 | Q2 | 请输入模块中文名称（默认提示：示例）：         | `name`    |
 | Q3 | 请输入包路径：                     | `package` |
 
-**变量自动转换**：
+---
 
-- `{Module}` = 首字母大写（`module` → `Example`）
-- `{MODULE}` = 全大写加下划线（`module` → `EXAMPLE`）
-- `{name}` = 用户输入的中文名称（自动去除后缀：xx管理 → xx、xx信息 → xx）
-- `{package}` = 用户输入的包路径
+#### 自动处理规则
+
+**Q1 收集 module 时**：
+
+- `{Module}` = 首字母大写
+- 例如：`module` → `Example`
+- `{MODULE}` = 全大写加下划线
+- 例如：`module` → `EXAMPLE`
+
+**Q2 收集 name 时**：
+
+- 如果用户输入的名称以"管理"或"信息"结尾，自动去掉相应后缀
+- 例如：输入"用户管理" → 存储为"用户"
+- 例如：输入"用户信息" → 存储为"用户"
+
+**Q3 收集 package 时**：
+
+- 直接使用用户输入的包路径，无需转换
+
+**处理后的值用于**：
+
+- 包路径：`{package}.web`、`{package}.domain`、`{package}.service`
+- 类名：`{Module}Controller`、`{Module}Service`、`{Module}`
+- 模块名：`@RequestMapping("/{module}")`、`@Table(value = "tb_{module}")`
+- 表常量：`import static {package}.domain.table.{Module}TableDef.{MODULE}`
+- 中文名：`@Tag(name = "{name}管理")`、`@AutoTable(comment = "{name}信息")`
 
 ### 第二步：生成代码文件
 
