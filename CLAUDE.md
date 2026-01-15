@@ -13,12 +13,6 @@
 | crud-development | 创建模块、CRUD、开发功能 | `/crud-development` | 提供标准化的增删改查代码生成能力          |
 | git-gitignore    | gitignore      | `/git-gitignore`    | 自动生成符合此代码库的 .gitignore 文件 |
 
-## Agents 索引
-
-| Agent         | 说明                       |
-|---------------|--------------------------|
-| code-reviewer | 对新增或修改的代码进行质量、安全性和可维护性审查 |
-
 ## 技术栈
 
 | 类别    | 技术                                   |
@@ -110,9 +104,8 @@ modules/{module}/
 
 ## 开发注意事项
 
-1. **编码规范检查**: 所有代码修改必须经过编码规范 Agent 审核，确保代码风格一致性、类型安全和最佳实践
-2. **自动建表**: 项目默认启用 Auto-Table，会根据实体类自动创建 MySQL 表
-3. **响应格式**: 所有 API 响应使用 `ApiResponse<T>` 包装
-4. **字典系统**: 使用 `@EnumDict` 注解实现枚举字典
-5. **事件总线**: 基于 Redis 的 EventBus 用于分布式事件
-6. **跳过测试**: 根 pom.xml 默认设置 `skipTests=true`
+1. **自动建表**: 项目默认启用 Auto-Table，会根据实体类自动创建 MySQL 表
+2. **响应格式**: 所有 API 响应使用 `ApiResponse<T>` 包装
+3. **字典系统**: 使用 `@EnumDict` 注解实现枚举字典
+4. **事件总线**: 基于 Redis 的 EventBus 用于分布式事件
+5. **跳过测试**: 根 pom.xml 默认设置 `skipTests=true`
