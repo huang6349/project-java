@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static org.huangyalong.core.constants.TenantConstants.INVALID;
 import static org.huangyalong.core.satoken.helper.PermHelper.fetch;
-import static org.huangyalong.core.satoken.helper.SystemHelper.isTenantEnabled;
+import static org.huangyalong.core.satoken.helper.SystemHelper.allowTenant;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 @Getter
@@ -78,7 +78,7 @@ public class UserPermServiceImpl extends ReactorServiceImpl<PermMapper, Perm> im
     }
 
     Long getTenantId(UserPermQueries queries) {
-        if (isTenantEnabled()) {
+        if (allowTenant()) {
             return ofNullable(queries)
                     .map(UserPermQueries::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));

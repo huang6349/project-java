@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static org.huangyalong.core.constants.TenantConstants.INVALID;
-import static org.huangyalong.core.satoken.helper.SystemHelper.isTenantEnabled;
+import static org.huangyalong.core.satoken.helper.SystemHelper.allowTenant;
 import static org.huangyalong.modules.system.domain.table.PermAssocTableDef.PERM_ASSOC;
 
 @Getter
@@ -67,7 +67,7 @@ public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, Pe
     }
 
     Long getTenantId(PermDissocBO dissocBO) {
-        if (isTenantEnabled()) {
+        if (allowTenant()) {
             return ofNullable(dissocBO)
                     .map(PermDissocBO::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));
@@ -75,7 +75,7 @@ public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, Pe
     }
 
     Long getTenantId(PermAssocBO assocBO) {
-        if (isTenantEnabled()) {
+        if (allowTenant()) {
             return ofNullable(assocBO)
                     .map(PermAssocBO::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));

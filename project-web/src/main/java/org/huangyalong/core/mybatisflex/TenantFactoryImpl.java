@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static org.huangyalong.core.constants.TenantConstants.INVALID;
-import static org.huangyalong.core.satoken.helper.SystemHelper.isTenantEnabled;
+import static org.huangyalong.core.satoken.helper.SystemHelper.allowTenant;
 import static org.huangyalong.core.satoken.helper.UserHelper.getTenant;
 
 @Getter
@@ -18,7 +18,7 @@ public class TenantFactoryImpl implements TenantFactory {
 
     @Override
     public Object[] getTenantIds() {
-        if (isTenantEnabled()) {
+        if (allowTenant()) {
             return ofNullable(getTenant())
                     .map(Convert::toLongArray)
                     .orElse(EMPTY);

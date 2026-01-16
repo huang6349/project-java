@@ -43,11 +43,11 @@ public class SystemHelper extends FetchLoadHelper<String> {
     }
 
     /**
-     * 检查租户功能是否启用
+     * 检查是否允许租户功能
      *
-     * @return 是否启用
+     * @return 是否允许
      */
-    public static boolean isTenantEnabled() {
+    public static boolean allowTenant() {
         var enabled = ofBlankAble(getConfigs())
                 .map(JSONUtil::parseObj)
                 .orElseGet(JSONUtil::createObj)

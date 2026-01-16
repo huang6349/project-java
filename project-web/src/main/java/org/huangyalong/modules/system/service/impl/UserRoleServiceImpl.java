@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
 import static org.huangyalong.core.constants.TenantConstants.INVALID;
-import static org.huangyalong.core.satoken.helper.SystemHelper.isTenantEnabled;
+import static org.huangyalong.core.satoken.helper.SystemHelper.allowTenant;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 @Getter
@@ -64,7 +64,7 @@ public class UserRoleServiceImpl extends ReactorServiceImpl<RoleMapper, Role> im
     }
 
     Long getTenantId(UserRoleQueries queries) {
-        if (isTenantEnabled()) {
+        if (allowTenant()) {
             return ofNullable(queries)
                     .map(UserRoleQueries::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));
