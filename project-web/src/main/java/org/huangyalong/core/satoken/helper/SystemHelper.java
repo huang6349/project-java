@@ -1,26 +1,52 @@
 package org.huangyalong.core.satoken.helper;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.mybatisflex.core.query.QueryChain;
-import lombok.experimental.UtilityClass;
 import org.huangyalong.modules.system.domain.System;
-import org.myframework.core.redis.RedisHelper;
+import org.myframework.core.helper.FetchLoadHelper;
+
+import java.io.Serializable;
 
 import static cn.hutool.core.lang.Opt.ofBlankAble;
 import static cn.hutool.core.lang.Opt.ofNullable;
-import static cn.hutool.core.text.CharSequenceUtil.format;
-import static java.util.concurrent.TimeUnit.HOURS;
 import static org.huangyalong.core.constants.SystemConstants.CONFIG_ID;
 import static org.huangyalong.modules.system.configs.TenantConfigs.NAME_ENABLED;
 import static org.huangyalong.modules.system.domain.table.SystemTableDef.SYSTEM;
 
-@UtilityClass
-public class SystemHelper {
+public class SystemHelper extends FetchLoadHelper<String> {
 
-    private static final String KEY = format("system:configs:{}", CONFIG_ID);
+    private static volatile Boolean initialized = Boolean.FALSE;
 
+    private static volatile SystemHelper instance;
+
+    public static SystemHelper getInstance() {
+        if (!initialized) {
+            synchronized (SystemHelper.class) {
+                if (!initialized) {
+                    instance = new SystemHelper();
+                    initialized = Boolean.TRUE;
+                }
+            }
+        }
+        return instance;
+    }
+
+    @Override
+    protected String fetch(Serializable id) {
+        if (ObjectUtil.isNotNull(id)) {
+            return QueryChain.of(System.class)
+                    .select(SYSTEM.CONFIGS)
+                    .where(SYSTEM.ID.eq(id))
+                    .oneAs(String.class);
+        } else return null;
+    }
+
+    /**
+     * 检查租户功能是否启用
+     *
+     * @return 是否启用
+     */
     public static boolean isTenantEnabled() {
         var enabled = ofBlankAble(getConfigs())
                 .map(JSONUtil::parseObj)
@@ -30,26 +56,24 @@ public class SystemHelper {
                 .orElse(Boolean.TRUE);
     }
 
-    private static String getConfigs() {
-        var value = RedisHelper.get(KEY);
-        if (StrUtil.isBlank(value)) {
-            load();
-            return RedisHelper.get(KEY);
-        } else return value;
+    /**
+     * 获取系统配置信息
+     *
+     * @return 配置信息
+     */
+    public static String getConfigs() {
+        if (ObjectUtil.isNotNull(CONFIG_ID)) {
+            var sId = (Serializable) CONFIG_ID;
+            return getInstance().get(sId);
+        } else return null;
     }
 
-    public static String fetch(Object id) {
-        return QueryChain.of(System.class)
-                .select(SYSTEM.CONFIGS)
-                .where(SYSTEM.ID.eq(id))
-                .oneAs(String.class);
-    }
-
+    /**
+     * 加载系统配置信息到缓存
+     */
     public static void load() {
-        RedisHelper.delete(KEY);
-        var configs = fetch(CONFIG_ID);
-        if (ObjectUtil.isNotEmpty(configs))
-            RedisHelper.set(KEY, configs);
-        RedisHelper.expire(KEY, 24, HOURS);
+        if (ObjectUtil.isNull(CONFIG_ID)) return;
+        var sId = (Serializable) CONFIG_ID;
+        getInstance().load(sId);
     }
 }
