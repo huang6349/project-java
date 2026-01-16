@@ -109,7 +109,7 @@ public abstract class FetchLoadHelper<T> {
     protected abstract T fetch(Serializable id);
 
     /**
-     * 根据缓存键获取数据
+     * 根据缓存键回源获取数据
      * <p>
      * 内部方法：解析缓存键，去掉 prefix- 前缀后调用子类的 {@link #fetch(Serializable)}。
      * </p>
@@ -117,11 +117,10 @@ public abstract class FetchLoadHelper<T> {
      * @param cacheKey 缓存键
      * @return 数据结果
      */
-    private T fetch(String cacheKey) {
+    private T lookup(String cacheKey) {
         var prefix = format("{}-", getCacheKeyPrefix());
         var id = removePrefix(cacheKey, prefix);
-        // 强转为 Serializable，确保调用子类的 fetch(Serializable) 而非自身
-        return fetch((Serializable) id);
+        return fetch(id);
     }
 
     /**
@@ -169,8 +168,8 @@ public abstract class FetchLoadHelper<T> {
         if (ObjectUtil.isNull(id))
             return null;
         var cacheKey = buildCacheKey(id);
-        // Caffeine 的 get 方法在缓存未命中时自动调用 fetch 回源
-        return getCache().get(cacheKey, this::fetch);
+        // Caffeine 的 get 方法在缓存未命中时自动调用 lookup 回源
+        return getCache().get(cacheKey, this::lookup);
     }
 
     /**
