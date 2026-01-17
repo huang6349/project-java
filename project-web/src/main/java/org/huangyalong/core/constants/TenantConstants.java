@@ -5,11 +5,11 @@ public interface TenantConstants {
     /**
      * 无效租户编号（租户未获取时的占位值）
      */
-    Long INVALID = 0L;
+    Long INVALID = -1L;
 
 
     /**
      * 忽略租户隔离（无租户身份）
      */
-    Long NONE = -1L;
+    Long NONE = 0L;
 }
