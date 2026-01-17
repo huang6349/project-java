@@ -78,10 +78,9 @@ public class UserHelper extends ContextHelper {
     }
 
     public static String getNickname(Object message) {
-        var key = format("user:nickname:{}", message);
-        if (!RedisHelper.hasKey(key))
-            NicknameHelper.load(message);
-        return RedisHelper.get(key);
+        return Opt.ofNullable(message)
+                .map(NicknameHelper::getNickname)
+                .get();
     }
 
     public static String getNickname() {
