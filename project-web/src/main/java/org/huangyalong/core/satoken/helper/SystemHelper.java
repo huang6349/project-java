@@ -16,6 +16,8 @@ import static org.huangyalong.modules.system.domain.table.SystemTableDef.SYSTEM;
 
 public class SystemHelper extends FetchLoadHelper<String> {
 
+    private static final long EXPIRE_MINUTES = 30;
+
     private static volatile Boolean initialized = Boolean.FALSE;
 
     private static volatile SystemHelper instance;
@@ -30,6 +32,12 @@ public class SystemHelper extends FetchLoadHelper<String> {
             }
         }
         return instance;
+    }
+
+    @Override
+    protected long getExpireMinutes() {
+        // 系统配置变更不频繁，30分钟可有效减少数据库查询
+        return EXPIRE_MINUTES;
     }
 
     @Override
