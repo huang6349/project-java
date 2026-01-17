@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
-import static org.huangyalong.core.constants.TenantConstants.INVALID;
+import static org.huangyalong.core.constants.TenantConstants.NONE;
 import static org.huangyalong.core.satoken.helper.SystemHelper.allowTenant;
 import static org.huangyalong.modules.system.domain.table.RoleAssocTableDef.ROLE_ASSOC;
 
@@ -71,7 +71,7 @@ public class RoleAssocServiceImpl extends ReactorServiceImpl<RoleAssocMapper, Ro
             return ofNullable(dissocBO)
                     .map(RoleDissocBO::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));
-        } else return INVALID;
+        } else return NONE;
     }
 
     Long getTenantId(RoleAssocBO assocBO) {
@@ -79,6 +79,6 @@ public class RoleAssocServiceImpl extends ReactorServiceImpl<RoleAssocMapper, Ro
             return ofNullable(assocBO)
                     .map(RoleAssocBO::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));
-        } else return INVALID;
+        } else return NONE;
     }
 }

@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
-import static org.huangyalong.core.constants.TenantConstants.INVALID;
+import static org.huangyalong.core.constants.TenantConstants.NONE;
 import static org.huangyalong.core.satoken.helper.SystemHelper.allowTenant;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
@@ -68,6 +68,6 @@ public class UserRoleServiceImpl extends ReactorServiceImpl<RoleMapper, Role> im
             return ofNullable(queries)
                     .map(UserRoleQueries::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));
-        } else return INVALID;
+        } else return NONE;
     }
 }

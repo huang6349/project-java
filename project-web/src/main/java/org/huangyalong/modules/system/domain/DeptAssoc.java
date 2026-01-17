@@ -61,7 +61,7 @@ public class DeptAssoc extends SuperEntity<DeptAssoc, Long> {
     private String desc;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @AutoColumn(comment = "租户主键(所属租户)")
+    @AutoColumn(comment = "租户主键(所属租户)", notNull = true)
     @Schema(description = "租户主键")
     private Long tenantId;
 }

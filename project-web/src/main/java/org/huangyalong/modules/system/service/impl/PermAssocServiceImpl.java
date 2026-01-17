@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import static cn.hutool.core.lang.Opt.ofNullable;
-import static org.huangyalong.core.constants.TenantConstants.INVALID;
+import static org.huangyalong.core.constants.TenantConstants.NONE;
 import static org.huangyalong.core.satoken.helper.SystemHelper.allowTenant;
 import static org.huangyalong.modules.system.domain.table.PermAssocTableDef.PERM_ASSOC;
 
@@ -71,7 +71,7 @@ public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, Pe
             return ofNullable(dissocBO)
                     .map(PermDissocBO::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));
-        } else return INVALID;
+        } else return NONE;
     }
 
     Long getTenantId(PermAssocBO assocBO) {
@@ -79,6 +79,6 @@ public class PermAssocServiceImpl extends ReactorServiceImpl<PermAssocMapper, Pe
             return ofNullable(assocBO)
                     .map(PermAssocBO::getTenantId)
                     .orElseThrow(() -> new BusinessException("租户不能为空"));
-        } else return INVALID;
+        } else return NONE;
     }
 }
