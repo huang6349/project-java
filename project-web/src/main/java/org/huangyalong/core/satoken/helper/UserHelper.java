@@ -14,15 +14,8 @@ import static cn.hutool.core.text.CharSequenceUtil.format;
 public class UserHelper extends ContextHelper {
 
     public static List<String> getPermCode(Object message) {
-        var key = format("user:perm:code:{}", message);
-        if (!RedisHelper.hasKey(key))
-            PermCodeHelper.load(message);
-        return RedisHelper.lRange(key, 0, -1);
-    }
-
-    public static List<String> getPermCode() {
-        return Opt.ofNullable(getLoginId())
-                .map(UserHelper::getPermCode)
+        return Opt.ofNullable(message)
+                .map(PermCodeHelper::getPermCode)
                 .get();
     }
 

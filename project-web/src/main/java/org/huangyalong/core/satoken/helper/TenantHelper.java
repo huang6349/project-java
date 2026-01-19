@@ -7,6 +7,8 @@ import org.myframework.core.helper.FetchLoadHelper;
 
 import java.io.Serializable;
 
+import static org.huangyalong.core.constants.TenantConstants.NONE;
+import static org.huangyalong.core.satoken.helper.SystemHelper.allowTenant;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 public class TenantHelper extends FetchLoadHelper<Long> {
@@ -35,6 +37,18 @@ public class TenantHelper extends FetchLoadHelper<Long> {
                     .where(USER.ID.eq(id))
                     .oneAs(Long.class);
         } else return null;
+    }
+
+    /**
+     * 根据用户编号获取实际的租户编号
+     *
+     * @param id 用户编号
+     * @return 租户编号或 NONE
+     */
+    public static Long getActualTenant(Object id) {
+        if (allowTenant()) {
+            return getTenant(id);
+        } else return NONE;
     }
 
     /**
