@@ -14,6 +14,7 @@ import java.util.List;
 
 import static cn.hutool.core.collection.CollUtil.addAllIfNotContains;
 import static cn.hutool.core.collection.CollUtil.addIfAbsent;
+import static cn.hutool.core.convert.Convert.toLong;
 import static com.mybatisflex.core.query.QueryMethods.now;
 import static org.huangyalong.core.constants.Constants.SUPER_ADMIN_ID;
 import static org.huangyalong.core.satoken.helper.TenantHelper.getActualTenant;
@@ -43,14 +44,14 @@ public class PermCodeHelper extends FetchLoadHelper<List<String>> {
     @Override
     protected List<String> fetch(Serializable id) {
         var perms = new ArrayList<String>();
-        if (ObjectUtil.equal(SUPER_ADMIN_ID, id))
+        if (ObjectUtil.equal(SUPER_ADMIN_ID, toLong(id)))
             addIfAbsent(perms, "*");
         var tenantId = getActualTenant(id);
         if (ObjectUtil.isNotEmpty(tenantId) &&
                 ObjectUtil.isNotEmpty(id)) {
             var roles = RoleHelper.fetch(tenantId, id);
             var roleEffective = CollUtil.isNotEmpty(roles);
-            return addAllIfNotContains(perms, QueryChain.of(Perm.class)
+            var dbPerms = QueryChain.of(Perm.class)
                     .select(PERM.CODE)
                     .leftJoin(PERM_ASSOC)
                     .on(PERM_ASSOC.PERM_ID.eq(PERM.ID))
@@ -63,7 +64,8 @@ public class PermCodeHelper extends FetchLoadHelper<List<String>> {
                             .and(PERM_ASSOC.ASSOC_ID.eq(id)))
                     .or(PERM_ASSOC.ASSOC.eq(ROLE.getTableName(), roleEffective)
                             .and(PERM_ASSOC.ASSOC_ID.in(roles, roleEffective)))
-                    .listAs(String.class));
+                    .listAs(String.class);
+            return addAllIfNotContains(perms, dbPerms);
         } else return perms;
     }
 
