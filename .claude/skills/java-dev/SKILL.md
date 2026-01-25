@@ -44,7 +44,7 @@ mvn verify                           # 运行所有检查
 
 ## 类成员顺序
 
-```java
+```text
 public class Example {
     
     // 1. 静态常量
@@ -74,7 +74,7 @@ public class Example {
 
 ## 异常处理
 
-```java
+```text
 // ✅ 好：捕获具体异常，添加上下文
 try {
     user = userRepository.findById(id);
@@ -95,7 +95,7 @@ catch (Exception e) { e.printStackTrace(); }
 
 ## 空值处理
 
-```java
+```text
 // ✅ 使用 Optional
 public Optional<User> findById(Long id) {
     return userRepository.findById(id);
@@ -116,7 +116,7 @@ String name = Optional.ofNullable(user)
 
 ## 并发编程
 
-```java
+```text
 // ✅ 使用 ExecutorService
 ExecutorService executor = Executors.newFixedThreadPool(10);
 Future<Result> future = executor.submit(() -> doWork());
@@ -134,7 +134,7 @@ new Thread(() -> doWork()).start();
 
 ## 测试规范 (JUnit 5)
 
-```java
+```text
 class UserServiceTest {
     
     @Test
@@ -157,8 +157,8 @@ class UserServiceTest {
 
 ## Spring Boot 规范
 
-```java
-// ✅ 构造函数注入
+```text
+// ✅ 字段注入
 @Getter
 @Service
 public class UserService {
@@ -198,7 +198,7 @@ public class UserController {
 
 ## 日志规范
 
-```java
+```text
 // ✅ 参数化日志
 log.debug("Finding user by id: {}", userId);
 log.info("User {} logged in successfully", username);
