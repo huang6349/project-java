@@ -51,7 +51,7 @@ paths: "**/*"
 
 ### 1. Type-First（类型先行）
 
-编写业务逻辑前，先定义数据结构（Go: struct/interface, TS: interface/type, Java: DTO/VO）
+编写业务逻辑前，先定义数据结构（Java: BO/VO, TS: interface/type）
 
 ### 2. 复杂任务工作流
 
