@@ -46,6 +46,7 @@ mvn verify                           # 运行所有检查
 
 ```java
 public class Example {
+    
     // 1. 静态常量
     public static final String CONSTANT = "value";
 
@@ -56,20 +57,14 @@ public class Example {
     private Long id;
 
     // 4. 构造函数
-    public Example() {
-    }
+    public Example() { }
 
     // 5. 静态方法
-    public static Example create() {
-        return new Example();
-    }
+    public static Example create() { return new Example(); }
 
     // 6. 实例方法（公共 → 私有）
-    public void doSomething() {
-    }
-
-    private void helperMethod() {
-    }
+    public void doSomething() { }
+    private void helperMethod() { }
 
     // 7. getter/setter（或使用 Lombok）
 }
@@ -81,28 +76,19 @@ public class Example {
 
 ```java
 // ✅ 好：捕获具体异常，添加上下文
-try{
-user =userRepository.
-
-findById(id);
-}catch(
-DataAccessException e){
-        throw new
-
-ServiceException("Failed to find user: "+id, e);
+try {
+    user = userRepository.findById(id);
+} catch (DataAccessException e) {
+    throw new ServiceException("Failed to find user: " + id, e);
 }
 
 // ✅ 好：资源自动关闭
-        try(
-InputStream is = new FileInputStream(file)){
-        // 使用资源
-        }
+try (InputStream is = new FileInputStream(file)) {
+    // 使用资源
+}
 
 // ❌ 差：捕获过宽
-        catch(
-Exception e){e.
-
-printStackTrace(); }
+catch (Exception e) { e.printStackTrace(); }
 ```
 
 ---
@@ -122,8 +108,8 @@ public void updateUser(User user) {
 
 // ✅ 安全的空值处理
 String name = Optional.ofNullable(user)
-        .map(User::getName)
-        .orElse("Unknown");
+    .map(User::getName)
+    .orElse("Unknown");
 ```
 
 ---
@@ -137,17 +123,11 @@ Future<Result> future = executor.submit(() -> doWork());
 
 // ✅ 使用 CompletableFuture
 CompletableFuture<User> future = CompletableFuture
-        .supplyAsync(() -> findUser(id))
-        .thenApply(user -> enrichUser(user));
+    .supplyAsync(() -> findUser(id))
+    .thenApply(user -> enrichUser(user));
 
 // ❌ 差：直接创建线程
-new
-
-Thread(() ->
-
-doWork()).
-
-start();
+new Thread(() -> doWork()).start();
 ```
 
 ---
@@ -156,6 +136,7 @@ start();
 
 ```java
 class UserServiceTest {
+    
     @Test
     @DisplayName("根据 ID 查找用户 - 用户存在时返回用户")
     void findById_whenUserExists_returnsUser() {
@@ -178,11 +159,15 @@ class UserServiceTest {
 
 ```java
 // ✅ 构造函数注入
+@Getter
 @Service
-@RequiredArgsConstructor
 public class UserService {
-    private final UserRepository userRepository;
-    private final EmailService emailService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
 }
 
 // ✅ REST Controller
@@ -192,8 +177,8 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> findById(@PathVariable Long id) {
         return userService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
 }
 ```
@@ -215,18 +200,12 @@ public class UserController {
 
 ```java
 // ✅ 参数化日志
-log.debug("Finding user by id: {}",userId);
-log.
-
-info("User {} logged in successfully",username);
-log.
-
-error("Failed to process order {}",orderId, exception);
+log.debug("Finding user by id: {}", userId);
+log.info("User {} logged in successfully", username);
+log.error("Failed to process order {}", orderId, exception);
 
 // ❌ 差：字符串拼接
-log.
-
-debug("Finding user by id: "+userId);
+log.debug("Finding user by id: " + userId);
 ```
 
 ---
