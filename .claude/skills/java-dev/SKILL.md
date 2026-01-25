@@ -46,12 +46,12 @@ mvn verify                           # 运行所有检查
 
 ```text
 public class Example {
-    
-    // 1. 静态常量
-    public static final String CONSTANT = "value";
 
-    // 2. 静态变量
+    // 1. 静态变量
     private static Logger logger = LoggerFactory.getLogger(Example.class);
+
+    // 2. 静态常量
+    public static final String CONSTANT = "value";
 
     // 3. 实例变量
     private Long id;
@@ -60,13 +60,19 @@ public class Example {
     public Example() { }
 
     // 5. 静态方法
-    public static Example create() { return new Example(); }
+    public static Example create() {
+        return new Example();
+    }
 
-    // 6. 实例方法（公共 → 私有）
-    public void doSomething() { }
-    private void helperMethod() { }
+    // 6. 实例方法（公共）
+    public void doSomething() {
+    }
 
-    // 7. getter/setter（或使用 Lombok）
+    // 7. 实例方法（私有）
+    private void helperMethod() {
+    }
+
+    // 8. getter/setter（或使用 Lombok）
 }
 ```
 
