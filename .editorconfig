@@ -2,4 +2,4 @@
 root = true
 
 [*.md]
-ij_formatter_enabled = false
+ij_markdown_format_tables = false

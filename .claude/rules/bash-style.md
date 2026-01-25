@@ -7,6 +7,7 @@ paths:
   - "**/*.yaml"
   - "**/*.md"
 ---
+
 # Bash 核心规范
 
 > 详细规范见 `skills/bash-style/`，操作 .sh/.md/Dockerfile 等文件时自动加载。
