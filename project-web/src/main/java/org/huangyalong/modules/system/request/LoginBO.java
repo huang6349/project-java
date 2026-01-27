@@ -2,17 +2,18 @@ package org.huangyalong.modules.system.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 @Data
-@ToString
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Schema(name = "登录信息-BO")
-public class LoginBO implements Serializable {
+public class LoginBO extends CaptchaVerifyBO {
 
     @NotBlank(message = "帐号不能为空")
     @Schema(description = "登录帐号", requiredMode = REQUIRED)

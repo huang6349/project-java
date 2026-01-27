@@ -26,6 +26,11 @@
             <groupId>org.huangyalong</groupId>
             <artifactId>project-ai</artifactId>
         </dependency>
+        <!-- 验证码 -->
+        <dependency>
+            <groupId>com.xingyuv</groupId>
+            <artifactId>spring-boot-starter-captcha-plus</artifactId>
+        </dependency>
         <!-- Spring 核心 -->
         <dependency>
             <!-- 用于生成自定义的 Spring @ConfigurationProperties 配置类的说明文件 -->

@@ -44,6 +44,7 @@
         <minio.version>8.5.17</minio.version>
         <netty.version>4.1.127.Final</netty.version>
         <eventbus.version>2.5.1</eventbus.version>
+        <captcha.version>1.0.10</captcha.version>
         <openapi.version>1.8.0</openapi.version>
         <ttl.version>2.14.5</ttl.version>
         <fastexcel.version>1.2.0</fastexcel.version>
@@ -137,6 +138,11 @@
                 <groupId>com.github.likavn</groupId>
                 <artifactId>eventbus-spring-boot-starter</artifactId>
                 <version>${eventbus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xingyuv</groupId>
+                <artifactId>spring-boot-starter-captcha-plus</artifactId>
+                <version>${captcha.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huangyalong</groupId>

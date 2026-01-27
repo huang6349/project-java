@@ -43,3 +43,12 @@ easy-es:
   address: 100.100.100.252:3202
   username: elastic
   password: pwd123456
+
+app.captcha:
+  enabled: false
+
+app.tenant:
+  enabled: false
+
+app.ai:
+  enabled: false
