@@ -38,7 +38,7 @@
         <sa-token.version>1.41.0</sa-token.version>
         <hutool.version>5.8.43</hutool.version>
         <solon.version>3.6.2</solon.version>
-        <es.version>7.17.8</es.version>
+        <es.version>8.19.8</es.version>
         <ee.version>2.1.0</ee.version>
         <x-file-storage.version>2.3.0</x-file-storage.version>
         <minio.version>8.5.17</minio.version>
