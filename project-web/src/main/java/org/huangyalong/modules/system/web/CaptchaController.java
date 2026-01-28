@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @Getter
 @RestController
 @RequestMapping("/captcha")
-@Tag(name = "验证码管理")
+@Tag(name = "验证码")
 public class CaptchaController {
 
     @Resource
@@ -47,6 +47,13 @@ public class CaptchaController {
         return getCaptchaService().check(captchaVO);
     }
 
+    String getRemoteIpFromXfwd(String xfwd) {
+        if (StrUtil.isNotBlank(xfwd)) {
+            var ipList = xfwd.split(",");
+            return StrUtil.trim(ipList[0]);
+        } else return null;
+    }
+
     String getRemoteId(HttpServletRequest request) {
         var xfwd = request.getHeader("X-Forwarded-For");
         var ip = getRemoteIpFromXfwd(xfwd);
@@ -54,12 +61,5 @@ public class CaptchaController {
         if (StrUtil.isBlank(ip)) {
             return request.getRemoteAddr() + ua;
         } else return ip + ua;
-    }
-
-    String getRemoteIpFromXfwd(String xfwd) {
-        if (StrUtil.isNotBlank(xfwd)) {
-            var ipList = xfwd.split(",");
-            return StrUtil.trim(ipList[0]);
-        } else return null;
     }
 }
