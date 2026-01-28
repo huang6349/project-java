@@ -13,5 +13,8 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 public class AiProperties implements Serializable {
 
+    /**
+     * 智能助手是否开启
+     */
     private boolean enabled = Boolean.TRUE;
 }

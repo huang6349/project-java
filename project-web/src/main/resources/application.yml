@@ -82,6 +82,13 @@ easy-es:
 eventbus:
   type: redis
 
+# 验证码配置
+aj.captcha:
+  type: blockPuzzle
+  water-mark: huangyalong
+  slip-offset: 5
+  interference-options: 2
+
 # 其它配置
 # ===================================================================
 
@@ -91,4 +98,5 @@ logging.level:
   org.flywaydb.core.internal.command.DbMigrate: warn
   org.dromara.autotable.core.AutoTableBootstrap: warn
   org.dromara.autotable.core.utils.DBHelper: warn
+  com.anji.captcha: warn
   easy-es: warn

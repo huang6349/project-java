@@ -44,9 +44,6 @@ easy-es:
   username: elastic
   password: pwd123456
 
-app.captcha:
-  enabled: false
-
 app.tenant:
   enabled: false
 

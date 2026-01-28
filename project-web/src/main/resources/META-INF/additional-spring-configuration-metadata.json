@@ -1,0 +1,22 @@
+{
+  "properties": [
+    {
+      "name": "app.tenant.enabled",
+      "type": "java.lang.Boolean",
+      "description": "租户功能是否开启.",
+      "defaultValue": true
+    },
+    {
+      "name": "app.ai.enabled",
+      "type": "java.lang.Boolean",
+      "description": "智能助手是否开启.",
+      "defaultValue": true
+    },
+    {
+      "name": "app.captcha.enabled",
+      "type": "java.lang.Boolean",
+      "description": "验证码是否开启.",
+      "defaultValue": true
+    }
+  ]
+}

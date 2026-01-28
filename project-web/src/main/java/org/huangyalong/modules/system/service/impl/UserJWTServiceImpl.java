@@ -2,11 +2,11 @@ package org.huangyalong.modules.system.service.impl;
 
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.crypto.digest.BCrypt;
+import com.anji.captcha.model.common.ResponseModel;
+import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaService;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.If;
-import com.xingyuv.captcha.model.common.ResponseModel;
-import com.xingyuv.captcha.model.vo.CaptchaVO;
-import com.xingyuv.captcha.service.CaptchaService;
 import lombok.Getter;
 import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.mapper.UserMapper;

@@ -13,6 +13,11 @@
     <name>${project.artifactId}</name>
     <description>业务模块</description>
     <dependencies>
+        <!-- 验证码 -->
+        <dependency>
+            <groupId>com.anji-plus</groupId>
+            <artifactId>captcha-spring-boot-starter</artifactId>
+        </dependency>
         <!-- Framework 核心 -->
         <dependency>
             <groupId>org.huangyalong</groupId>
@@ -25,11 +30,6 @@
         <dependency>
             <groupId>org.huangyalong</groupId>
             <artifactId>project-ai</artifactId>
-        </dependency>
-        <!-- 验证码 -->
-        <dependency>
-            <groupId>com.xingyuv</groupId>
-            <artifactId>spring-boot-starter-captcha-plus</artifactId>
         </dependency>
         <!-- Spring 核心 -->
         <dependency>

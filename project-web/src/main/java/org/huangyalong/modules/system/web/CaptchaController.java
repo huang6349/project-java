@@ -1,16 +1,16 @@
 package org.huangyalong.modules.system.web;
 
 import cn.hutool.core.util.StrUtil;
-import com.xingyuv.captcha.model.common.ResponseModel;
-import com.xingyuv.captcha.model.vo.CaptchaVO;
-import com.xingyuv.captcha.service.CaptchaService;
+import com.anji.captcha.model.common.ResponseModel;
+import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import org.huangyalong.modules.system.request.CaptchaBO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @Getter
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 @Tag(name = "验证码")
 public class CaptchaController {
 
-    @Resource
+    @Autowired
     private CaptchaService captchaService;
 
     @PostMapping("/_gen")
