@@ -8,7 +8,7 @@ networks:
 services:
 
   minio:
-    image: registry.cn-hangzhou.aliyuncs.com/huang6349/backup-x:v2.8.3
+    image: registry.cn-hangzhou.aliyuncs.com/huangyalong/jeessy_backup-x:v2.8.3
     container_name: project-backup
     ports:
       - "3277:9977"

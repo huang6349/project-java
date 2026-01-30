@@ -3,7 +3,7 @@ version: "3.3"
 services:
 
   portainer-ce:
-    image: registry.cn-hangzhou.aliyuncs.com/huang6349/portainer-ce:2.27.9-alpine
+    image: registry.cn-hangzhou.aliyuncs.com/huangyalong/portainer-ce:2.27.9-alpine
     container_name: portainer-ce
     privileged: true
     ports:

@@ -8,7 +8,7 @@ networks:
 services:
 
   nginx:
-    image: registry.cn-hangzhou.aliyuncs.com/huang6349/nginx:1.26.2-r0-ls294
+    image: registry.cn-hangzhou.aliyuncs.com/huangyalong/linuxserver_nginx:1.26.2-r0-ls294
     container_name: project-nginx
     ports:
       - "3243:443"

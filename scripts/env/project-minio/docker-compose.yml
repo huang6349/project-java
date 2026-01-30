@@ -8,7 +8,7 @@ networks:
 services:
 
   minio:
-    image: registry.cn-hangzhou.aliyuncs.com/huang6349/minio:2024.6.13
+    image: registry.cn-hangzhou.aliyuncs.com/huangyalong/bitnamilegacy_minio:2024.6.13
     container_name: project-minio
     ports:
       - "3200:9000"

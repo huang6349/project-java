@@ -8,7 +8,7 @@ networks:
 services:
 
   elasticsearch:
-    image: registry.cn-hangzhou.aliyuncs.com/huang6349/elasticsearch:7.10.2
+    image: registry.cn-hangzhou.aliyuncs.com/huangyalong/elasticsearch:7.10.2
     container_name: project-es
     ports:
       - "3202:9200"

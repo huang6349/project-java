@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/huang6349/amazoncorretto:17.0.15
+FROM registry.cn-hangzhou.aliyuncs.com/huangyalong/amazoncorretto:17.0.15
 ADD project-web-*.jar /app.jar
 ADD wait /wait
 RUN chmod +x /wait
