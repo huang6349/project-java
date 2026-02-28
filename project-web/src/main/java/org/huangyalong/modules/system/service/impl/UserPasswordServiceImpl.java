@@ -14,10 +14,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.io.Serializable;
+
+import static org.huangyalong.core.constants.UserConstants.DEFAULT_PASSWORD;
 import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
 
 @Service
 public class UserPasswordServiceImpl extends ReactorServiceImpl<UserMapper, User> implements UserPasswordService {
+
+    @Transactional(rollbackFor = Exception.class)
+    public Mono<Boolean> reset(Serializable id) {
+        var user = getBlockService()
+                .getByIdOpt(id)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND));
+        user.setSalt(Opt.ofNullable(user)
+                .map(User::getSalt)
+                .orElse(BCrypt.gensalt()));
+        user.setPassword(BCrypt.hashpw(DEFAULT_PASSWORD, user.getSalt()));
+        return updateById(user);
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> update(PasswordBO passwordBO) {

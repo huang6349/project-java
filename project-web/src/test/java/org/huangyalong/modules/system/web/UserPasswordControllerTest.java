@@ -20,6 +20,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.huangyalong.core.constants.UserConstants.DEFAULT_PASSWORD;
 import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 
 @AutoConfigureMockMvc
@@ -30,6 +31,79 @@ class UserPasswordControllerTest extends MyFrameworkTest {
     WebTestClient testClient;
 
     @Order(1)
+    @Test
+    void reset() {
+        var beforeSize = User.create()
+                .count();
+        testClient.post()
+                .uri("/user")
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(UserUtil.createBO())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        testClient.put()
+                .uri("/user/{id}/_reset", UserUtil.getId())
+                .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
+                .contentType(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectHeader()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .jsonPath("$.success")
+                .value(is(Boolean.TRUE));
+        var afterSize = User.create()
+                .count();
+        assertThat(beforeSize + 1)
+                .isEqualTo(afterSize);
+        var testEntity = UserUtil.getEntity();
+        assertThat(testEntity)
+                .isNotNull();
+        assertThat(testEntity.getId())
+                .isNotNull();
+        assertThat(testEntity.getUsername())
+                .isEqualTo(UserUtil.DEFAULT_USERNAME);
+        assertThat(BCrypt.checkpw(DEFAULT_PASSWORD, testEntity.getPassword()))
+                .isTrue();
+        assertThat(testEntity.getSalt())
+                .isNotNull();
+        assertThat(testEntity.getMobile())
+                .isEqualTo(UserUtil.DEFAULT_MOBILE);
+        assertThat(testEntity.getEmail())
+                .isEqualTo(UserUtil.DEFAULT_EMAIL);
+        assertThat(testEntity.getConfigs())
+                .isNull();
+        assertThat(testEntity.getExtras())
+                .hasSize(4);
+        assertThat(testEntity.getDesc())
+                .isEqualTo(UserUtil.DEFAULT_DESC);
+        assertThat(testEntity.getStatus())
+                .isEqualTo(UserStatus.TYPE0);
+        assertThat(testEntity.getTenantId())
+                .isNull();
+        var extras = testEntity.getExtras();
+        var testExtras = JSONUtil.parseObj(extras);
+        assertThat(testExtras.getRaw())
+                .isNotNull();
+        assertThat(testExtras.getRaw())
+                .hasSize(4);
+        assertThat(testExtras.getByPath(UserExtras.NAME_NICKNAME))
+                .isEqualTo(UserUtil.DEFAULT_NICKNAME);
+        assertThat(testExtras.getByPath(UserExtras.NAME_GENDER))
+                .isEqualTo(UserGender.TYPE0.getValue());
+        assertThat(testExtras.getByPath(UserExtras.NAME_ADDRESS))
+                .isEqualTo(UserUtil.DEFAULT_ADDRESS);
+    }
+
+    @Order(2)
     @Test
     void update() {
         var beforeSize = User.create()
