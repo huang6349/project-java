@@ -17,7 +17,6 @@ import static org.huangyalong.modules.system.domain.table.UserTableDef.USER;
 public interface UserUtil {
 
     String DEFAULT_USERNAME = RandomUtil.randomString(BASE_CHAR, 12);
-    String DEFAULT_PASSWORD = "a123456";
     String DEFAULT_NICKNAME = RandomUtil.randomString(12);
     String DEFAULT_MOBILE = "13123456789";
     String DEFAULT_EMAIL = "13123456789@qq.com";
@@ -26,7 +25,6 @@ public interface UserUtil {
     String DEFAULT_DESC = RandomUtil.randomString(12);
     String DEFAULT_LABEL = StrUtil.format("{}（{}）", DEFAULT_USERNAME, DEFAULT_NICKNAME);
 
-    String UPDATED_PASSWORD = "b123456";
     String UPDATED_NICKNAME = RandomUtil.randomString(12);
     String UPDATED_MOBILE = "15123456789";
     String UPDATED_EMAIL = "15123456789@qq.com";
@@ -38,8 +36,6 @@ public interface UserUtil {
         var userBO = new UserBO();
         userBO.setId(object.getLong("id"));
         userBO.setUsername(object.getStr("username", DEFAULT_USERNAME));
-        userBO.setPassword1(object.getStr("password", DEFAULT_PASSWORD));
-        userBO.setPassword2(object.getStr("password", DEFAULT_PASSWORD));
         userBO.setNickname(object.getStr("nickname", DEFAULT_NICKNAME));
         userBO.setMobile(object.getStr("mobile", DEFAULT_MOBILE));
         userBO.setEmail(object.getStr("email", DEFAULT_EMAIL));
@@ -52,7 +48,6 @@ public interface UserUtil {
     static UserBO createBO(Serializable id) {
         var obj = JSONUtil.createObj()
                 .set("id", id)
-                .set("password", UPDATED_PASSWORD)
                 .set("nickname", UPDATED_NICKNAME)
                 .set("mobile", UPDATED_MOBILE)
                 .set("email", UPDATED_EMAIL)

@@ -4,10 +4,11 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 
+import static org.huangyalong.core.constants.UserConstants.DEFAULT_PASSWORD;
+
 public interface LoginUtil {
 
     String DEFAULT_USERNAME = UserUtil.DEFAULT_USERNAME;
-    String DEFAULT_PASSWORD = UserUtil.DEFAULT_PASSWORD;
 
     static LoginBO createBO(JSONObject object) {
         var loginBO = new LoginBO();

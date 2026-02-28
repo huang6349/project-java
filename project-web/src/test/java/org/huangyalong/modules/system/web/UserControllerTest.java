@@ -20,6 +20,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
+import static org.huangyalong.core.constants.UserConstants.DEFAULT_PASSWORD;
 
 @AutoConfigureMockMvc
 @IntegrationTest
@@ -57,7 +58,7 @@ class UserControllerTest extends MyFrameworkTest {
                 .isNotNull();
         assertThat(testEntity.getUsername())
                 .isEqualTo(UserUtil.DEFAULT_USERNAME);
-        assertThat(BCrypt.checkpw(UserUtil.DEFAULT_PASSWORD, testEntity.getPassword()))
+        assertThat(BCrypt.checkpw(DEFAULT_PASSWORD, testEntity.getPassword()))
                 .isTrue();
         assertThat(testEntity.getSalt())
                 .isNotNull();
@@ -131,7 +132,7 @@ class UserControllerTest extends MyFrameworkTest {
                 .isNotNull();
         assertThat(testEntity.getUsername())
                 .isEqualTo(UserUtil.DEFAULT_USERNAME);
-        assertThat(BCrypt.checkpw(UserUtil.UPDATED_PASSWORD, testEntity.getPassword()))
+        assertThat(BCrypt.checkpw(DEFAULT_PASSWORD, testEntity.getPassword()))
                 .isTrue();
         assertThat(testEntity.getSalt())
                 .isNotNull();

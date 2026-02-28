@@ -25,6 +25,7 @@ import java.util.Map;
 
 import static org.dromara.autotable.annotation.mysql.MysqlTypeConstant.TEXT;
 import static org.dromara.autotable.annotation.mysql.MysqlTypeConstant.TINYINT;
+import static org.huangyalong.core.constants.UserConstants.DEFAULT_PASSWORD;
 
 @Data(staticConstructor = "create")
 @ToString(callSuper = true)
@@ -118,18 +119,16 @@ public class User extends Entity<User, Long> {
         Opt.ofNullable(userBO)
                 .map(UserBO::getUsername)
                 .ifPresent(this::setUsername);
-        setSalt(Opt.ofNullable(getSalt())
-                .orElse(BCrypt.gensalt()));
-        Opt.ofNullable(userBO)
-                .map(UserBO::getPassword1)
-                .map(password -> BCrypt.hashpw(password, getSalt()))
-                .ifPresent(this::setPassword);
         Opt.ofNullable(userBO)
                 .map(UserBO::getMobile)
                 .ifPresent(this::setMobile);
         Opt.ofNullable(userBO)
                 .map(UserBO::getEmail)
                 .ifPresent(this::setEmail);
+        setSalt(Opt.ofBlankAble(getSalt())
+                .orElseGet(BCrypt::gensalt));
+        setPassword(Opt.ofBlankAble(getPassword())
+                .orElseGet(() -> BCrypt.hashpw(DEFAULT_PASSWORD, getSalt())));
         setExtras(UserExtras.create()
                 .setExtras(getExtras())
                 .addNickname(userBO.getNickname())

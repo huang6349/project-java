@@ -154,7 +154,7 @@ class UserPasswordControllerTest extends MyFrameworkTest {
                 .isNotNull();
         assertThat(testEntity.getUsername())
                 .isEqualTo(UserUtil.DEFAULT_USERNAME);
-        assertThat(BCrypt.checkpw(UserUtil.UPDATED_PASSWORD, testEntity.getPassword()))
+        assertThat(BCrypt.checkpw(PasswordUtil.DEFAULT_NEW_PASSWORD, testEntity.getPassword()))
                 .isTrue();
         assertThat(testEntity.getSalt())
                 .isNotNull();

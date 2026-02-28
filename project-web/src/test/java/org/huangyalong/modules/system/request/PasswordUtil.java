@@ -3,11 +3,13 @@ package org.huangyalong.modules.system.request;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 
+import static org.huangyalong.core.constants.UserConstants.DEFAULT_PASSWORD;
+
 public interface PasswordUtil {
 
-    String DEFAULT_OLD_PASSWORD = UserUtil.DEFAULT_PASSWORD;
-    String DEFAULT_NEW_PASSWORD = UserUtil.UPDATED_PASSWORD;
-    String DEFAULT_CONFIRM = UserUtil.UPDATED_PASSWORD;
+    String DEFAULT_OLD_PASSWORD = DEFAULT_PASSWORD;
+    String DEFAULT_NEW_PASSWORD = "a123456";
+    String DEFAULT_CONFIRM = "a123456";
 
     static PasswordBO createBO(JSONObject object) {
         var passwordBO = new PasswordBO();

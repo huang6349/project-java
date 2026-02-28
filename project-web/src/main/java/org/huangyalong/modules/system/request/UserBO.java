@@ -27,16 +27,6 @@ public class UserBO extends BaseBO<Long> {
     @Schema(description = "用户帐号", requiredMode = REQUIRED)
     private String username;
 
-    @NotBlank(message = "密码不能为空")
-    @Pattern(regexp = RegexpConstants.PASSWORD, message = "错误的密码格式")
-    @Schema(description = "用户密码", requiredMode = REQUIRED)
-    private String password1;
-
-    @NotBlank(message = "确认密码不能为空")
-    @Pattern(regexp = RegexpConstants.PASSWORD, message = "错误的密码格式")
-    @Schema(description = "确认密码", requiredMode = REQUIRED)
-    private String password2;
-
     @NotBlank(message = "昵称不能为空")
     @Schema(description = "用户昵称")
     private String nickname;

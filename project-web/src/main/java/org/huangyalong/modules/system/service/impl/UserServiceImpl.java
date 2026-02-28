@@ -61,23 +61,10 @@ public class UserServiceImpl extends ReactorServiceImpl<UserMapper, User> implem
     }
 
     void validateAddOrUpdate(UserBO userBO) {
-        validatePasswordEqual(userBO);
         validateUsernameUnique(userBO);
         validateUsernameUpdate(userBO);
         validateMobileUnique(userBO);
         validateEmailUnique(userBO);
-    }
-
-    void validatePasswordEqual(UserBO userBO) {
-        var password1 = Opt.ofNullable(userBO)
-                .map(UserBO::getPassword1)
-                .get();
-        var password2 = Opt.ofNullable(userBO)
-                .map(UserBO::getPassword2)
-                .get();
-        var equal = ObjectUtil.equal(password1, password2);
-        if (BooleanUtil.isTrue(equal)) return;
-        throw new BusinessException("两次密码不一致");
     }
 
     void validateUsernameUnique(UserBO userBO) {
