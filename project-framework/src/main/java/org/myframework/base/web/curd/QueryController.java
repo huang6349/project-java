@@ -20,11 +20,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
+import java.util.List;
 
 import static org.myframework.base.request.PageQueries.DEFAULT_PAGE_NUMBER;
 import static org.myframework.base.request.PageQueries.DEFAULT_PAGE_SIZE;
 
-public interface QueryController<Entity, Id extends Serializable, Queries> extends BaseController<Entity> {
+public interface QueryController<Entity, Id extends Serializable, Queries>
+        extends BaseController<Entity>, QueryAfterHandler<Entity> {
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/_query/paging")
@@ -40,13 +42,19 @@ public interface QueryController<Entity, Id extends Serializable, Queries> exten
                 .map(PageQueries::getPageSize)
                 .orElse(DEFAULT_PAGE_SIZE);
         var page = new Page<Entity>(pageNumber, pageSize);
+
+        Mono<PageVO<Entity>> pageMono;
         if (BooleanUtil.isFalse(result.getDefExec()))
-            return getBaseService()
+            pageMono = getBaseService()
                     .pageOnce(page, query)
                     .map(PageVO::of);
-        return getBaseService()
-                .pageOnce(page)
-                .map(PageVO::of);
+        else
+            pageMono = getBaseService()
+                    .pageOnce(page)
+                    .map(PageVO::of);
+
+        // 后置处理
+        return handlerAfterPage(pageMono);
     }
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
@@ -55,11 +63,19 @@ public interface QueryController<Entity, Id extends Serializable, Queries> exten
     default Flux<Entity> query(Queries queries) {
         var result = handlerQuery(queries);
         var query = result.getData();
+
+        Flux<Entity> entities;
         if (BooleanUtil.isFalse(result.getDefExec()))
-            return getBaseService()
-                    .list(query);
-        return getBaseService()
-                .list();
+            entities = getBaseService().list(query);
+        else
+            entities = getBaseService().list();
+
+        // 后置处理：收集 → handlerAfterList → 展开
+        return Flux.defer(() -> {
+            Mono<List<Entity>> listMono = entities.collectList();
+            Mono<List<Entity>> processedMono = handlerAfterList(listMono);
+            return processedMono.flatMapMany(Flux::fromIterable);
+        });
     }
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
@@ -68,11 +84,15 @@ public interface QueryController<Entity, Id extends Serializable, Queries> exten
     default Mono<Entity> getById(@PathVariable Id id) {
         var result = handlerQuery(id);
         var query = result.getData();
+
+        Mono<Entity> entityMono;
         if (BooleanUtil.isFalse(result.getDefExec()))
-            return getBaseService()
-                    .getOne(query);
-        return getBaseService()
-                .getById(id);
+            entityMono = getBaseService().getOne(query);
+        else
+            entityMono = getBaseService().getById(id);
+
+        // 后置处理
+        return entityMono.flatMap(this::handlerAfter);
     }
 
     default ApiResponse<QueryWrapper> handlerQuery(Queries queries) {
