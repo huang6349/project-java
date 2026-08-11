@@ -12,6 +12,6 @@ APP_NAME=${APP_NAME:-project}
 
 # 准备并启动
 mkdir -p $WORKDIR/data
-chmod -R 755 $WORKDIR/.
+chmod -R 777 $WORKDIR/.
 sed "s|\${REDIS_PASSWORD}|${REDIS_PASSWORD}|g" redis-stack.conf.sample > redis-stack.conf
 docker-compose -p ${APP_NAME}-redis up -d --build

@@ -13,6 +13,6 @@ APP_NAME=${APP_NAME:-project}
 # 准备并启动
 mkdir -p $WORKDIR/data
 mkdir -p $WORKDIR/log
-chmod -R 755 $WORKDIR/.
+chmod -R 777 $WORKDIR/.
 chmod 644 mysqld.cnf
 docker-compose -p ${APP_NAME}-mysql up -d --build

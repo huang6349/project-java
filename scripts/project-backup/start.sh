@@ -12,5 +12,5 @@ APP_NAME=${APP_NAME:-project}
 
 # 准备并启动
 mkdir -p $WORKDIR/data
-chmod -R 755 $WORKDIR/.
+chmod -R 777 $WORKDIR/.
 docker-compose -p ${APP_NAME}-backup up -d --build
