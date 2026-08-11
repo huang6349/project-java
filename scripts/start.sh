@@ -4,7 +4,11 @@ WORKDIR=$(cd "$(dirname "$0")" && pwd)
 
 # 加载 .env（不存在则从 .sample 生成）
 if [ ! -f "$WORKDIR/.env" ]; then
-    cp "$WORKDIR/.env.sample" "$WORKDIR/.env"
+    if [ ! -f "$WORKDIR/env.sample" ]; then
+        echo "错误: 未找到 env.sample，请在 scripts/ 目录下执行 sh start.sh"
+        exit 1
+    fi
+    cp "$WORKDIR/env.sample" "$WORKDIR/.env"
     echo "==> 已生成 .env，请根据需要修改配置"
 fi
 set -a
