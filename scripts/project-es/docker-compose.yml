@@ -3,16 +3,16 @@ version: "3.3"
 networks:
   default:
     external:
-      name: qwerty
+      name: ${APP_NAME}
 
 services:
 
   elasticsearch:
     image: registry.cn-hangzhou.aliyuncs.com/huangyalong/elasticsearch:7.10.2
-    container_name: project-es
+    container_name: ${APP_NAME}-es
     ports:
-      - "3202:9200"
-      - "3203:9300"
+      - "${ES_TRANSPORT_PORT}:9300"
+      - "${ES_HTTP_PORT}:9200"
     environment:
       - "discovery.type=single-node"
       - "bootstrap.memory_lock=true"
@@ -21,7 +21,7 @@ services:
       - "xpack.security.enabled=true"
       - "xpack.security.http.ssl.enabled=false"
       - "xpack.security.transport.ssl.enabled=true"
-      - "ELASTIC_PASSWORD=pwd123456"
+      - "ELASTIC_PASSWORD=${ES_PASSWORD}"
       - "TZ=Asia/Shanghai"
     ulimits:
       memlock:

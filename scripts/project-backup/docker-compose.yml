@@ -3,15 +3,15 @@ version: "3.3"
 networks:
   default:
     external:
-      name: qwerty
+      name: ${APP_NAME}
 
 services:
 
-  minio:
+  backup-x:
     image: registry.cn-hangzhou.aliyuncs.com/huangyalong/jeessy_backup-x:v2.8.3
-    container_name: project-backup
+    container_name: ${APP_NAME}-backup
     ports:
-      - "3277:9977"
+      - "${BACKUP_PORT}:9977"
     environment:
       - "TZ=Asia/Shanghai"
     volumes:

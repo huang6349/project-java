@@ -3,16 +3,16 @@ version: "3.3"
 networks:
   default:
     external:
-      name: qwerty
+      name: ${APP_NAME}
 
 services:
 
   nginx:
     image: registry.cn-hangzhou.aliyuncs.com/huangyalong/linuxserver_nginx:1.26.2-r0-ls294
-    container_name: project-nginx
+    container_name: ${APP_NAME}-nginx
     ports:
-      - "3243:443"
-      - "3280:80"
+      - "${NGINX_HTTPS_PORT}:443"
+      - "${NGINX_HTTP_PORT}:80"
     environment:
       - "PUID=1000"
       - "PGID=1000"

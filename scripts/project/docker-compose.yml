@@ -3,22 +3,22 @@ version: "3.3"
 networks:
   default:
     external:
-      name: qwerty
+      name: ${APP_NAME}
 
 services:
 
   service:
-    build: $PWD/.
-    container_name: project-service
+    image: ${APP_NAME}:${IMAGE_TAG}
+    container_name: ${APP_NAME}
     ports:
-      - "3288:8088"
-      - "3285:8085"
+      - "${SERVICE_PORT:-3288}:8088"
     environment:
       - "SPRING_PROFILES_ACTIVE=prod"
       - "WAIT_LOGGER_LEVEL=info"
-      - "WAIT_HOSTS=project-mysql:3306"
+      - "WAIT_HOSTS=${APP_NAME}-mysql:3306"
       - "WAIT_TIMEOUT=900"
       - "WAIT_SLEEP_INTERVAL=5"
+      - "JAVA_OPTS=${JAVA_OPTS}"
       - "TZ=Asia/Shanghai"
     volumes:
       - "$PWD/log:/log"
