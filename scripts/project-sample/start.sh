@@ -4,8 +4,13 @@ WORKDIR=$PWD
 
 # 加载 .env
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+PARENT_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
 set -a
-source "$SCRIPT_DIR/../.env" 2>/dev/null || true
+if [ -f "$SCRIPT_DIR/.env" ]; then
+    source "$SCRIPT_DIR/.env"
+elif [ -f "$PARENT_DIR/.env" ]; then
+    source "$PARENT_DIR/.env"
+fi
 set +a
 
 APP_NAME=${APP_NAME:-project}
@@ -17,7 +22,7 @@ echo "==> 停止旧服务..."
 docker-compose -p ${APP_NAME}-service down --rmi local 2>/dev/null || true
 
 echo "==> 构建镜像..."
-./build-image.sh "${APP_NAME}" "${IMAGE_TAG}" || exit 1
+sh build-image.sh "${APP_NAME}" "${IMAGE_TAG}" || exit 1
 
 echo "==> 启动服务..."
 docker-compose -p ${APP_NAME}-service up -d || exit 1
