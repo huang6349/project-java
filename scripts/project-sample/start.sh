@@ -31,7 +31,7 @@ echo "==> 停止旧服务..."
 docker-compose -p ${APP_NAME}-service down --rmi local 2>/dev/null || true
 
 echo "==> 构建镜像..."
-sh build-image.sh "${APP_NAME}" "${IMAGE_TAG}" || exit 1
+sh build-image.sh "${IMAGE_TAG}" || exit 1
 
 echo "==> 启动服务..."
 docker-compose -p ${APP_NAME}-service up -d || exit 1
