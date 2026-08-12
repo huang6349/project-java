@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
 # 应用部署 / 用法: sh start.sh [tag]
 WORKDIR=$PWD
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+
+# 如果在 dist/ 下，移到上级目录
+if [ "$(basename "$SCRIPT_DIR")" = "dist" ]; then
+    echo "==> 从 dist/ 移动到上级目录..."
+    cd "$SCRIPT_DIR/.."
+    mv dist/* . 2>/dev/null || true
+    rmdir dist 2>/dev/null || true
+    SCRIPT_DIR=$(pwd)
+fi
 
 # 加载 .env
-SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 PARENT_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
 set -a
 if [ -f "$SCRIPT_DIR/.env" ]; then
