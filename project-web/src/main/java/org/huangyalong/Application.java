@@ -9,8 +9,9 @@ import org.springframework.boot.context.metrics.buffering.BufferingApplicationSt
 public class Application extends AbstractIntegration {
 
     public static void main(String[] args) {
+        var startup = new BufferingApplicationStartup(20480);
         new SpringApplicationBuilder(Application.class)
-                .applicationStartup(new BufferingApplicationStartup(20480))
+                .applicationStartup(startup)
                 .run(args);
     }
 }
