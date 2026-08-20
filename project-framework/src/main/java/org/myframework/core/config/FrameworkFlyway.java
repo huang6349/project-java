@@ -2,6 +2,7 @@ package org.myframework.core.config;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.log.StaticLog;
+import com.mybatisflex.core.datasource.FlexDataSource;
 import org.dromara.autotable.core.callback.AutoTableFinishCallback;
 import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +44,7 @@ public class FrameworkFlyway implements AutoTableFinishCallback {
     public FrameworkFlyway(DataSource dataSource) {
         StaticLog.trace("初始化 Flyway 配置");
         flyway = Flyway.configure()
-                .dataSource(dataSource)
+                .dataSource(defaultOf(dataSource))
                 .baselineOnMigrate(Boolean.TRUE)
                 .baselineVersion("2026.01.01")
                 .validateOnMigrate(Boolean.TRUE)
@@ -63,5 +64,17 @@ public class FrameworkFlyway implements AutoTableFinishCallback {
         if (ObjectUtil.isNotNull(flyway)) {
             flyway.migrate();
         }
+    }
+
+    /**
+     * 解析 Flyway 迁移目标数据源
+     * <p>
+     * 多数据源场景（FlexDataSource）下仅迁移默认数据源，与 AutoTable 仅对默认库自动建表保持一致；
+     * 单库场景直接使用原数据源。
+     */
+    private static DataSource defaultOf(DataSource dataSource) {
+        if (dataSource instanceof FlexDataSource flex) {
+            return flex.getDefaultDataSource();
+        } else return dataSource;
     }
 }

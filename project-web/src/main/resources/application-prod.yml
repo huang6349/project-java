@@ -1,17 +1,19 @@
-spring.datasource:
-  driver-class-name: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://project-mysql:3306/project?useSSL=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-  username: root
-  password: pwd123456
-  hikari:
-    minimum-idle: 10
-    connection-test-query: SELECT 1
-    maximum-pool-size: 20
-    idle-timeout: 30000
-    max-lifetime: 60000
-    auto-commit: true
-    pool-name: PrimaryHikariCP
-    connection-timeout: 10000
+mybatis-flex:
+  datasource:
+    master:
+      type: hikari
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://project-mysql:3306/project?useSSL=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: pwd123456
+      minimumIdle: 10
+      connectionTestQuery: SELECT 1
+      maximumPoolSize: 20
+      idleTimeout: 30000
+      maxLifetime: 60000
+      autoCommit: true
+      poolName: PrimaryHikariCP
+      connectionTimeout: 10000
 
 spring.redis:
   database: 0

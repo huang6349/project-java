@@ -39,6 +39,11 @@ management:
 server:
   port: 8088
 
+# 多数据源配置（MyBatis-Flex 内置）
+# master 为默认数据源，AutoTable 自动建表与 Flyway 迁移仅作用于 master
+mybatis-flex:
+  default-datasource-key: master
+
 # Flyway 配置
 spring.flyway:
   enabled: false  # 禁用自动执行，由 FrameworkFlyway 手动控制
