@@ -54,12 +54,12 @@
             <artifactId>mybatis-flex-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.tangzc</groupId>
-            <artifactId>mybatis-flex-ext-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.juxest</groupId>
             <artifactId>mybatis-flex-reactor-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.dromara.autotable</groupId>
+            <artifactId>auto-table-adapter-mybatis-flex-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.dromara.autotable</groupId>
