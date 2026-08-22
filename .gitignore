@@ -216,3 +216,6 @@ buildNumber.properties
 
 ### Project ###
 !libs/*.jar
+
+# Claude Code local tasks
+/.claude/tasks/

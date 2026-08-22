@@ -15,25 +15,27 @@
 
 ## 技术栈
 
-| 类别    | 技术                                   |
-|-------|--------------------------------------|
-| 核心框架  | Spring Boot 2.7.12, Maven 多模块        |
-| ORM   | MyBatis-Flex 1.11.3                  |
-| 搜索引擎  | Easy-ES 2.1.0 (Elasticsearch 7.17.8) |
-| 认证授权  | Sa-Token 1.41.0                      |
-| AI 框架 | Solon 3.6.2, Qdrant 向量存储             |
-| 对象存储  | MinIO                                |
-| 工具库   | Hutool 5.8.38, Lombok                |
+| 类别 | 技术 |
+|-------|-------|
+| 核心框架 | Spring Boot 2.7.12, Maven 多模块 |
+| ORM | MyBatis-Flex 1.11.3 |
+| 搜索引擎 | Easy-ES 2.1.0 (Elasticsearch 7.17.8) |
+| 时序数据库 | QuestDB client 1.3.7 (PG wire + ILP) |
+| 认证授权 | Sa-Token 1.41.0 |
+| AI 框架 | Solon 3.6.2, Qdrant 向量存储 |
+| 对象存储 | MinIO |
+| 工具库 | Hutool 5.8.38, Lombok |
 
 ## 项目结构
 
 ```
 project-java/
 ├── project-framework/    # 核心框架模块
-├── project-web/          # 主业务应用模块（入口）
+├── project-questdb/      # QuestDB 模块
 ├── project-es/           # Elasticsearch 模块
 ├── project-ai/           # AI/MCP 模块
 ├── project-test/         # 测试模块
+├── project-web/          # 主业务应用模块（入口）
 └── scripts/              # Docker 部署脚本
 ```
 

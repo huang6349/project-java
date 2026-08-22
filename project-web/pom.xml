@@ -20,6 +20,10 @@
         </dependency>
         <dependency>
             <groupId>org.huangyalong</groupId>
+            <artifactId>project-questdb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.huangyalong</groupId>
             <artifactId>project-es</artifactId>
         </dependency>
         <dependency>

@@ -7,10 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="project-framework" />
-        <module name="project-test" />
-        <module name="project-es" />
         <module name="project-ai" />
+        <module name="project-es" />
+        <module name="project-framework" />
+        <module name="project-questdb" />
+        <module name="project-test" />
         <module name="project-web" />
       </profile>
     </annotationProcessing>
@@ -20,6 +21,7 @@
       <module name="project-ai" options="-parameters" />
       <module name="project-es" options="-parameters" />
       <module name="project-framework" options="-parameters" />
+      <module name="project-questdb" options="-parameters" />
       <module name="project-test" options="-parameters" />
       <module name="project-web" options="-parameters" />
     </option>
