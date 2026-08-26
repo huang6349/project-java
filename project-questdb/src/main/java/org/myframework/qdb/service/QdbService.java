@@ -18,6 +18,7 @@ import java.util.List;
 import static cn.hutool.core.text.CharSequenceUtil.removeSuffix;
 import static cn.hutool.core.text.CharSequenceUtil.toUnderlineCase;
 import static cn.hutool.core.util.ClassUtil.getClassName;
+import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.myframework.qdb.helper.QdbHelper.runInQdb;
 
@@ -46,10 +47,17 @@ public interface QdbService {
 
     // ===== 查询（查）操作 =====
 
+    /**
+     * 根据查询条件查询最新一条数据（{@code ORDER BY timestamp DESC LIMIT 1}）
+     * <p>
+     * 与 {@link #listAfter(Integer, String, DbChain)} 区别：该方法取精确 1 条，后者取最新一页
+     */
     default Mono<Row> getOne(DbChain query) {
         StaticLog.trace("根据查询条件查询一条数据");
         return Mono.fromCallable(() -> {
             var wrapper = requireQuery(query);
+            wrapper.orderBy(TIMESTAMP_COLUMN, FALSE);
+            wrapper.limit(1);
             return runInQdb(wrapper::one);
         });
     }
@@ -80,8 +88,8 @@ public interface QdbService {
                     .orElse(DEFAULT_PAGE_SIZE);
             if (StrUtil.isNotBlank(cursor))
                 wrapper.where(ID_COLUMN.lt(cursor));
-            wrapper.orderBy(TIMESTAMP_COLUMN.desc())
-                    .limit(limit);
+            wrapper.orderBy(TIMESTAMP_COLUMN, FALSE);
+            wrapper.limit(limit);
             var list = runInQdb(wrapper::list);
             var nextCursor = cursorOf(list, limit);
             return new QdbPageVO<Row>()

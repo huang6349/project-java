@@ -65,6 +65,16 @@ public interface QueryController<Id extends Serializable, Queries> extends BaseC
     }
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
+    @GetMapping("/_query/last")
+    @Operation(summary = "瞬时查询")
+    default Mono<Row> last(Queries queries) {
+        var result = handlerQuery(queries);
+        var query = result.getData();
+        return getBaseService()
+                .getOne(query);
+    }
+
+    @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/{id:.+}")
     @Operation(summary = "单体查询")
     default Mono<Row> getById(@PathVariable Id id) {
@@ -95,7 +105,6 @@ public interface QueryController<Id extends Serializable, Queries> extends BaseC
         StaticLog.trace("构造查询条件: {}", id);
         var query = DbChain.table(getTableName());
         query.eq("id", id);
-        query.limit(1);
         return ApiResponse.ok(query);
     }
 }
