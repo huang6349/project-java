@@ -15,6 +15,10 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static cn.hutool.core.text.CharSequenceUtil.removeSuffix;
+import static cn.hutool.core.text.CharSequenceUtil.toUnderlineCase;
+import static cn.hutool.core.util.ClassUtil.getClassName;
+import static java.lang.Boolean.TRUE;
 import static org.myframework.qdb.helper.QdbHelper.runInQdb;
 
 public interface QdbService {
@@ -28,6 +32,17 @@ public interface QdbService {
     QueryColumn ID_COLUMN = new QueryColumn(ID_KEY);
 
     QueryColumn TIMESTAMP_COLUMN = new QueryColumn(TIMESTAMP_KEY);
+
+    /**
+     * 按实现类名推断表名并返回查询 Chain：
+     * 去掉 {@code Service}/{@code Impl} 后缀，转下划线
+     */
+    default DbChain getQueryChain() {
+        var simpleName = getClassName(this.getClass(), TRUE);
+        var serviceName = removeSuffix(simpleName, "Impl");
+        var className = removeSuffix(serviceName, "Service");
+        return DbChain.table(toUnderlineCase(className));
+    }
 
     // ===== 查询（查）操作 =====
 

@@ -94,7 +94,8 @@ public interface QueryController<Id extends Serializable, Queries> extends BaseC
     default ApiResponse<DbChain> handlerQuery(Id id) {
         StaticLog.trace("构造查询条件: {}", id);
         var query = DbChain.table(getTableName());
-        query.where("id", id);
+        query.eq("id", id);
+        query.limit(1);
         return ApiResponse.ok(query);
     }
 }
