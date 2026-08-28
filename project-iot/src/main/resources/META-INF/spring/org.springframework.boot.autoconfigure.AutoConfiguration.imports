@@ -1,0 +1,3 @@
+org.myframework.iot.DeviceGatewayProvider
+org.myframework.iot.DeviceRouterProvider
+org.myframework.iot.properties.IotProperties

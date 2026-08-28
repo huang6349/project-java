@@ -7,6 +7,7 @@
     <modules>
         <module>project-framework</module>
         <module>project-questdb</module>
+        <module>project-iot</module>
         <module>project-es</module>
         <module>project-ai</module>
         <module>project-test</module>
@@ -37,13 +38,15 @@
         <auto-table.version>2.6.5</auto-table.version>
         <sa-token.version>1.41.0</sa-token.version>
         <hutool.version>5.8.43</hutool.version>
+        <camel.version>3.22.4</camel.version>
         <solon.version>3.6.2</solon.version>
         <es.version>7.17.8</es.version>
         <ee.version>2.1.0</ee.version>
-        <questdb-client.version>1.3.7</questdb-client.version>
+        <qdb-client.version>1.3.7</qdb-client.version>
         <x-file-storage.version>2.3.0</x-file-storage.version>
         <minio.version>8.5.17</minio.version>
         <netty.version>4.1.127.Final</netty.version>
+        <iot.version>3.1.9</iot.version>
         <eventbus.version>2.5.1</eventbus.version>
         <captcha.version>1.4.0</captcha.version>
         <openapi.version>1.8.0</openapi.version>
@@ -75,6 +78,13 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-bom</artifactId>
                 <version>${hutool.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel.springboot</groupId>
+                <artifactId>camel-spring-boot-bom</artifactId>
+                <version>${camel.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -123,7 +133,7 @@
             <dependency>
                 <groupId>org.questdb</groupId>
                 <artifactId>questdb-client</artifactId>
-                <version>${questdb-client.version}</version>
+                <version>${qdb-client.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.dromara.x-file-storage</groupId>
@@ -139,6 +149,16 @@
                 <groupId>io.netty</groupId>
                 <artifactId>netty-resolver-dns-native-macos</artifactId>
                 <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.iteaj</groupId>
+                <artifactId>iot-boot-starter</artifactId>
+                <version>${iot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.iteaj</groupId>
+                <artifactId>iot-server</artifactId>
+                <version>${iot.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.likavn</groupId>

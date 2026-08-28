@@ -1,0 +1,5 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.myframework.iot.DeviceGatewayProvider,\
+org.myframework.iot.DeviceRouterProvider,\
+org.myframework.iot.properties.IotProperties

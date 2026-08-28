@@ -1,0 +1,3 @@
+# 设备报文路由 SPI 注册表：每行一个 AbstractDeviceRouter 实现类的全限定名
+# 示例（移植 zxhbjq 协议实现后取消注释）：
+# org.huangyalong.modules.iot.zxhbjq.DeviceRouter
