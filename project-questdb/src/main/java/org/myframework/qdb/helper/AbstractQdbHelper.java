@@ -2,14 +2,17 @@ package org.myframework.qdb.helper;
 
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.log.StaticLog;
+import com.mybatisflex.core.datasource.DataSourceKey;
 import io.questdb.client.QuestDB;
+
+import java.util.function.Supplier;
 
 /**
  * QuestDB 助手抽象基类
  * <p>
- * 提供 {@link QuestDB} 单例的静态访问，业务通过 {@link QdbHelper} 调用。
+ * 提供 {@link QuestDB} 单例的静态访问与数据源上下文切换，业务通过 {@link QdbHelper} 调用。
  */
-abstract class AbstractQdbHelper {
+public abstract class AbstractQdbHelper {
 
     private static volatile QuestDB questDB;
 
@@ -28,5 +31,17 @@ abstract class AbstractQdbHelper {
             }
         }
         return questDB;
+    }
+
+    /**
+     * 在 QuestDB 数据源上下文中执行 supplier，自动管理 DataSourceKey 切换
+     */
+    protected static <T> T runInQdb(Supplier<T> supplier) {
+        try {
+            DataSourceKey.use("questdb");
+            return supplier.get();
+        } finally {
+            DataSourceKey.clear();
+        }
     }
 }

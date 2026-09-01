@@ -4,39 +4,112 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.StaticLog;
-import com.mybatisflex.core.datasource.DataSourceKey;
+import com.mybatisflex.core.query.QueryColumn;
+import com.mybatisflex.core.row.DbChain;
+import com.mybatisflex.core.row.Row;
 import io.questdb.client.Sender;
 import org.myframework.core.exception.BusinessException;
 import org.myframework.qdb.domain.QdbEntity;
+import org.myframework.qdb.response.QdbPageVO;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import static cn.hutool.core.convert.Convert.*;
+import static java.lang.Boolean.FALSE;
 
 /**
- * QuestDB 写入助手
+ * QuestDB 助手
  * <p>
- * 提供 {@link #write} 与 {@link #runInQdb} 两个静态方法
+ * 提供 {@link #write} 写入与 {@link #getOne}/{@link #list}/{@link #listAfter} 查询等静态方法
  */
 public class QdbHelper extends AbstractQdbHelper {
 
+    public static final int DEFAULT_PAGE_SIZE = 10;
+
+    public static final String ID_KEY = "id";
+
+    public static final String TIMESTAMP_KEY = "timestamp";
+
+    private static final QueryColumn ID_COLUMN = new QueryColumn(ID_KEY);
+
+    private static final QueryColumn TIMESTAMP_COLUMN = new QueryColumn(TIMESTAMP_KEY);
+
+    // ===== 查询（查）操作 =====
+
     /**
-     * 在 QuestDB 数据源上下文中执行 supplier，自动管理 DataSourceKey 切换
+     * 根据查询条件查询最新一条数据（{@code ORDER BY timestamp DESC LIMIT 1}）
+     * <p>
+     * 与 {@link #listAfter(Integer, String, DbChain)} 区别：该方法取精确 1 条，后者取最新一页
      */
-    public static <T> T runInQdb(Supplier<T> supplier) {
-        try {
-            DataSourceKey.use("questdb");
-            return supplier.get();
-        } finally {
-            DataSourceKey.clear();
-        }
+    public static Row getOne(DbChain query) {
+        StaticLog.trace("根据查询条件查询一条数据");
+        var wrapper = requireQuery(query);
+        wrapper.orderBy(TIMESTAMP_COLUMN, FALSE);
+        wrapper.limit(1);
+        return runInQdb(wrapper::one);
+    }
+
+    /**
+     * 根据查询条件查询数据集合
+     */
+    public static List<Row> list(DbChain query) {
+        StaticLog.trace("根据查询条件查询数据集合");
+        var wrapper = requireQuery(query);
+        return runInQdb(wrapper::list);
+    }
+
+    /**
+     * 键集分页：按 id 游标取前 size 条（大数据量时序浏览推荐）
+     * cursor 为 null 返回最新 size 条；响应中 cursor 为下一页游标（最近一条的 id），null 表示无更多数据
+     * <p>
+     * id 为雪花字符串（等长十进制，字典序即数值序），保证单调递增且唯一，
+     * 游标边界精确无丢行；排序仍按 timestamp（人类可读时间序）。
+     * 注意：手动指定 id 时需保证其单调性，否则边界与时间序可能错位
+     */
+    public static QdbPageVO<Row> listAfter(Integer pageSize,
+                                           String cursor,
+                                           DbChain query) {
+        StaticLog.trace("键集分页查询数据: {}", query);
+        var wrapper = requireQuery(query);
+        var limit = Opt.ofNullable(pageSize)
+                .orElse(DEFAULT_PAGE_SIZE);
+        if (StrUtil.isNotBlank(cursor))
+            wrapper.where(ID_COLUMN.lt(cursor));
+        wrapper.orderBy(TIMESTAMP_COLUMN, FALSE);
+        wrapper.limit(limit);
+        var list = runInQdb(wrapper::list);
+        var nextCursor = cursorOf(list, limit);
+        return new QdbPageVO<Row>()
+                .setList(list)
+                .setCursor(nextCursor);
+    }
+
+    /**
+     * 校验查询条件非空
+     */
+    private static DbChain requireQuery(DbChain query) {
+        if (ObjectUtil.isNull(query)) {
+            throw new BusinessException("查询条件不能为空");
+        } else return query;
+    }
+
+    /**
+     * 提取下一页游标：列表为空或结果数未满 limit（无更多数据）时返回 null
+     */
+    private static String cursorOf(List<Row> list,
+                                   int limit) {
+        if (CollUtil.isNotEmpty(list) && list.size() >= limit) {
+            return CollUtil.getLast(list)
+                    .getString(ID_KEY);
+        } else return null;
     }
 
     /**
@@ -57,7 +130,7 @@ public class QdbHelper extends AbstractQdbHelper {
                     .map(QdbEntity::getId)
                     .orElseGet(IdUtil::getSnowflakeNextIdStr);
             sender.table(entity.getTable());
-            sender.stringColumn("id", id);
+            sender.stringColumn(ID_KEY, id);
             setSymbols(sender, entity);
             setColumns(sender, entity);
             sender.at(timestamp);

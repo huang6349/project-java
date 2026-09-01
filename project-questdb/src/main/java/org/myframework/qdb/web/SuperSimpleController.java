@@ -2,10 +2,7 @@ package org.myframework.qdb.web;
 
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.StrUtil;
-import lombok.Getter;
 import org.myframework.qdb.annotation.QdbTable;
-import org.myframework.qdb.service.QdbService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static cn.hutool.core.annotation.AnnotationUtil.getAnnotation;
 import static cn.hutool.core.text.CharSequenceUtil.removeSuffix;
@@ -13,12 +10,7 @@ import static cn.hutool.core.text.CharSequenceUtil.toUnderlineCase;
 import static cn.hutool.core.util.ClassUtil.getClassName;
 import static java.lang.Boolean.TRUE;
 
-@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-public abstract class SuperSimpleController<S extends QdbService> implements BaseController {
-
-    @Autowired
-    @Getter
-    protected S baseService;
+public abstract class SuperSimpleController implements BaseController {
 
     @Override
     public String getTableName() {

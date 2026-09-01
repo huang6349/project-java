@@ -11,7 +11,6 @@ import org.myframework.core.satoken.annotation.PreCheckPermission;
 import org.myframework.core.satoken.annotation.PreMode;
 import org.myframework.qdb.request.QdbPageQueries;
 import org.myframework.qdb.response.QdbPageVO;
-import org.myframework.qdb.service.QdbService;
 import org.myframework.qdb.web.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +22,7 @@ import java.io.Serializable;
 import static cn.hutool.core.bean.BeanUtil.beanToMap;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static org.myframework.qdb.helper.QdbHelper.*;
 
 /**
  * QuestDB 查询控制器（参考 {@link org.myframework.base.web.curd.QueryController}）
@@ -42,46 +42,50 @@ public interface QueryController<Id extends Serializable, Queries> extends BaseC
     @Operation(summary = "键集分页")
     default Mono<QdbPageVO<Row>> queryAfter(QdbPageQueries pageQueries,
                                             Queries queries) {
-        var result = handlerQuery(queries);
-        var query = result.getData();
-        var pageSize = Opt.ofNullable(pageQueries)
-                .map(QdbPageQueries::getPageSize)
-                .orElse(QdbService.DEFAULT_PAGE_SIZE);
-        var cursor = Opt.ofNullable(pageQueries)
-                .map(QdbPageQueries::getCursor)
-                .get();
-        return getBaseService()
-                .listAfter(pageSize, cursor, query);
+        return Mono.fromCallable(() -> {
+            var result = handlerQuery(queries);
+            var query = result.getData();
+            var pageSize = Opt.ofNullable(pageQueries)
+                    .map(QdbPageQueries::getPageSize)
+                    .orElse(DEFAULT_PAGE_SIZE);
+            var cursor = Opt.ofNullable(pageQueries)
+                    .map(QdbPageQueries::getCursor)
+                    .get();
+            return listAfter(pageSize, cursor, query);
+        });
     }
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/_query")
     @Operation(summary = "批量查询")
     default Flux<Row> query(Queries queries) {
-        var result = handlerQuery(queries);
-        var query = result.getData();
-        return getBaseService()
-                .list(query);
+        return Mono.fromCallable(() -> {
+            var result = handlerQuery(queries);
+            var query = result.getData();
+            return list(query);
+        }).flatMapMany(Flux::fromIterable);
     }
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/_query/last")
     @Operation(summary = "瞬时查询")
     default Mono<Row> last(Queries queries) {
-        var result = handlerQuery(queries);
-        var query = result.getData();
-        return getBaseService()
-                .getOne(query);
+        return Mono.fromCallable(() -> {
+            var result = handlerQuery(queries);
+            var query = result.getData();
+            return getOne(query);
+        });
     }
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/{id:.+}")
     @Operation(summary = "单体查询")
     default Mono<Row> getById(@PathVariable Id id) {
-        var result = handlerQuery(id);
-        var query = result.getData();
-        return getBaseService()
-                .getOne(query);
+        return Mono.fromCallable(() -> {
+            var result = handlerQuery(id);
+            var query = result.getData();
+            return getOne(query);
+        });
     }
 
     /**
@@ -104,7 +108,7 @@ public interface QueryController<Id extends Serializable, Queries> extends BaseC
     default ApiResponse<DbChain> handlerQuery(Id id) {
         StaticLog.trace("构造查询条件: {}", id);
         var query = DbChain.table(getTableName());
-        query.eq("id", id);
+        query.eq(ID_KEY, id);
         return ApiResponse.ok(query);
     }
 }
