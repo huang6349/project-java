@@ -4,8 +4,6 @@ import cn.hutool.core.util.ServiceLoaderUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.SneakyThrows;
 import org.apache.camel.CamelContext;
-import org.myframework.iot.properties.IotProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.DependsOn;
@@ -19,20 +17,17 @@ import org.springframework.lang.NonNull;
  * 各协议模块在自身 {@code META-INF/services/org.myframework.iot.AbstractDeviceRouter}
  * 文件中声明实现类，服务加载器自动合并 classpath 上所有同名注册文件。
  * <p>
- * 通过自动配置注册（见 {@code META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports}），
- * 由 {@link IotProperties#isEnabled()} 开关控制是否启用。
+ * 通过自动配置注册（见 {@code META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports}）；
+ * 路由注册不受 {@link org.myframework.iot.properties.IotProperties#isEnabled()} 开关限制，
+ * 与 {@link DeviceGatewayProvider} 的组件启动相区分。
  *
  * @see AbstractDeviceRouter
  */
 @DependsOn("frameworkReadyListener")
 public class DeviceRouterProvider implements ApplicationListener<ApplicationReadyEvent> {
 
-    @Autowired
-    private IotProperties iotProperties;
-
     @Override
     public void onApplicationEvent(@NonNull ApplicationReadyEvent event) {
-        if (!iotProperties.isEnabled()) return;
         var loader = ServiceLoaderUtil.load(AbstractDeviceRouter.class);
         loader.forEach(this::addRoutes);
     }
