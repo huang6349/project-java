@@ -25,7 +25,8 @@ public class FrameworkQdb {
         var password = Opt.ofNullable(properties)
                 .map(QdbProperties::getPassword)
                 .get();
-        var ilpUrl = new StrBuilder("ws::addr=")
+        // HTTP 短连接，避免 WS 空闲超时被服务端回收断连刷日志
+        var ilpUrl = new StrBuilder("http::addr=")
                 .append(host)
                 .append(':')
                 .append(port)

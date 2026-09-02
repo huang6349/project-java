@@ -17,7 +17,7 @@ mybatis-flex:
     questdb:
       type: hikari
       driverClassName: org.postgresql.Driver
-      url: jdbc:postgresql://${app.qdb.host}:8812/qdb?timeZone=UTC
+      url: jdbc:postgresql://${app.qdb.host}:8812/qdb?sslmode=disable
       username: ${app.qdb.username}
       password: ${app.qdb.password}
       minimumIdle: 10
