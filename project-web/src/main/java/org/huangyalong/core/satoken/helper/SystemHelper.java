@@ -1,22 +1,28 @@
 package org.huangyalong.core.satoken.helper;
 
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSONUtil;
+import cn.hutool.json.JSONObject;
 import com.mybatisflex.core.query.QueryChain;
 import org.huangyalong.modules.system.domain.System;
 import org.myframework.core.helper.FetchLoadHelper;
 
 import java.io.Serializable;
 
-import static cn.hutool.core.lang.Opt.ofBlankAble;
-import static cn.hutool.core.lang.Opt.ofNullable;
-import static org.huangyalong.core.constants.SystemConstants.CONFIG_ID;
-import static org.huangyalong.modules.system.configs.TenantConfigs.NAME_ENABLED;
+import static cn.hutool.core.text.CharSequenceUtil.EMPTY;
+import static org.huangyalong.core.constants.SystemConstants.CODE_TENANT;
 import static org.huangyalong.modules.system.domain.table.SystemTableDef.SYSTEM;
 
-public class SystemHelper extends FetchLoadHelper<String> {
+/**
+ * 系统配置缓存助手
+ * <p>
+ * 全量加载配置为域嵌套 JSONObject（与 /system/configs 的查询语义一致），本地缓存 30 分钟
+ */
+public class SystemHelper extends FetchLoadHelper<JSONObject> {
 
     private static final long EXPIRE_MINUTES = 30;
+
+    private static final String CACHE_KEY = "all";
 
     private static volatile Boolean initialized = Boolean.FALSE;
 
@@ -40,13 +46,20 @@ public class SystemHelper extends FetchLoadHelper<String> {
         return EXPIRE_MINUTES;
     }
 
+    /**
+     * 全量加载配置：查询全部配置行并按 code 合并为域嵌套 JSON（缓存键不参与查询）
+     */
     @Override
-    protected String fetch(Serializable id) {
+    protected JSONObject fetch(Serializable id) {
         if (ObjectUtil.isNotNull(id)) {
-            return QueryChain.of(System.class)
-                    .select(SYSTEM.CONFIGS)
-                    .where(SYSTEM.ID.eq(id))
-                    .oneAs(String.class);
+            var rows = QueryChain.of(System.class)
+                    .where(SYSTEM.CODE.isNotNull())
+                    .and(SYSTEM.CODE.ne(EMPTY))
+                    .list();
+            var configs = new JSONObject();
+            for (var row : rows)
+                configs.set(row.getCode(), row.getConfigs());
+            return configs;
         } else return null;
     }
 
@@ -56,22 +69,22 @@ public class SystemHelper extends FetchLoadHelper<String> {
      * @return 是否允许
      */
     public static boolean allowTenant() {
-        var enabled = ofBlankAble(getConfigs())
-                .map(JSONUtil::parseObj)
-                .orElseGet(JSONUtil::createObj)
-                .getByPath(NAME_ENABLED, Boolean.class);
-        return ofNullable(enabled)
+        var path = CODE_TENANT + ".enabled";
+        var enabled = Opt.ofNullable(getConfigs())
+                .orElseGet(JSONObject::new)
+                .getByPath(path, Boolean.class);
+        return Opt.ofNullable(enabled)
                 .orElse(Boolean.TRUE);
     }
 
     /**
-     * 获取系统配置信息
+     * 获取系统配置信息（域嵌套 JSON）
      *
      * @return 配置信息
      */
-    public static String getConfigs() {
-        if (ObjectUtil.isNotNull(CONFIG_ID)) {
-            var sId = (Serializable) CONFIG_ID;
+    public static JSONObject getConfigs() {
+        if (ObjectUtil.isNotNull(CACHE_KEY)) {
+            var sId = (Serializable) CACHE_KEY;
             return getInstance().get(sId);
         } else return null;
     }
@@ -80,8 +93,8 @@ public class SystemHelper extends FetchLoadHelper<String> {
      * 加载系统配置信息到缓存
      */
     public static void load() {
-        if (ObjectUtil.isNull(CONFIG_ID)) return;
-        var sId = (Serializable) CONFIG_ID;
+        if (ObjectUtil.isNull(CACHE_KEY)) return;
+        var sId = (Serializable) CACHE_KEY;
         getInstance().load(sId);
     }
 }

@@ -16,7 +16,9 @@ import org.myframework.qdb.domain.QdbEntity;
 import org.myframework.qdb.response.QdbPageVO;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +56,9 @@ public class QdbHelper extends AbstractQdbHelper {
         var wrapper = requireQuery(query);
         wrapper.orderBy(TIMESTAMP_COLUMN, FALSE);
         wrapper.limit(1);
-        return runInQdb(wrapper::one);
+        var row = runInQdb(wrapper::one);
+        fixTimestamps(row);
+        return row;
     }
 
     /**
@@ -63,7 +67,9 @@ public class QdbHelper extends AbstractQdbHelper {
     public static List<Row> list(DbChain query) {
         StaticLog.trace("根据查询条件查询数据集合");
         var wrapper = requireQuery(query);
-        return runInQdb(wrapper::list);
+        var rows = runInQdb(wrapper::list);
+        rows.forEach(QdbHelper::fixTimestamps);
+        return rows;
     }
 
     /**
@@ -86,6 +92,7 @@ public class QdbHelper extends AbstractQdbHelper {
         wrapper.orderBy(TIMESTAMP_COLUMN, FALSE);
         wrapper.limit(limit);
         var list = runInQdb(wrapper::list);
+        list.forEach(QdbHelper::fixTimestamps);
         var nextCursor = cursorOf(list, limit);
         return new QdbPageVO<Row>()
                 .setList(list)
@@ -102,6 +109,32 @@ public class QdbHelper extends AbstractQdbHelper {
     }
 
     /**
+     * 行内全部 TIMESTAMP 值按 UTC 重新解释回正
+     * <p>
+     * QuestDB PG-wire 的 timestamp 列（含 designated timestamp 与普通时间列）
+     * 均为无时区裸值，pgjdbc 按 JVM 默认时区解释会产生一个时区差的偏移，
+     * 读侧按列类型统一回正
+     */
+    private static void fixTimestamps(Row row) {
+        if (ObjectUtil.isNull(row)) return;
+        for (var entry : row.entrySet()) {
+            var value = entry.getValue();
+            if (value instanceof Timestamp ts) {
+                entry.setValue(utcOf(ts));
+            }
+        }
+    }
+
+    /**
+     * 将无时区裸时间值按 UTC 解释，回正为真实瞬间
+     */
+    private static Timestamp utcOf(Timestamp timestamp) {
+        var instant = timestamp.toLocalDateTime()
+                .toInstant(ZoneOffset.UTC);
+        return Timestamp.from(instant);
+    }
+
+    /**
      * 提取下一页游标：列表为空或结果数未满 limit（无更多数据）时返回 null
      */
     private static String cursorOf(List<Row> list,
@@ -113,7 +146,7 @@ public class QdbHelper extends AbstractQdbHelper {
     }
 
     /**
-     * 写入一个 {@link QdbEntity}，自动管理 Sender 生命周期（borrow + flush + close）
+     * 写入一个 {@link QdbEntity}，自动管理 Sender 生命周期（每次写入独立 HTTP 短连接）
      * <p>
      * id 缺省时补充雪花字符串，timestamp 缺省时补充当前时间，
      * 列值为 {@code null} 的项写入前自动剔除；
@@ -122,7 +155,7 @@ public class QdbHelper extends AbstractQdbHelper {
     public static void write(QdbEntity entity) {
         StaticLog.trace("写入时序数据");
         validateWrite(entity);
-        try (var sender = getQuestDB().borrowSender()) {
+        try (var sender = Sender.fromConfig(getIlpConfig())) {
             var timestamp = Opt.ofNullable(entity)
                     .map(QdbEntity::getTimestamp)
                     .orElseGet(Instant::now);
@@ -130,8 +163,9 @@ public class QdbHelper extends AbstractQdbHelper {
                     .map(QdbEntity::getId)
                     .orElseGet(IdUtil::getSnowflakeNextIdStr);
             sender.table(entity.getTable());
-            sender.stringColumn(ID_KEY, id);
+            // ILP 契约：symbol 必须先于其它列类型写入
             setSymbols(sender, entity);
+            sender.stringColumn(ID_KEY, id);
             setColumns(sender, entity);
             sender.at(timestamp);
             sender.flush();

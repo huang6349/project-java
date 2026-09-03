@@ -24,6 +24,7 @@ public abstract class BaseExtras<T extends BaseExtras<T>> implements Serializabl
 
     public T setExtras(Map<String, Object> extras) {
         this.extras = extras;
+        this.object = null; // 重置懒缓存，避免跨 setExtras 的状态泄漏
         return self();
     }
 

@@ -24,6 +24,7 @@ public abstract class BaseConfigs<T extends BaseConfigs<T>> implements Serializa
 
     public T setConfigs(Map<String, Object> configs) {
         this.configs = configs;
+        this.object = null; // 重置懒缓存，避免跨 setConfigs 的状态泄漏
         return self();
     }
 

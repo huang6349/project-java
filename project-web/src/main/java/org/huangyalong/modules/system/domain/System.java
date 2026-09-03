@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
 import com.mybatisflex.core.handler.JacksonTypeHandler;
+import cn.hutool.core.lang.Opt;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,24 +12,25 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.dromara.autotable.annotation.AutoColumn;
 import org.dromara.autotable.annotation.AutoTable;
-import org.huangyalong.modules.system.configs.AiConfigs;
-import org.huangyalong.modules.system.configs.SystemConfigs;
-import org.huangyalong.modules.system.configs.TenantConfigs;
+import org.huangyalong.modules.system.request.SystemBO;
 import org.myframework.base.domain.SuperEntity;
 
 import java.util.Map;
 
 import static org.dromara.autotable.annotation.mysql.MysqlTypeConstant.TEXT;
-import static org.huangyalong.core.constants.SystemConstants.CONFIG_ID;
 
 @Data(staticConstructor = "create")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@AutoTable(comment = "系统信息")
+@AutoTable(comment = "系统配置")
 @Table(value = "tb_system")
-@Schema(name = "系统信息")
+@Schema(name = "系统配置")
 public class System extends SuperEntity<System, Long> {
+
+    @AutoColumn(comment = "配置代码", notNull = true)
+    @Schema(description = "配置代码")
+    private String code;
 
     @Column(typeHandler = JacksonTypeHandler.class)
     @JsonIgnore
@@ -48,23 +50,13 @@ public class System extends SuperEntity<System, Long> {
 
     /****************** with ******************/
 
-    public System with(TenantConfigs configs) {
-        setConfigs(SystemConfigs.create()
-                .setConfigs(getConfigs())
-                .add(configs)
-                .addVersion()
-                .getConfigs());
-        setId(CONFIG_ID);
-        return this;
-    }
-
-    public System with(AiConfigs configs) {
-        setConfigs(SystemConfigs.create()
-                .setConfigs(getConfigs())
-                .add(configs)
-                .addVersion()
-                .getConfigs());
-        setId(CONFIG_ID);
+    public System with(SystemBO systemBO) {
+        Opt.ofNullable(systemBO)
+                .map(SystemBO::getCode)
+                .ifPresent(this::setCode);
+        Opt.ofNullable(systemBO)
+                .map(SystemBO::getConfigs)
+                .ifPresent(this::setConfigs);
         return this;
     }
 }

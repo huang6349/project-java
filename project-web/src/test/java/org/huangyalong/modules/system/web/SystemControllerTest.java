@@ -3,7 +3,6 @@ package org.huangyalong.modules.system.web;
 import cn.dev33.satoken.stp.StpUtil;
 import org.huangyalong.core.IntegrationTest;
 import org.huangyalong.modules.system.configs.AiConfigs;
-import org.huangyalong.modules.system.configs.SystemConfigs;
 import org.huangyalong.modules.system.configs.TenantConfigs;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -45,8 +44,6 @@ class SystemControllerTest extends MyFrameworkTest {
                 .jsonPath("$.data.ai.enabled")
                 .value(is(toBool(getProperty("app.ai.enabled"))))
                 .jsonPath("$.data.ai.version")
-                .value(is(AiConfigs.VERSION))
-                .jsonPath("$.data.version")
-                .value(is(SystemConfigs.VERSION));
+                .value(is(AiConfigs.VERSION));
     }
 }
