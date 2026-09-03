@@ -49,7 +49,7 @@ public class QdbHelper extends AbstractQdbHelper {
     /**
      * 根据查询条件查询最新一条数据（{@code ORDER BY timestamp DESC LIMIT 1}）
      * <p>
-     * 与 {@link #listAfter(Integer, String, DbChain)} 区别：该方法取精确 1 条，后者取最新一页
+     * 与 {@link #listAfter(String, Integer, DbChain)} 区别：该方法取精确 1 条，后者取最新一页
      */
     public static Row getOne(DbChain query) {
         StaticLog.trace("根据查询条件查询一条数据");
@@ -74,29 +74,31 @@ public class QdbHelper extends AbstractQdbHelper {
 
     /**
      * 键集分页：按 id 游标取前 size 条（大数据量时序浏览推荐）
-     * cursor 为 null 返回最新 size 条；响应中 cursor 为下一页游标（最近一条的 id），null 表示无更多数据
+     * searchAfter 为 null 返回最新 size 条；响应中 nextSearchAfter 为下一页游标（最近一条的 id），null 表示无更多数据
      * <p>
      * id 为雪花字符串（等长十进制，字典序即数值序），保证单调递增且唯一，
      * 游标边界精确无丢行；排序仍按 timestamp（人类可读时间序）。
      * 注意：手动指定 id 时需保证其单调性，否则边界与时间序可能错位
      */
-    public static QdbPageVO<Row> listAfter(Integer pageSize,
-                                           String cursor,
+    public static QdbPageVO<Row> listAfter(String searchAfter,
+                                           Integer pageSize,
                                            DbChain query) {
         StaticLog.trace("键集分页查询数据: {}", query);
         var wrapper = requireQuery(query);
         var limit = Opt.ofNullable(pageSize)
                 .orElse(DEFAULT_PAGE_SIZE);
-        if (StrUtil.isNotBlank(cursor))
-            wrapper.where(ID_COLUMN.lt(cursor));
+        if (StrUtil.isNotBlank(searchAfter))
+            wrapper.where(ID_COLUMN.lt(searchAfter));
         wrapper.orderBy(TIMESTAMP_COLUMN, FALSE);
         wrapper.limit(limit);
         var list = runInQdb(wrapper::list);
         list.forEach(QdbHelper::fixTimestamps);
-        var nextCursor = cursorOf(list, limit);
+        var nextSearchAfter = nextSearchAfterOf(list, limit);
         return new QdbPageVO<Row>()
+                .setNextSearchAfter(nextSearchAfter)
+                .setSearchAfter(searchAfter)
                 .setList(list)
-                .setCursor(nextCursor);
+                .setPageSize(limit);
     }
 
     /**
@@ -137,8 +139,8 @@ public class QdbHelper extends AbstractQdbHelper {
     /**
      * 提取下一页游标：列表为空或结果数未满 limit（无更多数据）时返回 null
      */
-    private static String cursorOf(List<Row> list,
-                                   int limit) {
+    private static String nextSearchAfterOf(List<Row> list,
+                                            int limit) {
         if (CollUtil.isNotEmpty(list) && list.size() >= limit) {
             return CollUtil.getLast(list)
                     .getString(ID_KEY);

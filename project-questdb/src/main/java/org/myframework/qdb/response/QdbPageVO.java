@@ -15,9 +15,15 @@ import java.util.List;
 @Accessors(chain = true)
 public class QdbPageVO<T> implements Serializable {
 
+    @Schema(description = "下一页游标")
+    private String nextSearchAfter;
+
+    @Schema(description = "当前页游标")
+    private String searchAfter;
+
     @Schema(description = "当前页数据")
     private List<T> list;
 
-    @Schema(description = "下一页游标")
-    private String cursor;
+    @Schema(description = "每页数量")
+    private Integer pageSize;
 }

@@ -45,13 +45,13 @@ public interface QueryController<Id extends Serializable, Queries> extends BaseC
         return Mono.fromCallable(() -> {
             var result = handlerQuery(queries);
             var query = result.getData();
+            var searchAfter = Opt.ofNullable(pageQueries)
+                    .map(QdbPageQueries::getSearchAfter)
+                    .get();
             var pageSize = Opt.ofNullable(pageQueries)
                     .map(QdbPageQueries::getPageSize)
                     .orElse(DEFAULT_PAGE_SIZE);
-            var cursor = Opt.ofNullable(pageQueries)
-                    .map(QdbPageQueries::getCursor)
-                    .get();
-            return listAfter(pageSize, cursor, query);
+            return listAfter(searchAfter, pageSize, query);
         });
     }
 
