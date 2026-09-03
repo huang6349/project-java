@@ -10,6 +10,8 @@ public interface SystemConstants {
 
     String CODE_AI = "ai";
 
+    String CODE_IOT = "iot";
+
     String CODE_SYSTEM = "system";
 
     /**
@@ -21,6 +23,7 @@ public interface SystemConstants {
     Map<String, ConfigRule> CODE_RULES = Map.of(
             CODE_TENANT, ConfigRule.RO,
             CODE_AI, ConfigRule.RO,
+            CODE_IOT, ConfigRule.RO,
             CODE_SYSTEM, ConfigRule.FR
     );
 }

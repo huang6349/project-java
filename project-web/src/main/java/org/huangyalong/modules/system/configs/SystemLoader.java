@@ -8,6 +8,7 @@ import org.huangyalong.modules.system.enums.ConfigRule;
 import org.huangyalong.modules.system.properties.TenantProperties;
 import org.huangyalong.modules.system.request.SystemBO;
 import org.myframework.ai.properties.AiProperties;
+import org.myframework.iot.properties.IotProperties;
 import org.myframework.core.config.FrameworkAutoTable;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -17,6 +18,7 @@ import org.springframework.context.event.EventListener;
 import static cn.hutool.core.util.ObjectUtil.*;
 import static cn.hutool.extra.spring.SpringUtil.getBean;
 import static org.huangyalong.core.constants.SystemConstants.CODE_AI;
+import static org.huangyalong.core.constants.SystemConstants.CODE_IOT;
 import static org.huangyalong.core.constants.SystemConstants.CODE_RULES;
 import static org.huangyalong.core.constants.SystemConstants.CODE_TENANT;
 import static org.huangyalong.modules.system.domain.table.SystemTableDef.SYSTEM;
@@ -33,6 +35,7 @@ public class SystemLoader {
         StaticLog.trace("初始化系统配置");
         initTenantConfigs();
         initAiConfigs();
+        initIotConfigs();
         // 同步完成后刷新缓存，保证与库一致
         SystemHelper.load();
     }
@@ -71,6 +74,25 @@ public class SystemLoader {
                 .getConfigs();
         var systemBO = new SystemBO();
         systemBO.setCode(CODE_AI);
+        systemBO.setConfigs(configs);
+        return sync(systemBO);
+    }
+
+    /**
+     * 同步 IoT 网关配置（每次启动整域覆盖）
+     */
+    Boolean initIotConfigs() {
+        // 获取 IoT 网关功能是否开启
+        var properties = getBean(IotProperties.class);
+        var enabled = Opt.ofNullable(properties)
+                .map(IotProperties::isEnabled)
+                .orElse(Boolean.TRUE);
+        var configs = IotConfigs.create()
+                .addEnabled(enabled)
+                .addVersion()
+                .getConfigs();
+        var systemBO = new SystemBO();
+        systemBO.setCode(CODE_IOT);
         systemBO.setConfigs(configs);
         return sync(systemBO);
     }
