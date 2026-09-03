@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Opt;
 import cn.hutool.log.StaticLog;
 import org.huangyalong.core.satoken.helper.SystemHelper;
 import org.huangyalong.modules.system.domain.System;
+import org.huangyalong.modules.system.enums.ConfigRule;
 import org.huangyalong.modules.system.properties.TenantProperties;
 import org.huangyalong.modules.system.request.SystemBO;
 import org.myframework.ai.properties.AiProperties;
@@ -13,8 +14,10 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 
+import static cn.hutool.core.util.ObjectUtil.*;
 import static cn.hutool.extra.spring.SpringUtil.getBean;
 import static org.huangyalong.core.constants.SystemConstants.CODE_AI;
+import static org.huangyalong.core.constants.SystemConstants.CODE_RULES;
 import static org.huangyalong.core.constants.SystemConstants.CODE_TENANT;
 import static org.huangyalong.modules.system.domain.table.SystemTableDef.SYSTEM;
 
@@ -74,6 +77,10 @@ public class SystemLoader {
 
     /**
      * 按 code 同步配置（存在则覆盖，不存在则新增）
+     * <p>
+     * fr/未登记规则（{@link ConfigRule#FR}）yml 不参与，跳过；
+     * rw 规则（{@link ConfigRule#RW}）仅数据库无该 code 记录时写入（首次初始化），
+     * 其余规则维持整域覆盖语义
      */
     Boolean sync(SystemBO systemBO) {
         var configs = Opt.ofNullable(systemBO)
@@ -82,12 +89,28 @@ public class SystemLoader {
         var code = Opt.ofNullable(systemBO)
                 .map(SystemBO::getCode)
                 .get();
-        return System.create()
-                .where(SYSTEM.CODE.eq(code))
-                .oneOpt()
-                .orElseGet(System::create)
-                .setCode(code)
-                .setConfigs(configs)
-                .saveOrUpdate();
+        var rule = Opt.ofNullable(code)
+                .map(CODE_RULES::get)
+                .get();
+        // fr/未登记规则：yml 不参与，跳过
+        if (isNotNull(rule) && notEqual(ConfigRule.FR, rule)) {
+            var system = System.create()
+                    .where(SYSTEM.CODE.eq(code))
+                    .one();
+            // 非 rw：写库（存在覆盖、不存在新建）
+            if (notEqual(ConfigRule.RW, rule)) {
+                return Opt.ofNullable(system)
+                        .orElseGet(System::create)
+                        .setCode(code)
+                        .setConfigs(configs)
+                        .saveOrUpdate();
+            } else if (isNull(system)) {
+                // rw 且不存在：首次初始化
+                return System.create()
+                        .setCode(code)
+                        .setConfigs(configs)
+                        .save();
+            } else return Boolean.TRUE;
+        } else return Boolean.TRUE;
     }
 }
