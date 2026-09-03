@@ -20,7 +20,7 @@ public interface SystemConstants {
      */
     Map<String, ConfigRule> CODE_RULES = Map.of(
             CODE_TENANT, ConfigRule.RO,
-            CODE_AI, ConfigRule.RW,
+            CODE_AI, ConfigRule.RO,
             CODE_SYSTEM, ConfigRule.FR
     );
 }
