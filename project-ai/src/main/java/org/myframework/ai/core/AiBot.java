@@ -53,9 +53,10 @@ public class AiBot {
 
     @SneakyThrows
     public List<Document> insert(File source) {
+        // 禁用时直接返回空集合：调用方以「结果为空」判定为分片失败，不可返回未入库的切片
+        if (isDisabled()) return CollUtil.newArrayList();
         var documents = AiLoader.getInstance()
                 .split(source);
-        if (isDisabled()) return documents;
         AiRepository.getRepository()
                 .save(documents);
         return documents;
