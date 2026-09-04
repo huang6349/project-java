@@ -161,10 +161,13 @@ public class QdbHelper extends AbstractQdbHelper {
             var timestamp = Opt.ofNullable(entity)
                     .map(QdbEntity::getTimestamp)
                     .orElseGet(Instant::now);
+            var table = Opt.ofNullable(entity)
+                    .map(QdbEntity::getTable)
+                    .get();
             var id = Opt.ofNullable(entity)
                     .map(QdbEntity::getId)
                     .orElseGet(IdUtil::getSnowflakeNextIdStr);
-            sender.table(entity.getTable());
+            sender.table(table);
             // ILP 契约：symbol 必须先于其它列类型写入
             setSymbols(sender, entity);
             sender.stringColumn(ID_KEY, id);
