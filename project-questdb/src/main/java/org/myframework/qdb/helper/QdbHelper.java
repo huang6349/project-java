@@ -63,10 +63,14 @@ public class QdbHelper extends AbstractQdbHelper {
 
     /**
      * 根据查询条件查询数据集合
+     * <p>
+     * 统一按 {@code timestamp} 倒序返回(最新在前,与 {@link #getOne}/{@link #listAfter} 排序一致);
+     * 数据量大时建议改用 {@link #listAfter} 键集分页浏览
      */
     public static List<Row> list(DbChain query) {
         StaticLog.trace("根据查询条件查询数据集合");
         var wrapper = requireQuery(query);
+        wrapper.orderBy(TIMESTAMP_COLUMN, FALSE);
         var rows = runInQdb(wrapper::list);
         rows.forEach(QdbHelper::fixTimestamps);
         return rows;

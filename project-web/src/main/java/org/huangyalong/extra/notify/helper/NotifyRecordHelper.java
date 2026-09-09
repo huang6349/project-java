@@ -11,6 +11,7 @@ import org.myframework.qdb.domain.QdbEntity;
 import org.myframework.qdb.helper.QdbHelper;
 
 import static cn.hutool.core.text.CharSequenceUtil.maxLength;
+import static org.huangyalong.core.constants.QdbConstants.NOTIFY_RECORD;
 import static org.huangyalong.extra.notify.helper.NotifyHelper.DEFAULT_APP;
 import static org.huangyalong.extra.notify.helper.NotifyHelper.DEFAULT_APP_NAME;
 import static org.huangyalong.modules.notify.domain.table.NotifyAppTableDef.NOTIFY_APP;
@@ -27,8 +28,6 @@ import static org.huangyalong.modules.notify.enums.NotifyStatus.TYPE2;
  */
 @UtilityClass
 public class NotifyRecordHelper {
-
-    private static final String NOTIFY_RECORD = "notify_record";
 
     public static void ok(NotifyPayload payload) {
         var category = Opt.ofNullable(payload)
