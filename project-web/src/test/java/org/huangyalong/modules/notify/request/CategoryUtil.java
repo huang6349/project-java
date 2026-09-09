@@ -43,6 +43,12 @@ public interface CategoryUtil {
         return createBO(obj);
     }
 
+    static CategoryBO createBO(String code) {
+        var obj = JSONUtil.createObj()
+                .set("code", code);
+        return createBO(obj);
+    }
+
     static CategoryBO createBO() {
         var obj = JSONUtil.createObj();
         return createBO(obj);

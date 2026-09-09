@@ -55,11 +55,6 @@ dromara.x-file-storage:
       domain: http://100.100.100.252:3201/browser/project/
       base-path: dev/
 
-easy-es:
-  address: 100.100.100.252:3202
-  username: elastic
-  password: pwd123456
-
 app.tenant:
   enabled: false
 

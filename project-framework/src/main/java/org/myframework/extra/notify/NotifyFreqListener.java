@@ -18,7 +18,8 @@ public class NotifyFreqListener implements MsgListener<String> {
     public void onMessage(Message<String> message) {
         var messageBody = message.getBody();
         if (ObjectUtil.isNotEmpty(messageBody)) {
-            var keys = RedisHelper.keys(format("notify:{}:*", messageBody));
+            var pattern = format("notify:{}:*", messageBody);
+            var keys = RedisHelper.keys(pattern);
             RedisHelper.delete(keys);
         }
     }

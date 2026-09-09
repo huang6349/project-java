@@ -75,14 +75,6 @@ springdoc:
   api-docs:
     enabled: true
 
-# 搜索引擎配置
-easy-es:
-  banner: false
-  global-config:
-    i-kun-mode: false
-    process-index-mode: smoothly
-    print-dsl: true
-
 # 消息总线配置
 eventbus:
   type: redis
@@ -104,4 +96,3 @@ logging.level:
   org.dromara.autotable.core.AutoTableBootstrap: warn
   org.dromara.autotable.core.utils.DBHelper: warn
   com.anji.captcha: warn
-  easy-es: warn

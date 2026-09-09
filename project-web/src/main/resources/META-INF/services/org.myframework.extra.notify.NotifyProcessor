@@ -1,0 +1,6 @@
+# 消息处理器(渠道)SPI 注册表：每行一个 NotifyProcessor 实现类的全限定名
+# 注册键为实现类简单名首字母小写(如 ConsoleProcessor -> consoleProcessor)，
+# 发送方 NotifySend.code 传类名去除 Processor 后缀的小驼峰(如 console)
+# 真实渠道(短信/邮件等)照 ConsoleProcessor 结构实现后在此追加一行：
+# org.huangyalong.xxx.processor.XxxProcessor
+org.huangyalong.extra.notify.processor.ConsoleProcessor

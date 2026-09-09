@@ -6,11 +6,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.myframework.extra.dict.EnumDict;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static cn.hutool.core.convert.Convert.toStr;
 
 /**
  * QuestDB 写入实体（Map 风格轻量容器）
@@ -68,6 +71,17 @@ public class QdbEntity implements Serializable {
     }
 
     /**
+     * 追加 tag 列(symbol)
+     * <p>
+     * {@link EnumDict} 自动取 {@link EnumDict#getValue()} 并转字符串后写入
+     */
+    public QdbEntity symbol(String name,
+                            EnumDict<?> value) {
+        symbols.put(name, toStr(resolve(value)));
+        return this;
+    }
+
+    /**
      * 追加 tag 列（symbol）
      */
     public QdbEntity symbol(String name,
@@ -81,11 +95,12 @@ public class QdbEntity implements Serializable {
      * <p>
      * 支持 CharSequence / Character / Boolean / Instant / UUID /
      * BigDecimal / byte[] 及各类 Number（整数统一写 long 列、浮点统一写 double 列），
-     * 其余类型经 hutool Convert 垫底转为字符串
+     * 其余类型经 hutool Convert 垫底转为字符串；
+     * {@link EnumDict} 自动解包为 {@link EnumDict#getValue()} 原值再按上述规则落列
      */
     public QdbEntity set(String name,
                          Object value) {
-        columns.put(name, value);
+        columns.put(name, resolve(value));
         return this;
     }
 
@@ -103,5 +118,14 @@ public class QdbEntity implements Serializable {
     public QdbEntity atNow() {
         var timestamp = Instant.now();
         return at(timestamp);
+    }
+
+    /**
+     * EnumDict 解包为其 value 原值；其余类型原样返回
+     */
+    private static Object resolve(Object value) {
+        if (value instanceof EnumDict<?> dict) {
+            return dict.getValue();
+        } else return value;
     }
 }

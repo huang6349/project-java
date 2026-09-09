@@ -28,10 +28,6 @@
         </dependency>
         <dependency>
             <groupId>org.huangyalong</groupId>
-            <artifactId>project-es</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.huangyalong</groupId>
             <artifactId>project-ai</artifactId>
         </dependency>
         <!-- Spring 核心 -->

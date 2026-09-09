@@ -38,8 +38,8 @@ public class NotifyCategoryController extends ReactorController<
 
     @Override
     public ApiResponse<QueryWrapper> handlerQuery(CategoryQueries queries) {
-        var data = getBaseService().
-                getQueryWrapper(queries);
+        var data = getBaseService()
+                .getQueryWrapper(queries);
         return ApiResponse.ok(data);
     }
 

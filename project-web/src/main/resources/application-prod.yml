@@ -55,11 +55,6 @@ dromara.x-file-storage:
       domain: http://project-minio:9001/browser/project/
       base-path: prod/
 
-easy-es:
-  address: project-es:9200
-  username: elastic
-  password: pwd123456
-
 app.qdb:
   host: project-questdb
   port: 9000

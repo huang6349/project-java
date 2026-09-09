@@ -5,12 +5,17 @@ import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.mybatis.flex.reactor.spring.ReactorServiceImpl;
 import com.mybatisflex.core.query.If;
+import com.mybatisflex.core.query.QueryWrapper;
+import lombok.Getter;
+import org.huangyalong.extra.notify.FreqKey;
 import org.huangyalong.modules.notify.domain.NotifyCategory;
 import org.huangyalong.modules.notify.mapper.NotifyCategoryMapper;
 import org.huangyalong.modules.notify.request.CategoryBO;
+import org.huangyalong.modules.notify.service.NotifyAppService;
 import org.huangyalong.modules.notify.service.NotifyCategoryService;
-import org.myframework.extra.eventbus.BusHelper;
 import org.myframework.core.exception.BusinessException;
+import org.myframework.extra.eventbus.BusHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
@@ -18,15 +23,21 @@ import reactor.core.publisher.Mono;
 import java.io.Serializable;
 
 import static cn.hutool.core.convert.Convert.toLong;
+import static com.mybatis.flex.reactor.core.utils.ReactorUtils.runBlock;
+import static org.huangyalong.extra.notify.helper.NotifyHelper.getFreq;
+import static org.huangyalong.modules.notify.domain.table.NotifyAppTableDef.NOTIFY_APP;
 import static org.huangyalong.modules.notify.domain.table.NotifyCategoryTableDef.NOTIFY_CATEGORY;
-import static org.huangyalong.modules.notify.helper.NotifyHelper.getFreq;
 import static org.myframework.core.constants.Constants.SYSTEM_RESERVED;
 import static org.myframework.core.constants.Subscribe.NOTIFY_FREQ_LISTENER;
 import static org.myframework.core.exception.ErrorCode.ERR_RESERVED;
 import static org.myframework.core.exception.ErrorCode.NOT_FOUND;
 
+@Getter
 @Service
 public class NotifyCategoryServiceImpl extends ReactorServiceImpl<NotifyCategoryMapper, NotifyCategory> implements NotifyCategoryService {
+
+    @Autowired
+    private NotifyAppService appService;
 
     @Transactional(rollbackFor = Exception.class)
     public Mono<Boolean> add(CategoryBO categoryBO) {
@@ -56,6 +67,7 @@ public class NotifyCategoryServiceImpl extends ReactorServiceImpl<NotifyCategory
         var data = getBlockService()
                 .getByIdOpt(id)
                 .orElseThrow(() -> new BusinessException(NOT_FOUND));
+        cascadeDelete(id);
         return removeById(data);
     }
 
@@ -113,7 +125,16 @@ public class NotifyCategoryServiceImpl extends ReactorServiceImpl<NotifyCategory
                 .get();
         if (ObjectUtil.isNull(code)) return;
         if (ObjectUtil.isNull(id)) return;
-        if (ObjectUtil.equal(freq, getFreq(code))) return;
+        var freqKey = FreqKey.of()
+                .setTple(code);
+        if (ObjectUtil.equal(freq, getFreq(freqKey))) return;
         BusHelper.send(NOTIFY_FREQ_LISTENER, code);
+    }
+
+    void cascadeDelete(Serializable id) {
+        var query = QueryWrapper.create()
+                .where(NOTIFY_APP.CATEGORY_ID.eq(id));
+        runBlock(getAppService()
+                .remove(query));
     }
 }

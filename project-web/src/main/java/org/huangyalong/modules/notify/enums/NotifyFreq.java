@@ -17,14 +17,15 @@ import static org.myframework.extra.dict.Style.PRIMARY;
 @Getter
 @Dict(name = "消息频率")
 public enum NotifyFreq implements EnumDict<Integer> {
-    TYPE0(1, "1分钟/次", 0, YES.getValue(), PRIMARY.getValue()),
-    TYPE1(5, "5分钟/次", 0, NO.getValue(), PRIMARY.getValue()),
-    TYPE2(15, "15分钟/次", 0, NO.getValue(), PRIMARY.getValue()),
-    TYPE3(30, "30分钟/次", 0, NO.getValue(), PRIMARY.getValue()),
-    TYPE4(60, "1小时/次", 0, NO.getValue(), PRIMARY.getValue()),
-    TYPE5(60 * 5, "5小时/次", 0, NO.getValue(), PRIMARY.getValue()),
-    TYPE6(60 * 12, "12小时/次", 0, NO.getValue(), PRIMARY.getValue()),
-    TYPE7(60 * 24, "1天/次", 0, NO.getValue(), PRIMARY.getValue());
+    TYPE0(0, "不限制", 1, NO.getValue(), PRIMARY.getValue()),
+    TYPE1(1, "1分钟/次", 0, YES.getValue(), PRIMARY.getValue()),
+    TYPE2(5, "5分钟/次", 0, NO.getValue(), PRIMARY.getValue()),
+    TYPE3(15, "15分钟/次", 0, NO.getValue(), PRIMARY.getValue()),
+    TYPE4(30, "30分钟/次", 0, NO.getValue(), PRIMARY.getValue()),
+    TYPE5(60, "1小时/次", 0, NO.getValue(), PRIMARY.getValue()),
+    TYPE6(60 * 5, "5小时/次", 0, NO.getValue(), PRIMARY.getValue()),
+    TYPE7(60 * 12, "12小时/次", 0, NO.getValue(), PRIMARY.getValue()),
+    TYPE8(60 * 24, "1天/次", 0, NO.getValue(), PRIMARY.getValue());
 
     @EnumValue
     @JsonValue

@@ -19,11 +19,6 @@
             <artifactId>project-framework</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.huangyalong</groupId>
-            <artifactId>project-es</artifactId>
-            <optional>true</optional>
-        </dependency>
         <!-- Test 测试相关 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

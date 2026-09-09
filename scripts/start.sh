@@ -16,11 +16,11 @@ APP_NAME=${APP_NAME:-project}
 docker network create ${APP_NAME} 2>/dev/null || true
 
 # 启动服务
+cd $WORKDIR/project-questdb/ && sh start.sh
 cd $WORKDIR/project-qdrant/ && sh start.sh
 cd $WORKDIR/project-mysql/ && sh start.sh
 cd $WORKDIR/project-minio/ && sh start.sh
 cd $WORKDIR/project-redis/ && sh start.sh
-cd $WORKDIR/project-es/ && sh start.sh
 cd $WORKDIR/project-nginx/ && sh start.sh
 
 docker ps |grep -E ${APP_NAME}

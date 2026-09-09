@@ -1,0 +1,26 @@
+version: "3.3"
+
+networks:
+  default:
+    external:
+      name: ${APP_NAME}
+
+services:
+
+  questdb:
+    image: registry.cn-hangzhou.aliyuncs.com/huangyalong/questdb:9.4.3
+    container_name: ${APP_NAME}-questdb
+    ports:
+      - "${QDB_CONSOLE_PORT}:9000"
+      - "${QDB_API_PORT}:8812"
+      - "${QDB_ILP_PORT}:9009"
+    environment:
+      - "QDB_HTTP_USER=admin"
+      - "QDB_HTTP_PASSWORD=${QDB_PASSWORD}"
+      - "QDB_PG_USER=admin"
+      - "QDB_PG_PASSWORD=${QDB_PASSWORD}"
+      - "QDB_TELEMETRY_ENABLED=false"
+      - "TZ=Asia/Shanghai"
+    volumes:
+      - "$PWD/data:/var/lib/questdb"
+    restart: unless-stopped
