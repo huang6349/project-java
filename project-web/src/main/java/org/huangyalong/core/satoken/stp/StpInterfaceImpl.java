@@ -13,14 +13,14 @@ import java.util.List;
 @Service
 public class StpInterfaceImpl implements StpInterface {
 
-    private final static List<String> EMPTY = ListUtil.empty();
+    private static final List<String> NONE = ListUtil.empty();
 
     @Override
     public List<String> getPermissionList(Object loginId,
                                           String loginType) {
         return Opt.ofBlankAble(loginId)
                 .map(UserHelper::getPermCode)
-                .orElse(EMPTY);
+                .orElse(NONE);
     }
 
     @Override
@@ -28,6 +28,6 @@ public class StpInterfaceImpl implements StpInterface {
                                     String loginType) {
         return Opt.ofBlankAble(loginId)
                 .map(UserHelper::getRoleCode)
-                .orElse(EMPTY);
+                .orElse(NONE);
     }
 }

@@ -24,7 +24,7 @@ public class NotifyHelper {
 
     static final String SEPARATOR = "-";
 
-    static final String EMPTY = null;
+    static final String NONE = null;
 
     public static Integer getFreq(Object message) {
         var key = format("notify:freq:{}", message);
@@ -55,12 +55,12 @@ public class NotifyHelper {
     public static String parseTple(String key) {
         if (StrUtil.isNotBlank(key)) {
             return subBefore(key, SEPARATOR, Boolean.TRUE);
-        } else return EMPTY;
+        } else return NONE;
     }
 
     public static String parseApp(String key) {
         if (StrUtil.isNotBlank(key)) {
             return subAfter(key, SEPARATOR, Boolean.TRUE);
-        } else return EMPTY;
+        } else return NONE;
     }
 }

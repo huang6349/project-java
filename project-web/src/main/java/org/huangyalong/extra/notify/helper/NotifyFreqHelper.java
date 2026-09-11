@@ -26,7 +26,7 @@ import static org.myframework.core.mybatisflex.JsonMethods.ue;
 @UtilityClass
 public class NotifyFreqHelper {
 
-    static final Integer EMPTY = null;
+    static final Integer NONE = null;
 
     public static Integer fetch(Object code) {
         if (ObjectUtil.isNotEmpty(code)) {
@@ -38,7 +38,7 @@ public class NotifyFreqHelper {
                     return fetchByCategory(tple);
                 } else return fetchByApp(key);
             } else return fetchByCategory(key);
-        } else return EMPTY;
+        } else return NONE;
     }
 
     public static void load(Object code) {

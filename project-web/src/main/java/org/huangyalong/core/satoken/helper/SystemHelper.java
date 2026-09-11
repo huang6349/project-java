@@ -27,6 +27,8 @@ public class SystemHelper extends FetchLoadHelper<JSONObject> {
 
     private static final long EXPIRE_MINUTES = 30;
 
+    private static final JSONObject NONE = null;
+
     private static final String CACHE_KEY = "all";
 
     private static volatile Boolean initialized = Boolean.FALSE;
@@ -65,7 +67,7 @@ public class SystemHelper extends FetchLoadHelper<JSONObject> {
                     .list();
             var configs = toMap(rows, System::getCode, this::toDomain);
             return JSONUtil.parseObj(configs);
-        } else return null;
+        } else return NONE;
     }
 
     /**
@@ -108,7 +110,7 @@ public class SystemHelper extends FetchLoadHelper<JSONObject> {
         if (ObjectUtil.isNotNull(CACHE_KEY)) {
             var sId = (Serializable) CACHE_KEY;
             return getInstance().get(sId);
-        } else return null;
+        } else return NONE;
     }
 
     /**
