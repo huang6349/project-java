@@ -2,8 +2,7 @@ package org.huangyalong.modules.system.web;
 
 import cn.dev33.satoken.stp.StpUtil;
 import org.huangyalong.core.IntegrationTest;
-import org.huangyalong.modules.system.configs.AiConfigs;
-import org.huangyalong.modules.system.configs.TenantConfigs;
+import org.huangyalong.modules.system.request.SystemUtil;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.myframework.test.MyFrameworkTest;
@@ -12,9 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import static cn.hutool.core.convert.Convert.toBool;
-import static cn.hutool.extra.spring.SpringUtil.getProperty;
 import static org.hamcrest.Matchers.is;
+import static org.huangyalong.core.constants.SystemConstants.*;
 
 @AutoConfigureMockMvc
 @IntegrationTest
@@ -37,13 +35,11 @@ class SystemControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE))
-                .jsonPath("$.data.tenant.enabled")
-                .value(is(toBool(getProperty("app.tenant.enabled"))))
-                .jsonPath("$.data.tenant.version")
-                .value(is(TenantConfigs.VERSION))
-                .jsonPath("$.data.ai.enabled")
-                .value(is(toBool(getProperty("app.ai.enabled"))))
-                .jsonPath("$.data.ai.version")
-                .value(is(AiConfigs.VERSION));
+                .jsonPath("$.data.tenant.readonly")
+                .value(is(SystemUtil.isReadonly(CODE_TENANT)))
+                .jsonPath("$.data.iot.readonly")
+                .value(is(SystemUtil.isReadonly(CODE_IOT)))
+                .jsonPath("$.data.ai.readonly")
+                .value(is(SystemUtil.isReadonly(CODE_AI)));
     }
 }

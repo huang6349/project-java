@@ -1,6 +1,7 @@
 package org.huangyalong.modules.system.configs;
 
 import cn.hutool.core.lang.Opt;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.log.StaticLog;
 import org.huangyalong.core.satoken.helper.SystemHelper;
 import org.huangyalong.modules.system.domain.System;
@@ -16,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 
 import static cn.hutool.core.util.ObjectUtil.*;
-import static cn.hutool.extra.spring.SpringUtil.getBean;
 import static org.huangyalong.core.constants.SystemConstants.CODE_AI;
 import static org.huangyalong.core.constants.SystemConstants.CODE_IOT;
 import static org.huangyalong.core.constants.SystemConstants.CODE_RULES;
@@ -45,8 +45,8 @@ public class SystemLoader {
      */
     Boolean initTenantConfigs() {
         // 获取租户功能是否开启
-        var properties = getBean(TenantProperties.class);
-        var enabled = Opt.ofNullable(properties)
+        var enabled = Opt.ofNullable(TenantProperties.class)
+                .map(SpringUtil::getBean)
                 .map(TenantProperties::isEnabled)
                 .orElse(Boolean.TRUE);
         var configs = TenantConfigs.create()
@@ -64,8 +64,8 @@ public class SystemLoader {
      */
     Boolean initAiConfigs() {
         // 获取智能助手功能是否开启
-        var properties = getBean(AiProperties.class);
-        var enabled = Opt.ofNullable(properties)
+        var enabled = Opt.ofNullable(AiProperties.class)
+                .map(SpringUtil::getBean)
                 .map(AiProperties::isEnabled)
                 .orElse(Boolean.TRUE);
         var configs = AiConfigs.create()
@@ -83,8 +83,8 @@ public class SystemLoader {
      */
     Boolean initIotConfigs() {
         // 获取 IoT 网关功能是否开启
-        var properties = getBean(IotProperties.class);
-        var enabled = Opt.ofNullable(properties)
+        var enabled = Opt.ofNullable(IotProperties.class)
+                .map(SpringUtil::getBean)
                 .map(IotProperties::isEnabled)
                 .orElse(Boolean.TRUE);
         var configs = IotConfigs.create()

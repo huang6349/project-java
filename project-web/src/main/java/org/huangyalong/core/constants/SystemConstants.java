@@ -21,8 +21,8 @@ public interface SystemConstants {
      * 未登记规则的 code 视为自由（yml 不参与，接口允许修改）
      */
     Map<String, ConfigRule> CODE_RULES = Map.of(
-            CODE_TENANT, ConfigRule.RO,
-            CODE_AI, ConfigRule.RO,
+            CODE_TENANT, ConfigRule.RW,
+            CODE_AI, ConfigRule.RW,
             CODE_IOT, ConfigRule.RO,
             CODE_SYSTEM, ConfigRule.FR
     );
