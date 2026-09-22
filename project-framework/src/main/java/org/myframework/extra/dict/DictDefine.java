@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @ToString(callSuper = true)
 @Accessors(chain = true)
-@Schema(name = "字典信息（类别）")
+@Schema(name = "字典信息(类别)")
 public class DictDefine implements Serializable {
 
     @Schema(description = "字典名称")

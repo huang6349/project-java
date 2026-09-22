@@ -23,7 +23,7 @@ public class UserPermController extends SuperSimpleController<UserPermService, P
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping
-    @Operation(summary = "根据主键查询（用户权限）")
+    @Operation(summary = "根据主键查询(用户权限)")
     public Mono<UserPermVO> query(UserPermQueries queries) {
         return getBaseService()
                 .query(queries);
@@ -31,7 +31,7 @@ public class UserPermController extends SuperSimpleController<UserPermService, P
 
     @PreCheckPermission(value = {"{}:query", "{}:view"}, mode = PreMode.OR)
     @GetMapping("/_all")
-    @Operation(summary = "根据主键查询（全部权限）")
+    @Operation(summary = "根据主键查询(全部权限)")
     public Mono<UserPermVO> all(UserPermQueries queries) {
         return getBaseService()
                 .all(queries);
