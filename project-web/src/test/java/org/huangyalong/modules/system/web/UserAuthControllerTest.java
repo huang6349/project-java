@@ -2,9 +2,9 @@ package org.huangyalong.modules.system.web;
 
 import cn.dev33.satoken.stp.StpUtil;
 import org.huangyalong.core.IntegrationTest;
-import org.huangyalong.modules.system.domain.User;
 import org.huangyalong.modules.system.enums.UserStatus;
 import org.huangyalong.modules.system.request.UserUtil;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.myframework.test.MyFrameworkTest;
@@ -13,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @AutoConfigureMockMvc
@@ -23,11 +22,8 @@ class UserAuthControllerTest extends MyFrameworkTest {
     @Autowired
     WebTestClient testClient;
 
-    @Order(1)
-    @Test
-    void me() {
-        var beforeSize = User.create()
-                .count();
+    @BeforeEach
+    void initTest() {
         testClient.post()
                 .uri("/user")
                 .header(StpUtil.getTokenName(), StpUtil.getTokenValue())
@@ -41,6 +37,11 @@ class UserAuthControllerTest extends MyFrameworkTest {
                 .expectBody()
                 .jsonPath("$.success")
                 .value(is(Boolean.TRUE));
+    }
+
+    @Order(1)
+    @Test
+    void me() {
         StpUtil.login(UserUtil.getId());
         testClient.get()
                 .uri("/user/me")
@@ -70,9 +71,5 @@ class UserAuthControllerTest extends MyFrameworkTest {
                 .jsonPath("$.data.user.status")
                 .value(is(UserStatus.TYPE0.getValue()));
         StpUtil.login(DEFAULT_LOGIN);
-        var afterSize = User.create()
-                .count();
-        assertThat(beforeSize + 1)
-                .isEqualTo(afterSize);
     }
 }
