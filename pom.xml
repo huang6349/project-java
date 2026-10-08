@@ -50,6 +50,7 @@
         <eventbus.version>2.5.1</eventbus.version>
         <captcha.version>1.4.0</captcha.version>
         <openapi.version>1.8.0</openapi.version>
+        <typesafe.version>0.6.0</typesafe.version>
         <ttl.version>2.14.5</ttl.version>
         <fastexcel.version>1.2.0</fastexcel.version>
         <commons-io.version>2.16.1</commons-io.version>
@@ -169,6 +170,11 @@
                 <groupId>com.anji-plus</groupId>
                 <artifactId>captcha-spring-boot-starter</artifactId>
                 <version>${captcha.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.premo-cloud</groupId>
+                <artifactId>typesafe-sdk-spring-boot-starter</artifactId>
+                <version>${typesafe.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.huangyalong</groupId>

@@ -86,6 +86,16 @@ aj.captcha:
   slip-offset: 5
   interference-options: 2
 
+# TypeSafe SDK 配置：经 OpenRouter 网关调用 Jev 模型
+# base-url 只写到 /api，SDK 内部拼接 /v1/systemone，与官方 /api/alpha/decisions 契约一致（已实测）
+# 模型钉死版本号，不用会漂移的 jev-latest；具体版本号不能带 ~ 别名
+# api-key 留空时 starter 不装配 TypeSafeClient，调用 TypeSafeHelper.ask 会抛业务异常
+typesafe:
+  api-key: ${TYPESAFE_API_KEY:}
+  base-url: https://openrouter.ai/api
+  default-model: typesafe/jev-1.13
+  timeout: 10s
+
 # 其它配置
 # ===================================================================
 

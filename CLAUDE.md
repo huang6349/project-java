@@ -22,7 +22,7 @@
 | 搜索引擎 | Easy-ES 2.1.0 (Elasticsearch 7.17.8) |
 | 时序数据库 | QuestDB client 1.3.7 (PG wire + ILP) |
 | 认证授权 | Sa-Token 1.41.0 |
-| AI 框架 | Solon 3.6.2, Qdrant 向量存储 |
+| AI 框架 | Solon 3.6.2, Qdrant 向量存储, TypeSafe SDK 0.6.0 |
 | 对象存储 | MinIO |
 | 工具库 | Hutool 5.8.38, Lombok |
 

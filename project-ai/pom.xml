@@ -46,6 +46,11 @@
             <groupId>org.noear</groupId>
             <artifactId>solon-ai-load-pdf</artifactId>
         </dependency>
+        <!-- TypeSafe 相关 -->
+        <dependency>
+            <groupId>io.github.premo-cloud</groupId>
+            <artifactId>typesafe-sdk-spring-boot-starter</artifactId>
+        </dependency>
         <!-- Framework 核心 -->
         <dependency>
             <groupId>org.huangyalong</groupId>
