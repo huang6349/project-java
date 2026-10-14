@@ -12,6 +12,7 @@
 |------------------|----------------|---------------------|---------------------------|
 | crud-development | 创建模块、CRUD、开发功能 | `/crud-development` | 提供标准化的增删改查代码生成能力          |
 | git-gitignore    | gitignore      | `/git-gitignore`    | 自动生成符合此代码库的 .gitignore 文件 |
+| template-sync    | 同步模板、合并上游      | `/template-sync`    | 将模板最新功能合并到基于它构建的子项目      |
 
 ## 技术栈
 
