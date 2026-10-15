@@ -55,9 +55,6 @@ dromara.x-file-storage:
       domain: http://100.100.100.252:3201/browser/project/
       base-path: dev/
 
-app.tenant:
-  enabled: false
-
 app.ai:
   enabled: false
 
