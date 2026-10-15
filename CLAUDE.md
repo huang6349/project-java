@@ -135,3 +135,7 @@ modules/{module}/
 
 - ❌ 不要直接操作生产数据库
 - ❌ 不要在代码中硬编码敏感信息
+
+### 模板同步例外
+
+运行 `template-sync` 技能时，允许自行执行 `git commit`：cherry-pick 自带的提交、以及收尾提交 `.template-sync.json`，无需逐次确认。`git push` 仍由人工决定。
